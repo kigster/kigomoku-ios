@@ -24,4 +24,8 @@
 @property(nonatomic, retain) id mainController;
 @property(nonatomic, retain) NSMutableArray *cellImages;
 
+@property (nonatomic, retain) IBOutlet UILabel *gameStatus;
+
+- (void) initBoard;
+
 @end

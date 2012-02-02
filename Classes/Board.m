@@ -21,7 +21,7 @@
 			self.matrix[i] = malloc(self.size * sizeof(int));
 			// TODO: check for NULL
 			for (int j = 0; j < self.size; j++) {
-				self.matrix[i][j] = 0;
+				self.matrix[i][j] = CELL_EMPTY;
 			}
 		}
 	} 
@@ -39,6 +39,72 @@
 	// else all is good.
 	self.matrix[move.x][move.y] = color;
 }
+
+- (BOOL) isMoveValid:(Move *) move {
+    return (self.matrix[move.x][move.y] == CELL_EMPTY);
+}
+
+
+- (BOOL) walkTheBoard: (MatrixDirection) block {
+    int i,j;
+    BOOL continuous;
+    for (i = 0; i < GOMOKU_BOARD_SIZE; i++) {
+        int lastValue = CELL_EMPTY;
+        int lastValueCount = 0;
+        
+        for (j = 0; j < GOMOKU_BOARD_SIZE; j++) {
+            continuous = TRUE;
+            int currentValue = block(i,j, &continuous);
+            if (continuous == FALSE){
+                NSLog(@"continuety broken for i=%d, j=%d", i,j);
+            }
+            if (lastValue != CELL_EMPTY && continuous == TRUE && lastValue == currentValue) {
+                lastValueCount ++;
+                if (lastValueCount == GOMOKU_REQUIRED_TO_WIN) {
+                    NSLog(@"found five");
+                    return YES;
+                }
+            } else {
+                lastValue = currentValue;
+                lastValueCount = 1;
+            }
+        }
+    }
+    return NO;
+}
+
+
+- (BOOL) isGameOver {
+
+    MatrixDirection horizontalWalk = ^(int i, int j, BOOL *continuous) {
+        *continuous = TRUE;
+        return self.matrix[i][j];
+    };
+    MatrixDirection verticalWalk =  ^(int i, int j, BOOL *continuous) {
+        *continuous = TRUE;
+        return self.matrix[j][i];
+    };
+    MatrixDirection diagonalWalkLeftRight =  ^(int i, int j, BOOL *continuous) {
+        int index = (i + j + 1) % GOMOKU_BOARD_SIZE;
+        if (index == 1 && (i + j + 1) > GOMOKU_BOARD_SIZE) {
+            *continuous = FALSE;
+        }
+        return self.matrix[index][j];
+    };
+    MatrixDirection diagonalWalkRightLeft =  ^(int i, int j, BOOL *continuous) {
+        int index = ((i - j) < 0) ? GOMOKU_BOARD_SIZE + i - j : (i - j);
+        if ((index + 1) == GOMOKU_BOARD_SIZE) {
+            *continuous = FALSE;
+        }
+        return self.matrix[index][j];
+    };
+    
+    return ([self walkTheBoard: horizontalWalk]         || 
+            [self walkTheBoard: verticalWalk]           ||
+            [self walkTheBoard: diagonalWalkLeftRight]  ||
+            [self walkTheBoard: diagonalWalkRightLeft] );
+}
+
 
 
 - (NSString *)description {

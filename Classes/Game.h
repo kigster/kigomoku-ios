@@ -10,8 +10,7 @@
 #import "Player.h"
 #import "Board.h"
 
-#define GOMOKU_BOARD_SIZE 19
-#define GOMOKU_PLAYERS 2
+
 
 @protocol GameDelegate
 
@@ -45,4 +44,5 @@
 - (BOOL) isMoveValid: (Move *) move;
 - (void) startGame;
 - (void) stopGame;
+- (int) currentPlayerColor;
 @end

@@ -36,6 +36,7 @@
     
 	NSLog(@"created game with players: %@", self.game);
 	[self.navigationController pushViewController:gameBoardController animated:YES];
+    [gameBoardController initBoard];
 }
 
 - (void) makeMove: (Move *) move {

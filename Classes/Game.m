@@ -68,13 +68,22 @@
         // add move to the history
         [[self.moves objectAtIndex:currentPlayerIndex] addObject:move];
 
-        // [board makeMove:CELL_WHITE At:move];        
-        // update the board
-        [delegate moveMade:move byPlayer:currentPlayerIndex];
+        // save the move
+        [board makeMove:[self currentPlayerColor] At:move]; 
 
         // change current player
         self.currentPlayerIndex++;
         self.currentPlayerIndex %= GOMOKU_PLAYERS; 
+        
+        // update the UI
+        [delegate moveMade:move byPlayer:currentPlayerIndex];
+        
+        if ([board isGameOver]) {
+            [delegate gameOverWithWinner:currentPlayerIndex];
+            self.gameStarted = NO;
+        }
+
+
     } else {
         NSLog(@"move %@ is NOT valid, ignored", move);
     }
@@ -82,20 +91,16 @@
 }
 
 - (BOOL) isMoveValid:(Move *)move {
-    for (int player = 0; player < GOMOKU_PLAYERS; player++) {
-        id previousMove;
-        for (previousMove in [moves objectAtIndex:player]) {
-            if ([move isEqual:previousMove]) {
-                return NO;
-            }
-        }
-    }
-    return YES;
+    return [self.board isMoveValid:move];
 }
 
 - (void) stopGame {
 	gameStarted = NO;
 	NSLog(@"stopping %@", self);
+}
+
+- (int) currentPlayerColor {
+    return self.currentPlayerIndex + 1;
 }
 
 - (NSString *)description {

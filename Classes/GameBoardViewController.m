@@ -6,6 +6,7 @@
 //
 
 #import "GameBoardViewController.h"
+#import "GomokuViewController.h"
 #import "Game.h"
 #import "Move.h"
 
@@ -16,23 +17,29 @@
 @synthesize cells;
 @synthesize mainController;
 @synthesize cellImages;
+@synthesize gameStatus;
 
 - (void)viewDidLoad {
-	self.boardView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH, 
-																	 GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH)] autorelease];
+    [super viewDidLoad];
+}
 
-
-    // lets load board cells of all 3 states
-    self.cellImages = [[NSMutableArray alloc] initWithCapacity:(GOMOKU_PLAYERS + 1)];
-
-    NSString *fileName;
-    NSString *cellImageFilePath;
-    UIImage *cellImage;
-    for (int i = 0; i < (GOMOKU_PLAYERS + 1); i++) {
-        fileName = [NSString stringWithFormat:@"BoardSquare_%d", i];
-        cellImageFilePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"png"];
-        cellImage = [[[UIImage alloc] initWithContentsOfFile:cellImageFilePath] autorelease];
-        [self.cellImages addObject:cellImage];
+- (void) initBoard {
+    self.boardView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH, 
+                                                               GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH)] autorelease];
+    
+    [self.gameStatus setText:@"Game Starting!"];
+    if (self.cellImages == NULL) {
+        // lets load board cells of all 3 states
+        self.cellImages = [[NSMutableArray alloc] initWithCapacity:(GOMOKU_PLAYERS + 1)];
+        NSString *fileName;
+        NSString *cellImageFilePath;
+        UIImage *cellImage;
+        for (int i = 0; i < (GOMOKU_PLAYERS + 1); i++) {
+            fileName = [NSString stringWithFormat:@"BoardSquare_%d", i];
+            cellImageFilePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"png"];
+            cellImage = [[[UIImage alloc] initWithContentsOfFile:cellImageFilePath] autorelease];
+            [self.cellImages addObject:cellImage];
+        }
     }
 	
 	self.cells = [NSMutableArray array];
@@ -56,13 +63,13 @@
 	self.boardScrollView.zoomScale = 0.535;
 	self.boardScrollView.contentSize = CGSizeMake(GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH, 
 												  GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH);
-	
-    [super viewDidLoad];
+
 }
 
 
 - (void)viewDidUnload {
 	self.boardScrollView = nil;
+    [self.boardView release];
 }
 
 
@@ -89,8 +96,17 @@
     NSLog(@"updating cell for playerIndex %d, at coordinates %@", playerIndex, move);
     BoardCell *cell = [self.cells objectAtIndex:(move.x * GOMOKU_BOARD_SIZE + move.y)];
     cell.image = [self.cellImages objectAtIndex:(playerIndex + 1)];
+    NSString *nextPlayer = ([((GomokuViewController *)self.mainController) game]).currentPlayerIndex == 0 ? @"X" : @"O";
+    NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];
+    [self.gameStatus setText:status];
+
 }
 
+- (void) gameOverWithWinner:(int) playerIndex {
+    NSString *status = [NSString stringWithFormat:@"Player %d Won!", (playerIndex + 1)];
+    [self.gameStatus setText:status];
+    NSLog(@"GAME OVER, player %d won!", playerIndex); 
+}
 
 #pragma mark UIScrollViewDelegate methods
 
