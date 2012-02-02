@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		133BD2FF14DB26740051B82C /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 133BD2FE14DB26740051B82C /* Config.m */; };
+		133BD30014DB26740051B82C /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 133BD2FE14DB26740051B82C /* Config.m */; };
 		135C99D114DA0DC40004D158 /* BoardSquare_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CC14DA0DC40004D158 /* BoardSquare_0.png */; };
 		135C99D214DA0DC40004D158 /* BoardSquare_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CC14DA0DC40004D158 /* BoardSquare_0.png */; };
 		135C99D314DA0DC40004D158 /* BoardSquare_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CD14DA0DC40004D158 /* BoardSquare_1.png */; };
@@ -67,6 +69,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		133BD2FD14DB26740051B82C /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		133BD2FE14DB26740051B82C /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
 		135C99C814DA0D430004D158 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		135C99CC14DA0DC40004D158 /* BoardSquare_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BoardSquare_0.png; path = Resources/BoardSquare_0.png; sourceTree = "<group>"; };
 		135C99CD14DA0DC40004D158 /* BoardSquare_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BoardSquare_1.png; path = Resources/BoardSquare_1.png; sourceTree = "<group>"; };
@@ -227,6 +231,8 @@
 				136FD102118FB48C0098C789 /* Move.m */,
 				136FD1AC118FD2790098C789 /* Board.h */,
 				136FD1AD118FD2790098C789 /* Board.m */,
+				133BD2FD14DB26740051B82C /* Config.h */,
+				133BD2FE14DB26740051B82C /* Config.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -399,6 +405,7 @@
 				136FD0D7118FB3CA0098C789 /* UIPlayer.m in Sources */,
 				136FD104118FB48C0098C789 /* Move.m in Sources */,
 				136FD1AE118FD2790098C789 /* Board.m in Sources */,
+				133BD2FF14DB26740051B82C /* Config.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +426,7 @@
 				136FD0C0118FAFAB0098C789 /* UIPlayer.m in Sources */,
 				136FD103118FB48C0098C789 /* Move.m in Sources */,
 				136FD1AF118FD2790098C789 /* Board.m in Sources */,
+				133BD30014DB26740051B82C /* Config.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

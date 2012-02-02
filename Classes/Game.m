@@ -15,18 +15,20 @@
 @synthesize moves;
 @synthesize currentPlayerIndex;
 @synthesize board;
+@synthesize config;
 @synthesize gameStarted;
 @synthesize delegate;
 
 
-- (Game *) initGame {
+- (Game *) initGameWithConfig: (Config *)gameConfig {
 	if (self = [super init]) {
+        self.config = gameConfig;
 		self.players = [[NSMutableArray alloc] initWithCapacity:GOMOKU_PLAYERS];
         self.moves = [[NSMutableArray alloc] initWithCapacity:GOMOKU_PLAYERS];
         for (int i = 0; i < GOMOKU_PLAYERS; i++) {
             [self.moves addObject: [[NSMutableArray alloc] initWithCapacity:20]];
         }
-		self.board = [[Board alloc] initWithSize:GOMOKU_BOARD_SIZE];
+		self.board = [[Board alloc] initWithSize:[config boardSize]];
 		self.gameStarted = NO;
         self.currentPlayerIndex = 0;
 	}
@@ -71,13 +73,14 @@
         // save the move
         [board makeMove:[self currentPlayerColor] At:move]; 
 
+        int playerJustMoved = self.currentPlayerIndex;
         // change current player
         self.currentPlayerIndex++;
         self.currentPlayerIndex %= GOMOKU_PLAYERS; 
         
         // update the UI
-        [delegate moveMade:move byPlayer:currentPlayerIndex];
-        
+        [delegate moveMade:move byPlayer:playerJustMoved];
+
         if ([board isGameOver]) {
             [delegate gameOverWithWinner:currentPlayerIndex];
             self.gameStarted = NO;

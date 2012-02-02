@@ -30,7 +30,7 @@
 }	
 	
 -(void) makeMove:(int) color At:(Move *) move {
-	NSLog(@"received move to %d %@", color, move);
+	//NSLog(@"received move to %d %@", color, move);
 	// update the board at move.x, move.y
 	if (move.x < 0 || move.x >= self.size || move.y < 0 || move.y >= self.size) {
 		NSLog(@"invalid move parameters %@ with color %d", move, color);
@@ -48,20 +48,17 @@
 - (BOOL) walkTheBoard: (MatrixDirection) block {
     int i,j;
     BOOL continuous;
-    for (i = 0; i < GOMOKU_BOARD_SIZE; i++) {
+    for (i = 0; i < self.size; i++) {
         int lastValue = CELL_EMPTY;
         int lastValueCount = 0;
         
-        for (j = 0; j < GOMOKU_BOARD_SIZE; j++) {
+        for (j = 0; j < self.size; j++) {
             continuous = TRUE;
             int currentValue = block(i,j, &continuous);
-            if (continuous == FALSE){
-                NSLog(@"continuety broken for i=%d, j=%d", i,j);
-            }
             if (lastValue != CELL_EMPTY && continuous == TRUE && lastValue == currentValue) {
                 lastValueCount ++;
                 if (lastValueCount == GOMOKU_REQUIRED_TO_WIN) {
-                    NSLog(@"found five");
+                    NSLog(@"found five in a row!");
                     return YES;
                 }
             } else {
@@ -85,15 +82,15 @@
         return self.matrix[j][i];
     };
     MatrixDirection diagonalWalkLeftRight =  ^(int i, int j, BOOL *continuous) {
-        int index = (i + j + 1) % GOMOKU_BOARD_SIZE;
-        if (index == 1 && (i + j + 1) > GOMOKU_BOARD_SIZE) {
+        int index = (i + j + 1) % self.size;
+        if (index == 1 && (i + j + 1) > self.size) {
             *continuous = FALSE;
         }
         return self.matrix[index][j];
     };
     MatrixDirection diagonalWalkRightLeft =  ^(int i, int j, BOOL *continuous) {
-        int index = ((i - j) < 0) ? GOMOKU_BOARD_SIZE + i - j : (i - j);
-        if ((index + 1) == GOMOKU_BOARD_SIZE) {
+        int index = ((i - j) < 0) ? self.size + i - j : (i - j);
+        if ((index + 1) == self.size) {
             *continuous = FALSE;
         }
         return self.matrix[index][j];

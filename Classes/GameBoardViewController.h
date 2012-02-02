@@ -11,21 +11,25 @@
 
 #define MAX_CELL_WIDTH 60.0
 
-@interface GameBoardViewController : UIViewController <UIScrollViewDelegate, BoardCellDelegate, GameDelegate> {
+@interface GameBoardViewController : UIViewController <UIScrollViewDelegate, 
+    BoardCellDelegate, GameDelegate> {
+    Game *game;
 	UIScrollView *boardScrollView;
 	UIView *boardView;
 	NSMutableArray *cells;
-	id mainController;
+    id mainController;
 }
 
-@property(nonatomic, retain) IBOutlet UIScrollView *boardScrollView;
+@property(nonatomic, retain) Game *game;
+@property(nonatomic, retain) id mainController;
+
 @property(nonatomic, retain) UIView *boardView;
 @property(nonatomic, retain) NSMutableArray *cells;
-@property(nonatomic, retain) id mainController;
 @property(nonatomic, retain) NSMutableArray *cellImages;
 
+@property(nonatomic, retain) IBOutlet UIScrollView *boardScrollView;
 @property (nonatomic, retain) IBOutlet UILabel *gameStatus;
 
-- (void) initBoard;
+- (void) initBoardWithGame:(Game *)game;
 
 @end

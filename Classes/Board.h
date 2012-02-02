@@ -13,7 +13,6 @@
 #define CELL_BLACK 1 // first player 
 #define CELL_WHITE 2 // second player
 
-#define GOMOKU_BOARD_SIZE 10
 #define GOMOKU_PLAYERS 2
 #define GOMOKU_REQUIRED_TO_WIN 5
 

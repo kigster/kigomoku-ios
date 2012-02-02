@@ -18,14 +18,18 @@
 @synthesize mainController;
 @synthesize cellImages;
 @synthesize gameStatus;
+@synthesize game;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
 
-- (void) initBoard {
-    self.boardView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH, 
-                                                               GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH)] autorelease];
+- (void) initBoardWithGame:(Game *) newGame {
+    self.game = newGame;
+    int boardSize = self.game.config.boardSize;
+    
+    self.boardView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, boardSize * MAX_CELL_WIDTH, 
+                                                               boardSize * MAX_CELL_WIDTH)] autorelease];
     
     [self.gameStatus setText:@"Game Starting!"];
     if (self.cellImages == NULL) {
@@ -45,8 +49,8 @@
 	self.cells = [NSMutableArray array];
 	
 	//setup squares of the board
-	for (int x = 0; x < GOMOKU_BOARD_SIZE; x++) {
-		for (int y = 0; y < GOMOKU_BOARD_SIZE; y++) {
+	for (int x = 0; x < boardSize; x++) {
+		for (int y = 0; y < boardSize; y++) {
 			BoardCell *currentCell = [[[BoardCell alloc] initWithFrame:CGRectMake(x * MAX_CELL_WIDTH, 
 																				  y * MAX_CELL_WIDTH, 
 																				  MAX_CELL_WIDTH, 
@@ -60,9 +64,12 @@
 	
 	[self.boardScrollView addSubview:self.boardView];
 	
-	self.boardScrollView.zoomScale = 0.535;
-	self.boardScrollView.contentSize = CGSizeMake(GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH, 
-												  GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH);
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    int viewSize = boardSize * MAX_CELL_WIDTH;
+    
+	self.boardScrollView.zoomScale = screenWidth / viewSize;
+	self.boardScrollView.contentSize = CGSizeMake(viewSize, viewSize);
 
 }
 
@@ -84,8 +91,8 @@
 - (void) selectedBoardCell:(BoardCell *)theCell {
 	int index = [self.cells indexOfObject: theCell];
 	// calculate the move coordinates
-	Move *move = [[[Move alloc] initWithX: index / GOMOKU_BOARD_SIZE 
-									 AndY: index % GOMOKU_BOARD_SIZE ] retain];
+	Move *move = [[[Move alloc] initWithX: index / self.game.config.boardSize 
+									 AndY: index % self.game.config.boardSize ] retain];
 	// pass to the main controller for processing.
     [self.mainController makeMove:move];
 }
@@ -93,8 +100,8 @@
 #pragma mark GameDelegate methods
 
 - (void) moveMade:(Move *) move byPlayer:(int) playerIndex {
-    NSLog(@"updating cell for playerIndex %d, at coordinates %@", playerIndex, move);
-    BoardCell *cell = [self.cells objectAtIndex:(move.x * GOMOKU_BOARD_SIZE + move.y)];
+    NSLog(@"redrawing cell for playerIndex %d at %@", playerIndex, move);
+    BoardCell *cell = [self.cells objectAtIndex:(move.x * self.game.config.boardSize + move.y)];
     cell.image = [self.cellImages objectAtIndex:(playerIndex + 1)];
     NSString *nextPlayer = ([((GomokuViewController *)self.mainController) game]).currentPlayerIndex == 0 ? @"X" : @"O";
     NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];

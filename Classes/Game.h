@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Player.h"
 #import "Board.h"
-
+#import "Config.h"
 
 
 @protocol GameDelegate
@@ -25,6 +25,7 @@
 	NSMutableArray *moves;
 	int currentPlayerIndex;
 	Board *board;
+    Config *config;
 @private
 	BOOL gameStarted;
 }
@@ -35,9 +36,10 @@
 @property (nonatomic, assign) NSMutableArray *moves;
 @property (nonatomic, assign) int currentPlayerIndex;
 @property (nonatomic, assign) Board *board;
+@property (nonatomic, assign) Config *config;
 @property (nonatomic, assign) BOOL gameStarted;
 
-- (Game *) initGame;
+- (Game *) initGameWithConfig: (Config *)config;
 - (void) addPlayer:(id <Player>) player;
 - (id<Player>) player:(int) index;
 - (void) makeMove: (Move *) move;
