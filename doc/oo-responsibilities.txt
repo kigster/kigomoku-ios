@@ -1,0 +1,54 @@
+Class Responsibilities
+class GomokuGame < Game
+- assigns player1 and player2 to one of the supported Player types (user selected)
+- each player is assigned PlayerColor BLACK|WHITE
+- starts the game, creates a blank board.
+- sends the BLACK player msg to startThinking(), passing a read-only board as an argument
+- updates UI with "Player 1 is thinking..."
+- at some point later receives a message makeAMove(move) from the player
+- validates the move, and updates the board with the move x/y if the move is valid
+- checks for the win/loss; 
+	if found notifies both players and stops the game.
+	if no loss/win, passes control to player2, 
+- repeat until win/loss found.
+- self destruct
+
+  This class is additionally responsible for:
+
+- canceling the game
+- maintaining move history
+- providing undo functionality
+- maintains a set of rules to define valid and invalid moves:
+ - isMoveValid(board, move) : BOOL
+  [used by Game class itself to validate player moves, but can also be offered in optimized form to the AI logic. In which case has to be able to support also C-optimized data struct argument]
+
+class Board 
+- representation of the game board at a particular point in time. Basically our data struct.
+- each node may be 0 (blank), WHITE or BLACK.
+- note: number of occupied cells determines uniquely next player color. 
+
+class Move (x,y)
+- represents a single move attempt coordinates (0-19,0-19). 
+
+interface Player
+- provides a convenience superclass, to be subclassed for each player type.
+- subclasses must responds to startThinking(game, board) message
+- responds to stopThinking() message (used to cancel the game)
+- calls back the game to makeAMove(move), which may throw an exception (InvalidMove, CellOccupied, etc).
+
+class UIPlayer < Player
+  // represents a manual player that uses the graphical UI to make a move
+  // is linked with the View
+  startThinking(game, board) : notifies the View to start receiving events from the user and passes itself (player) as a reference
+  makeAMove(move) is called directly by the view via the player instance.
+  if exception is thrown, the view handles it.
+  if move is accepted the view switched away from the user-input mode.
+
+class AIPlayer < Player
+  // represents an algorithm.
+  startThinking(game, board) kicks off the algorithm in another thread and returns
+  makeAMove() is called by the thread upon completion
+  stopThinking() interrupts the thinking thread if it's running.
+
+class NetworkPlayer < Player
+  // future: player that receives/sends game moves from another network device.

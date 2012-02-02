@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		135C99D114DA0DC40004D158 /* BoardSquare_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CC14DA0DC40004D158 /* BoardSquare_0.png */; };
+		135C99D214DA0DC40004D158 /* BoardSquare_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CC14DA0DC40004D158 /* BoardSquare_0.png */; };
+		135C99D314DA0DC40004D158 /* BoardSquare_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CD14DA0DC40004D158 /* BoardSquare_1.png */; };
+		135C99D414DA0DC40004D158 /* BoardSquare_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CD14DA0DC40004D158 /* BoardSquare_1.png */; };
+		135C99D514DA0DC40004D158 /* BoardSquare_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CE14DA0DC40004D158 /* BoardSquare_2.png */; };
+		135C99D614DA0DC40004D158 /* BoardSquare_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CE14DA0DC40004D158 /* BoardSquare_2.png */; };
+		135C99DC14DA0DD20004D158 /* icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99DB14DA0DD20004D158 /* icon-114.png */; };
+		135C99DE14DA0DD90004D158 /* icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99DD14DA0DD90004D158 /* icon-57.png */; };
+		136FD0B8118FAF1E0098C789 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B7118FAF1E0098C789 /* Game.m */; };
+		136FD0B9118FAF1E0098C789 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B7118FAF1E0098C789 /* Game.m */; };
+		136FD0C0118FAFAB0098C789 /* UIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* UIPlayer.m */; };
+		136FD0D7118FB3CA0098C789 /* UIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* UIPlayer.m */; };
+		136FD103118FB48C0098C789 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD102118FB48C0098C789 /* Move.m */; };
+		136FD104118FB48C0098C789 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD102118FB48C0098C789 /* Move.m */; };
+		136FD1AE118FD2790098C789 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD1AD118FD2790098C789 /* Board.m */; };
+		136FD1AF118FD2790098C789 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD1AD118FD2790098C789 /* Board.m */; };
+		1D3623260D0F684500981E51 /* GomokuAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* GomokuAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2899E5220DE3E06400AC0155 /* GomokuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* GomokuViewController.xib */; };
+		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		28D7ACF80DDB3853001CB0EB /* GomokuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* GomokuViewController.m */; };
+		8C36CD44117BA9EF00041B0C /* GomokuAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* GomokuAppDelegate.m */; };
+		8C36CD45117BA9F000041B0C /* GomokuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* GomokuViewController.m */; };
+		8C36CD46117BAA0200041B0C /* GomokuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* GomokuViewController.xib */; };
+		8C36CD60117BACC300041B0C /* gomokuViewControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C36CD5F117BACC300041B0C /* gomokuViewControllerTest.m */; };
+		8C62058D118E2FD700641403 /* GameBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C62058B118E2FD700641403 /* GameBoardViewController.m */; };
+		8C62058E118E2FD700641403 /* GameBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C62058C118E2FD700641403 /* GameBoardViewController.xib */; };
+		8C62058F118E2FD700641403 /* GameBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C62058B118E2FD700641403 /* GameBoardViewController.m */; };
+		8C620590118E2FD700641403 /* GameBoardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C62058C118E2FD700641403 /* GameBoardViewController.xib */; };
+		8C62061B118E3FA800641403 /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C62061A118E3FA800641403 /* BoardCell.m */; };
+		8C62061C118E3FA800641403 /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C62061A118E3FA800641403 /* BoardCell.m */; };
+		8C85D63A0FC39D6A00520AAE /* hamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8CFADA0C0F6F4C8400BDF316 /* hamcrest.framework */; };
+		8C85D63B0FC39D6A00520AAE /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8C9E03D90F6F3D5F002BA557 /* OCMock.framework */; };
+		8C9E039A0F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C9E03950F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.m */; };
+		8C9E039B0F6F3B32002BA557 /* GTMIPhoneUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C9E03960F6F3B32002BA557 /* GTMIPhoneUnitTestMain.m */; };
+		8C9E039C0F6F3B32002BA557 /* GTMSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C9E03980F6F3B32002BA557 /* GTMSenTestCase.m */; };
+		8C9E039D0F6F3B32002BA557 /* RunIPhoneUnitTest.sh in Resources */ = {isa = PBXBuildFile; fileRef = 8C9E03990F6F3B32002BA557 /* RunIPhoneUnitTest.sh */; };
+		8CFAD9DC0F6F4BBE00BDF316 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9E03D90F6F3D5F002BA557 /* OCMock.framework */; };
+		8CFADA090F6F4C5300BDF316 /* gomokuExampleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CFADA080F6F4C5300BDF316 /* gomokuExampleTest.m */; };
+		8CFADA0D0F6F4C8400BDF316 /* hamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CFADA0C0F6F4C8400BDF316 /* hamcrest.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8C85D63D0FC39D8800520AAE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				8C85D63A0FC39D6A00520AAE /* hamcrest.framework in CopyFiles */,
+				8C85D63B0FC39D6A00520AAE /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		135C99C814DA0D430004D158 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		135C99CC14DA0DC40004D158 /* BoardSquare_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BoardSquare_0.png; path = Resources/BoardSquare_0.png; sourceTree = "<group>"; };
+		135C99CD14DA0DC40004D158 /* BoardSquare_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BoardSquare_1.png; path = Resources/BoardSquare_1.png; sourceTree = "<group>"; };
+		135C99CE14DA0DC40004D158 /* BoardSquare_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BoardSquare_2.png; path = Resources/BoardSquare_2.png; sourceTree = "<group>"; };
+		135C99DB14DA0DD20004D158 /* icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114.png"; sourceTree = "<group>"; };
+		135C99DD14DA0DD90004D158 /* icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57.png"; sourceTree = "<group>"; };
+		136FD0B6118FAF1E0098C789 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Game.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		136FD0B7118FAF1E0098C789 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		136FD0BC118FAF350098C789 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Player.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		136FD0BE118FAFAB0098C789 /* UIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = UIPlayer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		136FD0BF118FAFAB0098C789 /* UIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = UIPlayer.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		136FD101118FB48C0098C789 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Move.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		136FD102118FB48C0098C789 /* Move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Move.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		136FD1AC118FD2790098C789 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Board.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		136FD1AD118FD2790098C789 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Board.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* GomokuAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GomokuAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		1D3623250D0F684500981E51 /* GomokuAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GomokuAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2899E5210DE3E06400AC0155 /* GomokuViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GomokuViewController.xib; sourceTree = "<group>"; };
+		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* GomokuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GomokuViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		28D7ACF70DDB3853001CB0EB /* GomokuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GomokuViewController.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8C2661180F6F489300F754CC /* Unit Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Unit Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C36CD5F117BACC300041B0C /* gomokuViewControllerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = gomokuViewControllerTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8C62058A118E2FD700641403 /* GameBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GameBoardViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		8C62058B118E2FD700641403 /* GameBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameBoardViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8C62058C118E2FD700641403 /* GameBoardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GameBoardViewController.xib; path = Classes/GameBoardViewController.xib; sourceTree = "<group>"; };
+		8C620619118E3FA800641403 /* BoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BoardCell.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		8C62061A118E3FA800641403 /* BoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BoardCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8C9E03740F6F3A3B002BA557 /* Test.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Test.plist; sourceTree = "<group>"; };
+		8C9E03930F6F3B32002BA557 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		8C9E03940F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMIPhoneUnitTestDelegate.h; sourceTree = "<group>"; };
+		8C9E03950F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMIPhoneUnitTestDelegate.m; sourceTree = "<group>"; };
+		8C9E03960F6F3B32002BA557 /* GTMIPhoneUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMIPhoneUnitTestMain.m; sourceTree = "<group>"; };
+		8C9E03970F6F3B32002BA557 /* GTMSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMSenTestCase.h; sourceTree = "<group>"; };
+		8C9E03980F6F3B32002BA557 /* GTMSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMSenTestCase.m; sourceTree = "<group>"; };
+		8C9E03990F6F3B32002BA557 /* RunIPhoneUnitTest.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = RunIPhoneUnitTest.sh; sourceTree = "<group>"; };
+		8C9E03D90F6F3D5F002BA557 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
+		8CFAD9AD0F6F4B2500BDF316 /* gomoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gomoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CFADA080F6F4C5300BDF316 /* gomokuExampleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = gomokuExampleTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8CFADA0C0F6F4C8400BDF316 /* hamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = hamcrest.framework; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C9E036E0F6F3A3A002BA557 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CFAD9DC0F6F4BBE00BDF316 /* OCMock.framework in Frameworks */,
+				8CFADA0D0F6F4C8400BDF316 /* hamcrest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8C36CD29117BA91300041B0C /* Model */,
+				8C9E03630F6F39C4002BA557 /* Controller */,
+				8C9E03620F6F39BD002BA557 /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8C2661180F6F489300F754CC /* Unit Tests.app */,
+				8CFAD9AD0F6F4B2500BDF316 /* gomoku.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				8C116AA8115C455C004B1180 /* Environments */,
+				8C9E035A0F6F3991002BA557 /* Tests */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				135C99DD14DA0DD90004D158 /* icon-57.png */,
+				135C99DB14DA0DD20004D158 /* icon-114.png */,
+				135C99C814DA0D430004D158 /* Default.png */,
+				135C99CC14DA0DC40004D158 /* BoardSquare_0.png */,
+				135C99CD14DA0DC40004D158 /* BoardSquare_1.png */,
+				135C99CE14DA0DC40004D158 /* BoardSquare_2.png */,
+				8C62058C118E2FD700641403 /* GameBoardViewController.xib */,
+				2899E5210DE3E06400AC0155 /* GomokuViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8CFADA0C0F6F4C8400BDF316 /* hamcrest.framework */,
+				8C9E03D90F6F3D5F002BA557 /* OCMock.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C116AA8115C455C004B1180 /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* Info.plist */,
+				8C9E03740F6F3A3B002BA557 /* Test.plist */,
+			);
+			name = Environments;
+			sourceTree = "<group>";
+		};
+		8C36CD29117BA91300041B0C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				136FD0B6118FAF1E0098C789 /* Game.h */,
+				136FD0B7118FAF1E0098C789 /* Game.m */,
+				136FD0BC118FAF350098C789 /* Player.h */,
+				136FD0BE118FAFAB0098C789 /* UIPlayer.h */,
+				136FD0BF118FAFAB0098C789 /* UIPlayer.m */,
+				136FD101118FB48C0098C789 /* Move.h */,
+				136FD102118FB48C0098C789 /* Move.m */,
+				136FD1AC118FD2790098C789 /* Board.h */,
+				136FD1AD118FD2790098C789 /* Board.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		8C9E035A0F6F3991002BA557 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8CFADA080F6F4C5300BDF316 /* gomokuExampleTest.m */,
+				8C36CD5F117BACC300041B0C /* gomokuViewControllerTest.m */,
+				8C9E03920F6F3B32002BA557 /* GTM */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		8C9E03620F6F39BD002BA557 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8C620619118E3FA800641403 /* BoardCell.h */,
+				8C62061A118E3FA800641403 /* BoardCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		8C9E03630F6F39C4002BA557 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* GomokuAppDelegate.h */,
+				1D3623250D0F684500981E51 /* GomokuAppDelegate.m */,
+				28D7ACF60DDB3853001CB0EB /* GomokuViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* GomokuViewController.m */,
+				8C62058A118E2FD700641403 /* GameBoardViewController.h */,
+				8C62058B118E2FD700641403 /* GameBoardViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		8C9E03920F6F3B32002BA557 /* GTM */ = {
+			isa = PBXGroup;
+			children = (
+				8C9E03930F6F3B32002BA557 /* GTMDefines.h */,
+				8C9E03940F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.h */,
+				8C9E03950F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.m */,
+				8C9E03960F6F3B32002BA557 /* GTMIPhoneUnitTestMain.m */,
+				8C9E03970F6F3B32002BA557 /* GTMSenTestCase.h */,
+				8C9E03980F6F3B32002BA557 /* GTMSenTestCase.m */,
+				8C9E03990F6F3B32002BA557 /* RunIPhoneUnitTest.sh */,
+			);
+			path = GTM;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* gomoku */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "gomoku" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gomoku;
+			productName = gomoku;
+			productReference = 8CFAD9AD0F6F4B2500BDF316 /* gomoku.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8C9E036F0F6F3A3A002BA557 /* gomoku Unit Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C9E03770F6F3A3B002BA557 /* Build configuration list for PBXNativeTarget "gomoku Unit Tests" */;
+			buildPhases = (
+				8C9E036C0F6F3A3A002BA557 /* Resources */,
+				8C85D63D0FC39D8800520AAE /* CopyFiles */,
+				8C9E036D0F6F3A3A002BA557 /* Sources */,
+				8C9E036E0F6F3A3A002BA557 /* Frameworks */,
+				8C9E037C0F6F3AA4002BA557 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "gomoku Unit Tests";
+			productName = "Unit Tests";
+			productReference = 8C2661180F6F489300F754CC /* Unit Tests.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "gomoku" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* gomoku */,
+				8C9E036F0F6F3A3A002BA557 /* gomoku Unit Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* GomokuViewController.xib in Resources */,
+				8C620590118E2FD700641403 /* GameBoardViewController.xib in Resources */,
+				135C99D114DA0DC40004D158 /* BoardSquare_0.png in Resources */,
+				135C99D314DA0DC40004D158 /* BoardSquare_1.png in Resources */,
+				135C99D514DA0DC40004D158 /* BoardSquare_2.png in Resources */,
+				135C99DC14DA0DD20004D158 /* icon-114.png in Resources */,
+				135C99DE14DA0DD90004D158 /* icon-57.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C9E036C0F6F3A3A002BA557 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C9E039D0F6F3B32002BA557 /* RunIPhoneUnitTest.sh in Resources */,
+				8C36CD46117BAA0200041B0C /* GomokuViewController.xib in Resources */,
+				8C62058E118E2FD700641403 /* GameBoardViewController.xib in Resources */,
+				135C99D214DA0DC40004D158 /* BoardSquare_0.png in Resources */,
+				135C99D414DA0DC40004D158 /* BoardSquare_1.png in Resources */,
+				135C99D614DA0DC40004D158 /* BoardSquare_2.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8C9E037C0F6F3AA4002BA557 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Tests/GTM/RunIPhoneUnitTest.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* GomokuAppDelegate.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* GomokuViewController.m in Sources */,
+				8C62058F118E2FD700641403 /* GameBoardViewController.m in Sources */,
+				8C62061C118E3FA800641403 /* BoardCell.m in Sources */,
+				136FD0B9118FAF1E0098C789 /* Game.m in Sources */,
+				136FD0D7118FB3CA0098C789 /* UIPlayer.m in Sources */,
+				136FD104118FB48C0098C789 /* Move.m in Sources */,
+				136FD1AE118FD2790098C789 /* Board.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C9E036D0F6F3A3A002BA557 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C9E039A0F6F3B32002BA557 /* GTMIPhoneUnitTestDelegate.m in Sources */,
+				8C9E039B0F6F3B32002BA557 /* GTMIPhoneUnitTestMain.m in Sources */,
+				8C9E039C0F6F3B32002BA557 /* GTMSenTestCase.m in Sources */,
+				8CFADA090F6F4C5300BDF316 /* gomokuExampleTest.m in Sources */,
+				8C36CD44117BA9EF00041B0C /* GomokuAppDelegate.m in Sources */,
+				8C36CD45117BA9F000041B0C /* GomokuViewController.m in Sources */,
+				8C36CD60117BACC300041B0C /* gomokuViewControllerTest.m in Sources */,
+				8C62058D118E2FD700641403 /* GameBoardViewController.m in Sources */,
+				8C62061B118E3FA800641403 /* BoardCell.m in Sources */,
+				136FD0B8118FAF1E0098C789 /* Game.m in Sources */,
+				136FD0C0118FAFAB0098C789 /* UIPlayer.m in Sources */,
+				136FD103118FB48C0098C789 /* Move.m in Sources */,
+				136FD1AF118FD2790098C789 /* Board.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = gomoku_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = gomoku;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = gomoku_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = gomoku;
+			};
+			name = Release;
+		};
+		8C9E03750F6F3A3B002BA557 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = Test.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Tests";
+			};
+			name = Debug;
+		};
+		8C9E03760F6F3A3B002BA557 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = Test.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Tests";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.0;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "gomoku" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C9E03770F6F3A3B002BA557 /* Build configuration list for PBXNativeTarget "gomoku Unit Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C9E03750F6F3A3B002BA557 /* Debug */,
+				8C9E03760F6F3A3B002BA557 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "gomoku" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

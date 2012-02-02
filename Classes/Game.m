@@ -1,0 +1,118 @@
+//
+//  Game.m
+//  gomoku
+//
+//  Created by Konstantin Gredeskoul on 5/3/10.
+//
+
+#import "Game.h"
+#import "UIPlayer.h"
+
+
+@implementation Game
+
+@synthesize players;
+@synthesize moves;
+@synthesize currentPlayerIndex;
+@synthesize board;
+@synthesize gameStarted;
+@synthesize delegate;
+
+
+- (Game *) initGame {
+	if (self = [super init]) {
+		self.players = [[NSMutableArray alloc] initWithCapacity:GOMOKU_PLAYERS];
+        self.moves = [[NSMutableArray alloc] initWithCapacity:GOMOKU_PLAYERS];
+        for (int i = 0; i < GOMOKU_PLAYERS; i++) {
+            [self.moves addObject: [[NSMutableArray alloc] initWithCapacity:20]];
+        }
+		self.board = [[Board alloc] initWithSize:GOMOKU_BOARD_SIZE];
+		self.gameStarted = NO;
+        self.currentPlayerIndex = 0;
+	}
+	return self;
+}
+
+- (void) addPlayer:(id <Player>) player{
+	if ([self.players count] < GOMOKU_PLAYERS) {
+        [self.players addObject:player];
+    } else {
+        NSLog(@"already have enough players!");
+    }
+}
+
+- (void) startGame {
+    if ([self.players count] != GOMOKU_PLAYERS) {
+        NSLog(@"not enough players added!");
+        return;
+    }
+	self.gameStarted = YES;
+	NSLog(@"starting %@", self);
+	// call first player
+}
+
+- (id<Player>) player:(int) index {
+	if (index < [self.players count])
+		return [self.players objectAtIndex:index];
+	else
+		return nil;
+}
+
+
+- (void) makeMove: (Move *) move {
+    if (self.gameStarted != YES) {
+        NSLog(@"game is not started, can't make this move %@", move);
+        return;
+    }
+    if ([self isMoveValid:move] == YES) {
+        // add move to the history
+        [[self.moves objectAtIndex:currentPlayerIndex] addObject:move];
+
+        // [board makeMove:CELL_WHITE At:move];        
+        // update the board
+        [delegate moveMade:move byPlayer:currentPlayerIndex];
+
+        // change current player
+        self.currentPlayerIndex++;
+        self.currentPlayerIndex %= GOMOKU_PLAYERS; 
+    } else {
+        NSLog(@"move %@ is NOT valid, ignored", move);
+    }
+	return;
+}
+
+- (BOOL) isMoveValid:(Move *)move {
+    for (int player = 0; player < GOMOKU_PLAYERS; player++) {
+        id previousMove;
+        for (previousMove in [moves objectAtIndex:player]) {
+            if ([move isEqual:previousMove]) {
+                return NO;
+            }
+        }
+    }
+    return YES;
+}
+
+- (void) stopGame {
+	gameStarted = NO;
+	NSLog(@"stopping %@", self);
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"game: player1:%@, player2:%@, board:%@", 
+			[self player:0], 
+			[self player:1], 
+			 self.board];
+}
+
+- (void) dealloc {
+	id player;
+	for (player in players) { [player release];	}
+	[players release];
+
+	id move;
+	for (move in moves) { [move release];	}
+    [moves release];
+	[super dealloc];
+}
+@end
