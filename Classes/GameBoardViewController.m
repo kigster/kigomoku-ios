@@ -53,7 +53,7 @@
 	
 	[self.boardScrollView addSubview:self.boardView];
 	
-	self.boardScrollView.zoomScale = 0.28;
+	self.boardScrollView.zoomScale = 0.535;
 	self.boardScrollView.contentSize = CGSizeMake(GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH, 
 												  GOMOKU_BOARD_SIZE * MAX_CELL_WIDTH);
 	
