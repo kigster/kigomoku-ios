@@ -1,4 +1,5 @@
-== Gomoku ==
+Gomoku Game for iPhone
+======================
 
 This is a project to create an open source implementation of five in a row 
 for iOS. It also serves as a study project for iOS development.
