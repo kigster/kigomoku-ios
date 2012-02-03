@@ -17,6 +17,8 @@
 		135C99D614DA0DC40004D158 /* BoardSquare_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99CE14DA0DC40004D158 /* BoardSquare_2.png */; };
 		135C99DC14DA0DD20004D158 /* icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99DB14DA0DD20004D158 /* icon-114.png */; };
 		135C99DE14DA0DD90004D158 /* icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99DD14DA0DD90004D158 /* icon-57.png */; };
+		1368A74414DB86D700D85810 /* WoodBoard_960x640.png in Resources */ = {isa = PBXBuildFile; fileRef = 1368A74314DB86D700D85810 /* WoodBoard_960x640.png */; };
+		1368A74514DB86D700D85810 /* WoodBoard_960x640.png in Resources */ = {isa = PBXBuildFile; fileRef = 1368A74314DB86D700D85810 /* WoodBoard_960x640.png */; };
 		136FD0B8118FAF1E0098C789 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B7118FAF1E0098C789 /* Game.m */; };
 		136FD0B9118FAF1E0098C789 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B7118FAF1E0098C789 /* Game.m */; };
 		136FD0C0118FAFAB0098C789 /* UIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* UIPlayer.m */; };
@@ -25,7 +27,6 @@
 		136FD104118FB48C0098C789 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD102118FB48C0098C789 /* Move.m */; };
 		136FD1AE118FD2790098C789 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD1AD118FD2790098C789 /* Board.m */; };
 		136FD1AF118FD2790098C789 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD1AD118FD2790098C789 /* Board.m */; };
-		13F172EA14DB3882007B4F4D /* WoodBoard_960x640 in Resources */ = {isa = PBXBuildFile; fileRef = 13F172E914DB3882007B4F4D /* WoodBoard_960x640 */; };
 		1D3623260D0F684500981E51 /* GomokuAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* GomokuAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -78,6 +79,7 @@
 		135C99CE14DA0DC40004D158 /* BoardSquare_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BoardSquare_2.png; path = Resources/BoardSquare_2.png; sourceTree = "<group>"; };
 		135C99DB14DA0DD20004D158 /* icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-114.png"; sourceTree = "<group>"; };
 		135C99DD14DA0DD90004D158 /* icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-57.png"; sourceTree = "<group>"; };
+		1368A74314DB86D700D85810 /* WoodBoard_960x640.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WoodBoard_960x640.png; path = Resources/WoodBoard_960x640.png; sourceTree = "<group>"; };
 		136FD0B6118FAF1E0098C789 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Game.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		136FD0B7118FAF1E0098C789 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		136FD0BC118FAF350098C789 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Player.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -87,7 +89,6 @@
 		136FD102118FB48C0098C789 /* Move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Move.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		136FD1AC118FD2790098C789 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Board.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		136FD1AD118FD2790098C789 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Board.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		13F172E914DB3882007B4F4D /* WoodBoard_960x640 */ = {isa = PBXFileReference; lastKnownFileType = file; name = WoodBoard_960x640; path = Resources/WoodBoard_960x640; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* GomokuAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GomokuAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1D3623250D0F684500981E51 /* GomokuAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GomokuAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -187,7 +188,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				13F172E914DB3882007B4F4D /* WoodBoard_960x640 */,
+				1368A74314DB86D700D85810 /* WoodBoard_960x640.png */,
 				135C99DD14DA0DD90004D158 /* icon-57.png */,
 				135C99DB14DA0DD20004D158 /* icon-114.png */,
 				135C99C814DA0D430004D158 /* Default.png */,
@@ -360,7 +361,7 @@
 				135C99D514DA0DC40004D158 /* BoardSquare_2.png in Resources */,
 				135C99DC14DA0DD20004D158 /* icon-114.png in Resources */,
 				135C99DE14DA0DD90004D158 /* icon-57.png in Resources */,
-				13F172EA14DB3882007B4F4D /* WoodBoard_960x640 in Resources */,
+				1368A74414DB86D700D85810 /* WoodBoard_960x640.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +375,7 @@
 				135C99D214DA0DC40004D158 /* BoardSquare_0.png in Resources */,
 				135C99D414DA0DC40004D158 /* BoardSquare_1.png in Resources */,
 				135C99D614DA0DC40004D158 /* BoardSquare_2.png in Resources */,
+				1368A74514DB86D700D85810 /* WoodBoard_960x640.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
