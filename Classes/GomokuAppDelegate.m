@@ -21,7 +21,8 @@
 	gameBoardController.mainController = mainController;
 	
 	navController = [[UINavigationController alloc] initWithRootViewController:mainController];
-		
+    [[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
+    
     [window addSubview:navController.view];
     [window makeKeyAndVisible];
 }
