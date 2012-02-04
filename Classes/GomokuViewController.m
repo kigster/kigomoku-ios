@@ -51,13 +51,15 @@
             int moveX, moveY = 0;
             NSLog(@"making AI move");
             int result = pick_next_move(self.game.board.matrix, self.game.config.boardSize,
-                                        self.game.currentPlayerIndex, 
+                                        self.game.currentPlayerIndex + 1, 
                                         &moveX, &moveY) ;
             NSLog(@"made AI move with result %d, x=%d, y=%d", result, moveX, moveY);
             if (result == 0) {
                 [self makeMove:[[Move alloc] initWithX:moveX AndY:moveY]];
             }
         }
+    } else {
+        NSLog(@"move %@ is NOT valid, ignoring...", move);
     }
 }
 

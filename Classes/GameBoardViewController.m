@@ -57,7 +57,7 @@
 	//setup squares of the board
 	for (int x = 0; x < boardSize; x++) {
 		for (int y = 0; y < boardSize; y++) {
-			BoardCell *currentCell = [[BoardCell alloc] initWithFrame:CGRectMake(x * MAX_CELL_WIDTH, 
+			BoardCell *currentCell = [[BoardCell alloc] initWithFrame:CGRectMake( x * MAX_CELL_WIDTH, 
 																				  y * MAX_CELL_WIDTH, 
 																				  MAX_CELL_WIDTH, 
 																				  MAX_CELL_WIDTH)];

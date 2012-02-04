@@ -45,7 +45,7 @@ int pick_next_move(int **board,
                     printf("new PLAYER max at %d,%d, score = %.2f\n", i, j, score);
                     max_score = score; max_x = i; max_y = j;
                 }
-                score = calc_score_at(work_board, size, other_player(next_player), i, j);
+                score += calc_score_at(work_board, size, other_player(next_player), i, j);
                 if (score > max_score && score > COST_NOTHING) {
                     printf("new ENEMY  max at %d,%d, score = %.2f\n", i, j, score);
                     max_score = score; max_x = i; max_y = j;
@@ -103,24 +103,28 @@ int calc_score_at(int **board,
     // walk diagonally top to bottom (left to right)
     for (i = 0; i < row_size; i++)      row[i] = -1;
     for (i = x, j = y; i <= max_x && j <= max_y; i++, j++)        
-        row[SEARCH_RADIUS + i - x] = board[i][j];
+                                        row[SEARCH_RADIUS + i - x] = board[i][j];
     for (i = x - 1, j = y - 1; i >= min_x &&  j >= min_y; i--, j--)    
-        row[i - min_x] = board[i][j];
+                                        row[i - min_x] = board[i][j];
     
     score += calc_score_one_way(row, player);
 
     // walk diagonally bottom to top (left to right)
     for (i = 0; i < row_size; i++)      row[i] = -1;
     for (i = x, j = y; i <= max_x && j >= min_y; i++, j--)        
-        row[SEARCH_RADIUS + i - x] = board[i][j];
+                                        row[SEARCH_RADIUS + i - x] = board[i][j];
     for (i = x, j = y; i >= min_x && j <= max_y; i--, j++)    
-        row[i - min_x] = board[i][j];
+                                        row[i - min_x] = board[i][j];
     
     score += calc_score_one_way(row, player);
     
     return score;
 }
 
+// calculates the score with a single dimensional array
+// where the cell of interest (being evaluated) is exactly in the
+// middle.
+ 
 int calc_score_one_way(int *row, int player) {
     
     int square_count = 1; // start by assuming we place there
@@ -143,9 +147,7 @@ int calc_score_one_way(int *row, int player) {
     int holes = left_hole_count + right_hole_count;
     int total = holes + square_count;
 
-    if (holes + square_count < NEED_TO_WIN) {
-        return COST_NOTHING;
-    } else if (contiguous_square_count >= NEED_TO_WIN) {
+    if (contiguous_square_count >= NEED_TO_WIN) {
         return COST_FIVE;
     } else if (contiguous_square_count == 4 && right_hole_count > 0 && left_hole_count > 0) {
         return COST_STRAIGHT_FOUR;
@@ -153,10 +155,12 @@ int calc_score_one_way(int *row, int player) {
         return COST_FOUR;
     } else if (contiguous_square_count == 3 && (right_hole_count > 0 && left_hole_count > 0)) {
         return COST_THREE;
-    } else if (square_count >= 3 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 6) {
+    } else if (square_count >= 3 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 5) {
         return COST_THREE_BROKEN;
-    } else if (contiguous_square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0)) { 
+    } else if (contiguous_square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 4) { 
         return COST_TWO;
+    } else if (square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0)) { 
+        return COST_TWO - 1;
     }
     return COST_NOTHING;
 }

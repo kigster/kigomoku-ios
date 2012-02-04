@@ -30,7 +30,7 @@
 #define COST_STRAIGHT_FOUR 1000  
 // the four is defined as a line of five squares, of which the
 // attacker has occupied any four, with the fifth square empty;
-#define COST_FOUR 110
+#define COST_FOUR 150
 // the three is either a line of seven squares of which the three center 
 // squares are occupied by the attacker, and the remaining four squares are 
 // empty, or a line of six squares, with three consecutive squares of the four
