@@ -83,7 +83,6 @@
 - (void)viewDidUnload {
     NSLog(@"board view unloading");
 	self.boardScrollView = nil;
-    self.boardView;
 }
 
 

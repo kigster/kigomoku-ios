@@ -98,14 +98,26 @@ int calc_score_at(int **board,
 
     score += calc_score_one_way(row, player);
 
-//    // walk diagonally left to right
-//    for (i = 0; i < row_size; i++)      row[i] = -1;
-//    for (i = y; i <= max_y; i++)        row[SEARCH_RADIUS + i - y] = board[x][i];
-//    for (i = y - 1; i >= min_y; i--)    row[i - min_y] = board[x][i];
-//    
-//    score += calc_score_one_way(row, player);
+    int j;
+    
+    // walk diagonally top to bottom (left to right)
+    for (i = 0; i < row_size; i++)      row[i] = -1;
+    for (i = x, j = y; i <= max_x && j <= max_y; i++, j++)        
+        row[SEARCH_RADIUS + i - x] = board[i][j];
+    for (i = x - 1, j = y - 1; i >= min_x &&  j >= min_y; i--, j--)    
+        row[i - min_x] = board[i][j];
+    
+    score += calc_score_one_way(row, player);
 
-
+    // walk diagonally bottom to top (left to right)
+    for (i = 0; i < row_size; i++)      row[i] = -1;
+    for (i = x, j = y; i <= max_x && j >= min_y; i++, j--)        
+        row[SEARCH_RADIUS + i - x] = board[i][j];
+    for (i = x, j = y; i >= min_x && j <= max_y; i--, j++)    
+        row[i - min_x] = board[i][j];
+    
+    score += calc_score_one_way(row, player);
+    
     return score;
 }
 

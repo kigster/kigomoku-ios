@@ -155,6 +155,36 @@ int size = 7;
                 description:@"open three on one side"];
 }
 
+- (void)testStraightFourDiagonalTopBottom{
+    char *boardWithFour = 
+    "......."
+    ".*....."
+    "..X...."
+    "...X..."
+    "....X.."
+    ".....X."
+    "......*"
+    ;
+    
+    [self verifyCorrectMove:board ofSize:size fromCharArray:boardWithFour
+                description:@"open four on both sides diagonal top to bottom"];
+}
+
+- (void)testStraightFourDiagonalBottomTop{
+    char *boardWithFour = 
+    ".....*."
+    "....X.."
+    "...X..."
+    "..X...."
+    ".X....."
+    "*......"
+    "......."
+    ;
+    
+    [self verifyCorrectMove:board ofSize:size fromCharArray:boardWithFour
+                description:@"open four on both sides diagonal bottom to top"];
+}
+
 @end
 
 
