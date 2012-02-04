@@ -6,6 +6,7 @@
 #import "Player.h"
 #import "UIPlayer.h"
 #import "Game.h"
+#import "basic_ai.h"
 
 
 @implementation GomokuViewController
@@ -45,6 +46,18 @@
 - (void) makeMove: (Move *) move {
     if ([self.game isMoveValid:move]) {
         [self.game makeMove:move];
+        
+        if (self.game.currentPlayerIndex == 1 && self.game.gameStarted) {
+            int moveX, moveY = 0;
+            NSLog(@"making AI move");
+            int result = pick_next_move(self.game.board.matrix, self.game.config.boardSize,
+                                        self.game.currentPlayerIndex, 
+                                        &moveX, &moveY) ;
+            NSLog(@"made AI move with result %d, x=%d, y=%d", result, moveX, moveY);
+            if (result == 0) {
+                [self makeMove:[[Move alloc] initWithX:moveX AndY:moveY]];
+            }
+        }
     }
 }
 
@@ -60,6 +73,11 @@
     [boardSizes addObject:@"11 x 11"];
     [boardSizes addObject:@"15 x 15"];
     [boardSizes addObject:@"19 x 19"];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES  animated:YES];
 }
 
 #pragma mark UIPickerViewDataSource methods

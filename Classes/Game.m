@@ -7,6 +7,7 @@
 
 #import "Game.h"
 #import "UIPlayer.h"
+#import "basic_ai.h"
 
 
 @implementation Game

@@ -20,13 +20,19 @@
 @synthesize gameStatus;
 @synthesize game;
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void) initBoardWithGame:(Game *) newGame {
     self.game = newGame;
     int boardSize = self.game.config.boardSize;
+
+    if (self.boardView != nil) {
+        self.boardView.hidden = TRUE;
+        self.boardView = nil;
+    }
     
     self.boardView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, boardSize * MAX_CELL_WIDTH, 
                                                                boardSize * MAX_CELL_WIDTH)] autorelease];
@@ -104,9 +110,10 @@
     NSLog(@"redrawing cell for playerIndex %d at %@", playerIndex, move);
     BoardCell *cell = [self.cells objectAtIndex:(move.x * self.game.config.boardSize + move.y)];
     cell.image = [self.cellImages objectAtIndex:(playerIndex + 1)];
-    NSString *nextPlayer = ([((GomokuViewController *)self.mainController) game]).currentPlayerIndex == 0 ? @"X" : @"O";
+    NSString *nextPlayer = self.game.currentPlayerIndex == 0 ? @"X" : @"O";
     NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];
     [self.gameStatus setText:status];
+
 
 }
 

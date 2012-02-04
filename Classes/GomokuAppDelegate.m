@@ -17,11 +17,17 @@
 	GomokuViewController *mainController = [[[GomokuViewController alloc] initWithNibName:@"GomokuViewController" bundle:nil] autorelease];
 	GameBoardViewController *gameBoardController = [[[GameBoardViewController alloc] initWithNibName:@"GameBoardViewController" bundle:nil] autorelease];
 
+    mainController.title = @"Back to Settings";
 	mainController.gameBoardController = gameBoardController;
 	gameBoardController.mainController = mainController;
+
+    // initialize random number generator
+    srand(time(NULL));
 	
 	navController = [[UINavigationController alloc] initWithRootViewController:mainController];
     [[navController navigationBar] setBarStyle:UIBarStyleBlackTranslucent];
+    [navController setNavigationBarHidden:YES];
+
     
     [window addSubview:navController.view];
     [window makeKeyAndVisible];
