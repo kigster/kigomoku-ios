@@ -21,11 +21,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/AI/basic_ai.c"
-         timestampString = "350003216.56992"
+         timestampString = "350037220.818279"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "35"
-         endingLineNumber = "35">
+         startingLineNumber = "25"
+         endingLineNumber = "25">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

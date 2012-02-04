@@ -17,6 +17,7 @@
 @synthesize boardSizes;
 @synthesize config;
 
+
 - (IBAction) startSinglePlayerGame:(id) sender {
 	[self startGameWithPlayers:1];
 }
@@ -65,14 +66,12 @@
     if (![self config]) 
         self.config = [[Config alloc] init];
     
-    self.config.boardSize = 10;
+    self.config.boardSize = 15;
     
     [super viewDidLoad];
     boardSizes = [[NSMutableArray alloc] initWithCapacity:3];
-    [boardSizes addObject:@"10 x 10"];
-    [boardSizes addObject:@"11 x 11"];
     [boardSizes addObject:@"15 x 15"];
-    [boardSizes addObject:@"19 x 19"];
+    [boardSizes addObject:@"10 x 10"];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -93,6 +92,7 @@
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     return [boardSizes objectAtIndex:row];
 }
+
 
 #pragma mark UIPickerViewDelegate methods
 
