@@ -10,9 +10,10 @@
 #include <stdlib.h>
 #include "basic_ai.h"
 
-//int **copy_board(int** board, int size);
-//void free_board(int **board, int size);
+
 int calc_score_at(int **work_board, int size, int next_player, int x, int y);
+int calc_score_one_way(int *row, int player);
+
 int other_player(int player);
 int pick_next_random_move(int **board, int size, 
                           int next_player, 
@@ -53,7 +54,6 @@ int pick_next_move(int **board,
         }
     }
 
-    // free_board(work_board, size);
     if (max_score >= 0) {
         *move_x = max_x;
         *move_y = max_y;
@@ -63,24 +63,7 @@ int pick_next_move(int **board,
     return RT_FAILURE;
 }
                               
-//void free_board(int **board, int size) {
-//    for(int i = 0; i < size; i++) free(board[i]); 
-//    free(board);
-//}
-//
-//int **copy_board(int** board, int size) {
-//    int **new_board = malloc(size * sizeof(int *));
-//	for(int i = 0; i < size; i++) {
-//		new_board[i] = malloc(size * sizeof(int));
-//        for (int j = 0; j < size; j++) {
-//            new_board[i][j] = board[i][j];
-//        }
-//    }
-//    
-//    return new_board;
-//}
 
-// todo: fix this
 int other_player(int player) {
     return (player == 1) ? 2 : 1;
 }
@@ -96,38 +79,58 @@ int calc_score_at(int **board,
     int min_y = max(y - SEARCH_RADIUS, 0);
     int max_y = min(y + SEARCH_RADIUS, size - 1);
     
-    //int num_empty = 0, num_other = 0, num_ours = 0;
+    int row_size = SEARCH_RADIUS * 2 + 1;
+    int row[row_size];
+    int i;
+    int score = 0;
 
+    // walk horizontally
+    for (i = 0; i < row_size; i++)      row[i] = -1;
+    for (i = x; i <= max_x; i++)        row[SEARCH_RADIUS + i - x] = board[i][y];
+    for (i = x - 1; i >= min_x; i--)    row[i - min_x] = board[i][y];
+
+    score += calc_score_one_way(row, player);
+    
+    // walk vertically
+    for (i = 0; i < row_size; i++)      row[i] = -1;
+    for (i = y; i <= max_y; i++)        row[SEARCH_RADIUS + i - y] = board[x][i];
+    for (i = y - 1; i >= min_y; i--)    row[i - min_y] = board[x][i];
+
+    score += calc_score_one_way(row, player);
+
+//    // walk diagonally left to right
+//    for (i = 0; i < row_size; i++)      row[i] = -1;
+//    for (i = y; i <= max_y; i++)        row[SEARCH_RADIUS + i - y] = board[x][i];
+//    for (i = y - 1; i >= min_y; i--)    row[i - min_y] = board[x][i];
+//    
+//    score += calc_score_one_way(row, player);
+
+
+    return score;
+}
+
+int calc_score_one_way(int *row, int player) {
+    
     int square_count = 1; // start by assuming we place there
     int contiguous_square_count = 1; 
     int right_hole_count = 0, left_hole_count = 0;   // holes found
-    //int open_right = 0, open_left = 0;
     int last_square;
-    // horizontal
-//    for (int i = x + 1, last_square = player; i <= max_x; i++) {
-//        if (count_squares(board[i][y], player, &last_square, &right_hole_count, 
-//                          &square_count, &contiguous_square_count) == RT_BREAK) 
-//            break;
-//    }
-//    for (int i = x - 1, last_square = player; i >= min_x; i--) {
-//        if (count_squares(board[i][y], player, &last_square, &left_hole_count, 
-//                          &square_count, &contiguous_square_count) == RT_BREAK) 
-//            break;
-//    }
-    // vertical
-    for (int i = y + 1, last_square = player; i <= max_y; i++) {
-        if (count_squares(board[x][i], player, &last_square, &right_hole_count, 
+    int i;
+    
+    for (i = SEARCH_RADIUS + 1, last_square = player; i <= SEARCH_RADIUS*2 && row[i] >= 0; i++) {
+        if (count_squares(row[i], player, &last_square, &right_hole_count, 
                           &square_count, &contiguous_square_count) == RT_BREAK) 
             break;
     }
-    for (int i = y - 1, last_square = player; i >= min_y; i--) {
-        if (count_squares(board[x][i], player, &last_square, &left_hole_count, 
+    for (i = SEARCH_RADIUS - 1, last_square = player; i >= 0 && row[i] >= 0; i--) {
+        if (count_squares(row[i], player, &last_square, &left_hole_count, 
                           &square_count, &contiguous_square_count) == RT_BREAK) 
             break;
     }
     
     int holes = left_hole_count + right_hole_count;
     int total = holes + square_count;
+
     if (holes + square_count < NEED_TO_WIN) {
         return COST_NOTHING;
     } else if (contiguous_square_count >= NEED_TO_WIN) {
@@ -156,7 +159,7 @@ int count_squares(int value,
 
     if (value == player) {
         (*square_count)++;
-        if (hole_count == 0) { (*contiguous_square_count)++; }
+        if (*hole_count == 0) { (*contiguous_square_count)++; }
         
     } else if (value == EMPTY) {
         if (*last_square == EMPTY) 
