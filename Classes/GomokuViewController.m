@@ -28,15 +28,14 @@
 
 - (void) startGameWithPlayers: (int) playerCount {
 	if (game != nil) { 
-		[game release];
         game = nil;
 	}
 	
 	game = [[Game alloc] initGameWithConfig:config];
     game.delegate = gameBoardController;
 	
-	[game addPlayer:[[[UIPlayer alloc] initWithGame:game] autorelease]];
-	[game addPlayer:[[[UIPlayer alloc] initWithGame:game] autorelease]];
+	[game addPlayer:[[UIPlayer alloc] initWithGame:game]];
+	[game addPlayer:[[UIPlayer alloc] initWithGame:game]];
 	[game startGame];
     
 	NSLog(@"created game with players: %@", self.game);
@@ -102,10 +101,5 @@
     self.config.boardSize = label.intValue;
 }
 
-- (void)dealloc {
-	[gameBoardController release];
-	[game release];
-    [super dealloc];
-}
 
 @end

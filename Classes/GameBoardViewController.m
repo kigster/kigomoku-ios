@@ -34,8 +34,8 @@
         self.boardView = nil;
     }
     
-    self.boardView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, boardSize * MAX_CELL_WIDTH, 
-                                                               boardSize * MAX_CELL_WIDTH)] autorelease];
+    self.boardView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, boardSize * MAX_CELL_WIDTH, 
+                                                               boardSize * MAX_CELL_WIDTH)];
     
     [self.gameStatus setText:@"Game Starting!"];
     if (self.cellImages == NULL) {
@@ -47,7 +47,7 @@
         for (int i = 0; i < (GOMOKU_PLAYERS + 1); i++) {
             fileName = [NSString stringWithFormat:@"BoardSquare_%d", i];
             cellImageFilePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"png"];
-            cellImage = [[[UIImage alloc] initWithContentsOfFile:cellImageFilePath] autorelease];
+            cellImage = [[UIImage alloc] initWithContentsOfFile:cellImageFilePath];
             [self.cellImages addObject:cellImage];
         }
     }
@@ -57,10 +57,10 @@
 	//setup squares of the board
 	for (int x = 0; x < boardSize; x++) {
 		for (int y = 0; y < boardSize; y++) {
-			BoardCell *currentCell = [[[BoardCell alloc] initWithFrame:CGRectMake(x * MAX_CELL_WIDTH, 
+			BoardCell *currentCell = [[BoardCell alloc] initWithFrame:CGRectMake(x * MAX_CELL_WIDTH, 
 																				  y * MAX_CELL_WIDTH, 
 																				  MAX_CELL_WIDTH, 
-																				  MAX_CELL_WIDTH)] autorelease];
+																				  MAX_CELL_WIDTH)];
 			currentCell.image = [self.cellImages objectAtIndex:CELL_EMPTY];
 			currentCell.delegate = self;
 			[self.cells addObject:currentCell];
@@ -83,23 +83,18 @@
 - (void)viewDidUnload {
     NSLog(@"board view unloading");
 	self.boardScrollView = nil;
-    [self.boardView release];
+    self.boardView;
 }
 
 
-- (void)dealloc {
-	[boardScrollView dealloc];
-    [cellImages release];
-    [super dealloc];
-}
 
 #pragma mark BoardCellDelegate methods
 
 - (void) selectedBoardCell:(BoardCell *)theCell {
 	int index = [self.cells indexOfObject: theCell];
 	// calculate the move coordinates
-	Move *move = [[[Move alloc] initWithX: index / self.game.config.boardSize 
-									 AndY: index % self.game.config.boardSize ] retain];
+	Move *move = [[Move alloc] initWithX: index / self.game.config.boardSize 
+									 AndY: index % self.game.config.boardSize ];
 	// pass to the main controller for processing.
     [self.mainController makeMove:move];
 }

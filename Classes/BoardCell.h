@@ -20,6 +20,6 @@
 	id<BoardCellDelegate> delegate;
 }
 
-@property(nonatomic, retain) id<BoardCellDelegate> delegate;
+@property(nonatomic, strong) id<BoardCellDelegate> delegate;
 
 @end

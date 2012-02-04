@@ -40,8 +40,10 @@
 // three non-consecutive squares of the four center squares, while the other 
 // three squares are empty.
 #define COST_THREE_BROKEN 50
+#define COST_TWO 10
 // useless
 #define COST_NOTHING 0
+
 
 
 // states

@@ -30,14 +30,13 @@
 	BOOL gameStarted;
 }
 
-@property (nonatomic, retain) id<GameDelegate> delegate;
-
-@property (nonatomic, assign) NSMutableArray *players;
-@property (nonatomic, assign) NSMutableArray *moves;
-@property (nonatomic, assign) int currentPlayerIndex;
-@property (nonatomic, assign) Board *board;
-@property (nonatomic, assign) Config *config;
-@property (nonatomic, assign) BOOL gameStarted;
+@property (strong, nonatomic) id<GameDelegate> delegate;
+@property (strong, nonatomic) NSMutableArray *players;
+@property (strong, nonatomic) NSMutableArray *moves;
+@property (nonatomic)         int currentPlayerIndex;
+@property (strong, nonatomic) Board *board;
+@property (strong, nonatomic) Config *config;
+@property (nonatomic)         BOOL gameStarted;
 
 - (Game *) initGameWithConfig: (Config *)config;
 - (void) addPlayer:(id <Player>) player;

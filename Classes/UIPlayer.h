@@ -16,6 +16,6 @@
 
 -(UIPlayer *)initWithGame:(Game *)thisGame; 
 
-@property(nonatomic, retain) Game *game;
+@property(nonatomic, strong) Game *game;
 
 @end

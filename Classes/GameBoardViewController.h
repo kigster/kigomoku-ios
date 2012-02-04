@@ -20,15 +20,15 @@
     id mainController;
 }
 
-@property(nonatomic, retain) Game *game;
-@property(nonatomic, retain) id mainController;
+@property(nonatomic, strong) Game *game;
+@property(nonatomic, strong) id mainController;
 
-@property(nonatomic, retain) UIView *boardView;
-@property(nonatomic, retain) NSMutableArray *cells;
-@property(nonatomic, retain) NSMutableArray *cellImages;
+@property(nonatomic, strong) UIView *boardView;
+@property(nonatomic, strong) NSMutableArray *cells;
+@property(nonatomic, strong) NSMutableArray *cellImages;
 
-@property(nonatomic, retain) IBOutlet UIScrollView *boardScrollView;
-@property (nonatomic, retain) IBOutlet UILabel *gameStatus;
+@property(nonatomic, strong) IBOutlet UIScrollView *boardScrollView;
+@property (nonatomic, strong) IBOutlet UILabel *gameStatus;
 
 - (void) initBoardWithGame:(Game *)game;
 

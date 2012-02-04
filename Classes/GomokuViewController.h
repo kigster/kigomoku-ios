@@ -18,11 +18,11 @@
     Config *config;
 }
 
-@property(nonatomic, retain) GameBoardViewController *gameBoardController;
-@property(nonatomic, assign) Game *game;
-@property(nonatomic, retain) Config *config;
-@property(nonatomic, assign) NSMutableArray *boardSizes;
-@property(nonatomic, retain) IBOutlet UIPickerView *pickerView;
+@property(strong, nonatomic) GameBoardViewController *gameBoardController;
+@property(strong, nonatomic) Game *game;
+@property(strong, nonatomic) Config *config;
+@property(strong, nonatomic) NSMutableArray *boardSizes;
+@property(strong, nonatomic) IBOutlet UIPickerView *pickerView;
 
 - (IBAction) startSinglePlayerGame:(id) sender;
 - (IBAction) startTwoPlayerGame:(id) sender;

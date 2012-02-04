@@ -101,19 +101,19 @@ int calc_score_at(int **board,
     int square_count = 1; // start by assuming we place there
     int contiguous_square_count = 1; 
     int right_hole_count = 0, left_hole_count = 0;   // holes found
-    int open_right = 0, open_left = 0;
+    //int open_right = 0, open_left = 0;
     int last_square;
     // horizontal
-    for (int i = x + 1, last_square = player; i <= max_x; i++) {
-        if (count_squares(board[i][y], player, &last_square, &right_hole_count, 
-                          &square_count, &contiguous_square_count) == RT_BREAK) 
-            break;
-    }
-    for (int i = x - 1, last_square = player; i >= min_x; i--) {
-        if (count_squares(board[i][y], player, &last_square, &left_hole_count, 
-                          &square_count, &contiguous_square_count) == RT_BREAK) 
-            break;
-    }
+//    for (int i = x + 1, last_square = player; i <= max_x; i++) {
+//        if (count_squares(board[i][y], player, &last_square, &right_hole_count, 
+//                          &square_count, &contiguous_square_count) == RT_BREAK) 
+//            break;
+//    }
+//    for (int i = x - 1, last_square = player; i >= min_x; i--) {
+//        if (count_squares(board[i][y], player, &last_square, &left_hole_count, 
+//                          &square_count, &contiguous_square_count) == RT_BREAK) 
+//            break;
+//    }
     // vertical
     for (int i = y + 1, last_square = player; i <= max_y; i++) {
         if (count_squares(board[x][i], player, &last_square, &right_hole_count, 
@@ -140,6 +140,8 @@ int calc_score_at(int **board,
         return COST_THREE;
     } else if (square_count >= 3 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 6) {
         return COST_THREE_BROKEN;
+    } else if (contiguous_square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0)) { 
+        return COST_TWO;
     }
     return COST_NOTHING;
 }

@@ -14,8 +14,8 @@
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
-	GomokuViewController *mainController = [[[GomokuViewController alloc] initWithNibName:@"GomokuViewController" bundle:nil] autorelease];
-	GameBoardViewController *gameBoardController = [[[GameBoardViewController alloc] initWithNibName:@"GameBoardViewController" bundle:nil] autorelease];
+	GomokuViewController *mainController = [[GomokuViewController alloc] initWithNibName:@"GomokuViewController" bundle:nil];
+	GameBoardViewController *gameBoardController = [[GameBoardViewController alloc] initWithNibName:@"GameBoardViewController" bundle:nil];
 
     mainController.title = @"Back to Settings";
 	mainController.gameBoardController = gameBoardController;
@@ -34,11 +34,6 @@
 }
 
 
-- (void)dealloc {
-	[navController release];
-    [window release];
-    [super dealloc];
-}
 
 
 @end

@@ -114,14 +114,4 @@
 			 self.board];
 }
 
-- (void) dealloc {
-	id player;
-	for (player in players) { [player release];	}
-	[players release];
-
-	id move;
-	for (move in moves) { [move release];	}
-    [moves release];
-	[super dealloc];
-}
 @end

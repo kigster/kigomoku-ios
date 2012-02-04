@@ -41,6 +41,9 @@
 }
 
 - (BOOL) isMoveValid:(Move *) move {
+    if (move.x <= 0 || move.x >= size || move.y <= 0 || move.y >= size) {
+        return NO;
+    }
     return (self.matrix[move.x][move.y] == CELL_EMPTY);
 }
 
@@ -115,7 +118,6 @@
 		free(self.matrix[i]);
 	free(self.matrix);
 	self.matrix = NULL;
-    [super dealloc];
 }
 
 

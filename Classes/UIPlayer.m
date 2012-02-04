@@ -33,10 +33,6 @@
 }
 
 
-- (void) dealloc { 
-	[game release]; 
-	[super dealloc]; 
-} 
 
 
 @end
