@@ -15,10 +15,13 @@
 
 /**
  * For board of a given size, assume the board is filled with 0 (empty), 1 (X) or 2 (0).
- * next_player is either 0 or 1.
+ * next_player is set to either 1 or 2.
  *
- * AI calculates the next move, and saves it into &move_x, &move_y, and returns RC_SUCCESS
- * or RT_FAILURE if no appropriate next move is found.
+ * AI calculates the next move, and saves it into &move_x, &move_y, and returns RC_SUCCESS;
+ * or returns RT_FAILURE if no appropriate next move is found.
+ *
+ * NOTE: future revisions should allow passing flags to control the gameplay, such as Renji
+ * variations.
  *
  */
 int pick_next_move(int **board, int size, 
