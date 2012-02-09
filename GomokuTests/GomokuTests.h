@@ -7,7 +7,6 @@
 //
 #import <Foundation/Foundation.h>
 #import <SenTestingKit/SenTestingKit.h>
-#import "basic_ai.h"
 
 @interface GomokuTests : SenTestCase
 

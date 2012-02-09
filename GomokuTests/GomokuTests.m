@@ -8,6 +8,7 @@
 
 #import "GomokuTests.h"
 #import "Move.h"
+#import "basic_ai.h"
 
 void free_board(int **board, int size);
 int **make_board(int size);
@@ -184,6 +185,35 @@ int size = 7;
     [self verifyCorrectMove:board ofSize:size fromCharArray:boardWithFour
                 description:@"open four on both sides diagonal bottom to top"];
 }
+
+- (void)testStraightFourDiagonalWithHole{
+    char *boardWithFour = 
+    "......."
+    "......."
+    "......."
+    "XX*XX.."
+    "......."
+    "......."
+    "......."
+    ;
+    
+    [self verifyCorrectMove:board ofSize:size fromCharArray:boardWithFour
+                description:@"open four on both sides diagonal bottom to top"];
+}
+
+- (void)testStraightFourDiagonalWithHoleOneDimension {
+    // this is equivalent to ..XX.XX...
+    int row[11] = { -1, -1, -1, 1, 1, 0, 1, 1, -1, -1, -1 };
+    int cost = calc_score_in_one_dimension(row, 1);
+    STAssertTrue( (cost == COST_FIVE),  @"hole not detected, expected cost %d, got %d", COST_THREE, cost);
+}
+- (void)testStraightFourDiagonalWithHoleOneDimensionFromRight {
+    // this is equivalent to XX.XX...
+    int row[11] = { 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0 };
+    int cost = calc_score_in_one_dimension(row, 1);
+    STAssertTrue( (cost == COST_THREE), @"hole not detected, expected cost %d, got %d", COST_THREE, cost);
+}
+
 
 @end
 
