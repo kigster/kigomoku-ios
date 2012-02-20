@@ -14,6 +14,7 @@
 
 @synthesize players;
 @synthesize moves;
+@synthesize redoMoves;
 @synthesize currentPlayerIndex;
 @synthesize board;
 @synthesize config;
@@ -28,6 +29,7 @@
         self.moves = [[NSMutableArray alloc] initWithCapacity:GOMOKU_PLAYERS];
         for (int i = 0; i < GOMOKU_PLAYERS; i++) {
             [self.moves addObject: [[NSMutableArray alloc] initWithCapacity:20]];
+            [self.redoMoves addObject: [[NSMutableArray alloc] initWithCapacity:20]];
         }
 		self.board = [[Board alloc] initWithSize:[config boardSize]];
 		self.gameStarted = NO;
@@ -61,6 +63,25 @@
 		return nil;
 }
 
+- (Move *) lastMove {
+    Move *undoMove = [[self.moves objectAtIndex:[self otherPlayerColor]] lastObject];
+    return undoMove;
+}
+
+- (void) undoLastMove {
+    if (self.board.moveCount > 0) {
+        [self moveToNextPlayer];
+        
+        Move *undoMove = [[self.moves objectAtIndex:currentPlayerIndex] lastObject];
+        [[self.moves objectAtIndex:currentPlayerIndex] removeObject:undoMove];
+
+        [board undoMove:currentPlayerIndex At:undoMove];
+        [delegate undoMove:undoMove byPlayer:currentPlayerIndex];
+        if (self.gameStarted == NO) {
+            self.gameStarted = YES;
+        }
+    }
+}
 
 - (void) makeMove: (Move *) move {
     if (self.gameStarted != YES) {
@@ -75,9 +96,8 @@
         [board makeMove:[self currentPlayerColor] At:move]; 
 
         int playerJustMoved = self.currentPlayerIndex;
-        // change current player
-        self.currentPlayerIndex++;
-        self.currentPlayerIndex %= GOMOKU_PLAYERS; 
+        // change current player    
+        [self moveToNextPlayer];
         
         // update the UI
         [delegate moveMade:move byPlayer:playerJustMoved];
@@ -92,6 +112,14 @@
         NSLog(@"move %@ is NOT valid, ignored", move);
     }
 	return;
+}
+
+- (void) moveToNextPlayer {
+    self.currentPlayerIndex = [self otherPlayerColor];
+}
+
+- (int) otherPlayerColor {
+    return (self.currentPlayerIndex + 1) % GOMOKU_PLAYERS;
 }
 
 - (BOOL) isMoveValid:(Move *)move {

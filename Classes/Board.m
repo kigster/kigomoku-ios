@@ -11,6 +11,7 @@
 @implementation Board
 @synthesize size;
 @synthesize matrix;
+@synthesize moveCount;
 
 -(Board *)initWithSize: (int)thisSize {
 	if (self = [super init]) { 
@@ -24,11 +25,17 @@
 				self.matrix[i][j] = CELL_EMPTY;
 			}
 		}
+        self.moveCount = 0;
 	} 
 	NSLog(@"initialized %@", self);
 	return self; 
 }	
-	
+
+-(void) undoMove:(int) color At:(Move *) move {
+    self.matrix[move.x][move.y] = CELL_EMPTY;
+    self.moveCount --;
+}
+
 -(void) makeMove:(int) color At:(Move *) move {
 	//NSLog(@"received move to %d %@", color, move);
 	// update the board at move.x, move.y
@@ -38,6 +45,7 @@
 	}
 	// else all is good.
 	self.matrix[move.x][move.y] = color;
+    self.moveCount ++;
 }
 
 - (BOOL) isMoveValid:(Move *) move {

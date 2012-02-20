@@ -20,15 +20,18 @@
 	int size;
 	// two dimensional int array filled with values above.
 	int **matrix;
+    int moveCount;
 }
 
 @property(nonatomic) int size;
+@property(nonatomic) int moveCount;
 @property(nonatomic) int** matrix;
 
 typedef int (^MatrixDirection)(int,int, BOOL*);
 
 - (Board *)initWithSize: (int)size;
 - (void) makeMove:(int) color At:(Move *) move;
+- (void) undoMove:(int) color At:(Move *) move;
 - (BOOL) isMoveValid:(Move *) move;
 - (BOOL) isGameOver;
 - (BOOL) walkTheBoard: (MatrixDirection) block;

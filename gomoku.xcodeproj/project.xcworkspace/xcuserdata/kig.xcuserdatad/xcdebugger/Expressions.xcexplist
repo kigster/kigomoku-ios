@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "calc_score_at:basic_ai.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "calc_score_in_one_dimension:basic_ai.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "*(row+2)">
+            </PersistentString>
+            <PersistentString
+               value = "*(row + 3)">
+            </PersistentString>
+            <PersistentString
+               value = "*(row+1)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

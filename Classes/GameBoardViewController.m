@@ -10,6 +10,7 @@
 #import "Game.h"
 #import "Move.h"
 
+
 @implementation GameBoardViewController
 
 @synthesize boardScrollView;
@@ -19,9 +20,14 @@
 @synthesize cellImages;
 @synthesize gameStatus;
 @synthesize game;
+@synthesize undoButton;
+@synthesize redoButton;
+
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+	//[[self navigationItem] setTitle:@"Some Title"];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -76,7 +82,20 @@
     
 	self.boardScrollView.zoomScale = screenWidth / viewSize;
 	self.boardScrollView.contentSize = CGSizeMake(viewSize, viewSize);
-
+    
+    // create Back button
+    undoButton = [[UIBarButtonItem alloc] initWithTitle:@"Undo" 
+                                                   style:UIBarButtonItemStylePlain 
+                                                  target:self 
+                                                  action:@selector(undoRedoMove:)];
+    
+//    redoButton = [[UIBarButtonItem alloc] initWithTitle:@"Redo" 
+//                                                  style:UIBarButtonItemStylePlain 
+//                                                 target:self 
+//                                                 action:@selector(undoRedoMove:)];
+                  
+    NSArray *buttons = [NSArray arrayWithObjects: undoButton, redoButton, nil];
+	self.navigationItem.rightBarButtonItems = buttons;
 }
 
 
@@ -85,6 +104,17 @@
 	self.boardScrollView = nil;
 }
 
+- (void)undoRedoMove:(id)sender {
+    if (sender == undoButton) {
+        NSLog(@"undo UNDO pressed");
+        for (int i = 0; i <= 1; i++) {
+            [[self game] undoLastMove];
+        }
+
+    } else if (sender == redoButton) {
+       NSLog(@"undo redo pressed"); 
+    }
+}
 
 
 #pragma mark BoardCellDelegate methods
@@ -107,12 +137,20 @@
     NSString *nextPlayer = self.game.currentPlayerIndex == 0 ? @"X" : @"O";
     NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];
     [self.gameStatus setText:status];
-
-
 }
 
+- (void) undoMove:(Move *) move byPlayer:(int) player {
+    BoardCell *cell = [self.cells objectAtIndex:(move.x * self.game.config.boardSize + move.y)];
+    cell.image = [self.cellImages objectAtIndex:0];
+    NSString *nextPlayer = self.game.currentPlayerIndex == 0 ? @"X" : @"O";
+    NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];
+    [self.gameStatus setText:status];    
+}
+
+
 - (void) gameOverWithWinner:(int) playerIndex {
-    NSString *status = [NSString stringWithFormat:@"Player %d Won!", (playerIndex + 1)];
+    NSString *winner = [self.game otherPlayerColor] == 0 ? @"X" : @"O";
+    NSString *status = [NSString stringWithFormat:@"Player '%@' Won Yo!", winner];
     [self.gameStatus setText:status];
     NSLog(@"GAME OVER, player %d won!", playerIndex); 
 }

@@ -13,16 +13,16 @@
 
 
 @protocol GameDelegate
-
 - (void) moveMade:(Move *) move byPlayer:(int) playerIndex;
+- (void) undoMove:(Move *) move byPlayer:(int) playerIndex;
 - (void) gameOverWithWinner:(int) playerIndex;
-
 @end
 
 
 @interface Game : NSObject {
 	NSMutableArray *players;
 	NSMutableArray *moves;
+    NSMutableArray *redoMoves;
 	int currentPlayerIndex;
 	Board *board;
     Config *config;
@@ -33,6 +33,7 @@
 @property (strong, nonatomic) id<GameDelegate> delegate;
 @property (strong, nonatomic) NSMutableArray *players;
 @property (strong, nonatomic) NSMutableArray *moves;
+@property (strong, nonatomic) NSMutableArray *redoMoves;
 @property (nonatomic)         int currentPlayerIndex;
 @property (strong, nonatomic) Board *board;
 @property (strong, nonatomic) Config *config;
@@ -42,8 +43,12 @@
 - (void) addPlayer:(id <Player>) player;
 - (id<Player>) player:(int) index;
 - (void) makeMove: (Move *) move;
+- (Move *) lastMove;
+- (void) undoLastMove;
 - (BOOL) isMoveValid: (Move *) move;
 - (void) startGame;
 - (void) stopGame;
 - (int) currentPlayerColor;
+- (int) otherPlayerColor;
+- (void) moveToNextPlayer ;
 @end
