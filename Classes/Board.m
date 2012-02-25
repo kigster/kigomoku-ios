@@ -93,8 +93,8 @@
         return self.matrix[j][i];
     };
     MatrixDirection diagonalWalkLeftRight =  ^(int i, int j, BOOL *continuous) {
-        int index = (i + j + 1) % self.size;
-        if (index == 1 && (i + j + 1) > self.size) {
+        int index = (i + j) % self.size;
+        if (index == 0) {
             *continuous = FALSE;
         }
         return self.matrix[index][j];
@@ -120,12 +120,15 @@
 	return [NSString stringWithFormat:@"Board of Size %d", self.size];
 }
 
-
-- (void)dealloc {
+-(void)deallocMatrix {
 	for(int i = 0; i < self.size; i++)
 		free(self.matrix[i]);
 	free(self.matrix);
 	self.matrix = NULL;
+}
+
+- (void)dealloc {
+    [self deallocMatrix];
 }
 
 

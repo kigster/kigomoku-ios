@@ -15,34 +15,5 @@
          startingLineNumber = "33"
          endingLineNumber = "33">
       </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         condition = "i == 2 &amp;&amp; j == 3"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/AI/basic_ai.c"
-         timestampString = "350472668.393752"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "36"
-         endingLineNumber = "36"
-         landmarkName = "pick_next_move()"
-         landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "GomokuTests/GomokuTests.m"
-         timestampString = "350470325.294673"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "200"
-         endingLineNumber = "200"
-         landmarkName = "-testStraightFourDiagonalWithHole"
-         landmarkType = "5">
-      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

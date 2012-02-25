@@ -67,12 +67,13 @@
     if (![self config]) 
         self.config = [[Config alloc] init];
     
-    self.config.boardSize = 15;
+    self.config.boardSize = 10;
     
     [super viewDidLoad];
     boardSizes = [[NSMutableArray alloc] initWithCapacity:3];
-    [boardSizes addObject:@"15 x 15"];
     [boardSizes addObject:@"10 x 10"];
+    [boardSizes addObject:@"15 x 15"];
+    [boardSizes addObject:@"19 x 19"];
 }
 
 -(void)viewDidAppear:(BOOL)animated {

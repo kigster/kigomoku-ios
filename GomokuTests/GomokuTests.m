@@ -8,6 +8,7 @@
 
 #import "GomokuTests.h"
 #import "Move.h"
+#import "Board.h"
 #import "basic_ai.h"
 
 void free_board(int **board, int size);
@@ -40,7 +41,8 @@ int size = 7;
 -(void) fillBoard:(int **)board 
            ofSize:(int) size 
     fromCharArray:(char *) array
-        findMoves:(NSMutableArray *)moves {
+        goodMoves:(NSMutableArray *)goodMoves
+         badMoves:(NSMutableArray *)badMoves  {
     
     for (int y = 0; y < size; y++) {
         for(int x = 0; x < size; x++) {
@@ -56,7 +58,12 @@ int size = 7;
                 }
                 case '*': {
                     Move *move = [[Move alloc] initWithX:x AndY:y];
-                    [moves addObject:move];
+                    [goodMoves addObject:move];
+                    break;
+                }
+                case '#': {
+                    Move *move = [[Move alloc] initWithX:x AndY:y];
+                    [badMoves addObject:move];
                     break;
                 }
                 default: {
@@ -73,8 +80,14 @@ int size = 7;
              fromCharArray:(char *) array 
                description:(NSString *) description {
     
-    NSMutableArray *expectedMoves = [[NSMutableArray alloc ]initWithCapacity:10];
-    [self fillBoard:board ofSize:size fromCharArray:array findMoves:expectedMoves];
+    NSMutableArray *goodMoves = [[NSMutableArray alloc ]initWithCapacity:10];
+    NSMutableArray *badMoves = [[NSMutableArray alloc ]initWithCapacity:10];
+    [self fillBoard:board 
+             ofSize:size 
+      fromCharArray:array 
+          goodMoves:goodMoves 
+           badMoves:badMoves];
+    
     int moveX = -1, moveY = -1;
 
     int result = pick_next_move(board, 
@@ -87,15 +100,22 @@ int size = 7;
                  @"expecting successful pick of the next move");
     Move *theirMove = [[Move alloc] initWithX:moveX AndY:moveY];
 
-    BOOL contains = [expectedMoves containsObject:theirMove];
+    BOOL containsGoodMove = [goodMoves containsObject:theirMove] ;
+    BOOL containsBadMove = [badMoves containsObject:theirMove] ;
 
-    NSLog(@"==============> %@", description);
-    NSLog(@"AI move was %@", theirMove);
-    for (Move *move in expectedMoves) {
+    NSLog(@"AI move was %@, for %@", theirMove, description);
+    for (Move *move in goodMoves) {
         NSLog(@"test expected move: %@", move);
     }
-    STAssertTrue(contains, 
-                 @"move %@ is not correct for %@", theirMove, description);
+    if (goodMoves.count > 0) {
+        STAssertTrue(containsGoodMove, @"move %@ is not correct for %@, not one of expected moves", theirMove, description);
+    } 
+    if (badMoves.count > 0) {
+        for (Move *move in badMoves) {
+            NSLog(@"test expected not to make a move: %@", move);
+        }
+        STAssertFalse(containsBadMove, @"move %@ is not correct for %@, this is a bad move", theirMove, description);
+    }
 }
                 
 
@@ -201,17 +221,62 @@ int size = 7;
                 description:@"open four on both sides diagonal bottom to top"];
 }
 
+- (void)testClosedFour{
+    char *boardWithFour = 
+    "......."
+    "......."
+    "......."
+    "#OOOX.."
+    "......."
+    "......."
+    "......."
+    ;
+    
+    [self verifyCorrectMove:board ofSize:size fromCharArray:boardWithFour
+                description:@"closed four not useful"];
+}
+
+- (void)testBoardDetectsWin{
+    char *boardWithWin = 
+    "......."
+    "X......"
+    ".X....."
+    "XOXOX.."
+    "...X..."
+    "....X.."
+    "..XXX.."
+    ;
+    
+    [self fillBoard:board 
+             ofSize:size 
+      fromCharArray:boardWithWin
+          goodMoves:nil 
+           badMoves:nil];
+    
+    Board *b = [[Board alloc] initWithSize:7];
+    [b deallocMatrix];
+    b.matrix = board;
+    STAssertTrue([b isGameOver], @"game should be over");
+}
+
 - (void)testStraightFourDiagonalWithHoleOneDimension {
     // this is equivalent to ..XX.XX...
     int row[11] = { -1, -1, -1, 1, 1, 0, 1, 1, -1, -1, -1 };
-    int cost = calc_score_in_one_dimension(row, 1);
-    STAssertTrue( (cost == COST_FIVE),  @"hole not detected, expected cost %d, got %d", COST_THREE, cost);
+    int cost = calc_threat_in_one_dimension(row, 1);
+    STAssertTrue( (cost == THREAT_FIVE),  @"hole not detected, expected cost %d, got %d", THREAT_THREE, cost);
 }
 - (void)testStraightFourDiagonalWithHoleOneDimensionFromRight {
     // this is equivalent to XX.XX...
     int row[11] = { 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0 };
-    int cost = calc_score_in_one_dimension(row, 1);
-    STAssertTrue( (cost == COST_THREE), @"hole not detected, expected cost %d, got %d", COST_THREE, cost);
+    int cost = calc_threat_in_one_dimension(row, 1);
+    STAssertTrue( (cost == THREAT_THREE), @"hole not detected, expected cost %d, got %d", THREAT_THREE, cost);
+}
+
+- (void)testStraightFourClosed {
+    // this is equivalent to XX.XX...
+    int row[11] = { -1, -1, -1, -1, -1, 0, 1, 1, 1, 2, 0 };
+    int cost = calc_threat_in_one_dimension(row, 1);
+    STAssertTrue( (cost == THREAT_NOTHING), @"worthless combo got cost %d", cost);
 }
 
 

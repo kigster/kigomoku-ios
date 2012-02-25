@@ -9,9 +9,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "basic_ai.h"
 
+#define NUM_DIRECTIONS 4
+//#define PRINT_DEBUG
+
+static int threat_cost[20]; 
+static int threats[NUM_DIRECTIONS];
+static int possible_moves[1024];
 
 //===============================================================================
 // implementation
@@ -26,30 +33,47 @@ int pick_next_move(int **board,
                    int *move_y) {
     
     // return pick_next_random_move(board, size, next_player, move_x, move_y);
-    int i, j, max_x = -1, max_y = -1;
+    int i, j;
     int **work_board = board; // copy_board(board, size);
-    float score, max_score = 0;
+    float our_score, enemy_score, score, max_score = 0;
+
+    int possible_move_index = 0;
+    memset(possible_moves, 0, sizeof(possible_moves));
+    
+    populate_threat_matrix();
 
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
             if (work_board[i][j] == EMPTY) {
-                score = 1.1 * calc_score_at(work_board, size, next_player, i, j);
-                if (score > max_score && score > COST_NOTHING) {
-                    printf("new PLAYER max at %d,%d, score = %.2f\n", i, j, score);
-                    max_score = score; max_x = i; max_y = j;
-                }
-                score += calc_score_at(work_board, size, other_player(next_player), i, j);
-                if (score > max_score && score > COST_NOTHING) {
-                    printf("new ENEMY  max at %d,%d, score = %.2f\n", i, j, score);
-                    max_score = score; max_x = i; max_y = j;
+                our_score   = 1.5 * calc_score_at(work_board, size, next_player, i, j);
+                enemy_score = 1.0 * calc_score_at(work_board, size, other_player(next_player), i, j);
+                score = our_score + enemy_score;
+
+                if (score > THREAT_NOTHING) {
+                    if (score == max_score) {
+                        possible_moves[possible_move_index++] = i;
+                        possible_moves[possible_move_index++] = j;
+                    } else if (score > max_score) {
+                        printf("new max at x:%d y:%d, ours => %.2f, enemy => %.2f, total => %.2f\n", i, j, our_score, enemy_score, score);
+                        memset(possible_moves, 0, sizeof(possible_moves));
+                        possible_move_index = 0;
+                        possible_moves[possible_move_index++] = i;
+                        possible_moves[possible_move_index++] = j;
+                        max_score = score; 
+                    }
                 }
             }
         }
     }
+    
 
     if (max_score >= 0) {
-        *move_x = max_x;
-        *move_y = max_y;
+        int a_move_index = rand() % (possible_move_index / 2);
+#ifdef PRINT_DEBUG
+        printf("choosing random move from %d options, chose %d\n", (possible_move_index / 2), a_move_index);
+#endif
+        *move_x = possible_moves[a_move_index * 2];
+        *move_y = possible_moves[a_move_index * 2 + 1];
         return RT_SUCCESS;
     }
     printf("bad score %.2f\n", max_score);
@@ -67,7 +91,7 @@ int calc_score_at(int **board,
                   int x, 
                   int y) {
 #ifdef PRINT_DEBUG
-    printf("evaluating cell at x=%d, y=%d\n", x, y);
+    //printf("evaluating cell at x=%d, y=%d\n", x, y);
 #endif
     
     int min_x = max(x - SEARCH_RADIUS, 0);
@@ -79,40 +103,59 @@ int calc_score_at(int **board,
     int row[SEARCH_RADIUS * 2 + 1];
     int i, index;
     int score = 0;
+    
+    memset(threats, 0, NUM_DIRECTIONS * sizeof(int));
+
 
     // walk horizontally
-    memset(row, -1, row_size);
+    memset(row, -1, row_size * sizeof(int));
     for (i = x + 1, index = SEARCH_RADIUS + 1; i <= max_x; i++, index++)  row[index] = board[i][y];
     for (i = x - 1, index = SEARCH_RADIUS - 1; i >= min_x; i--, index--)  row[index] = board[i][y];
 
-    score += calc_score_in_one_dimension(row, player);
+    threats[0] = calc_threat_in_one_dimension(row, player);
     
     // walk vertically
-    memset(row, -1, row_size);
+    memset(row, -1, row_size * sizeof(int));
     for (i = y + 1, index = SEARCH_RADIUS + 1; i <= max_y; i++, index++)  row[index] = board[x][i];
     for (i = y - 1, index = SEARCH_RADIUS - 1; i >= min_y; i--, index--)  row[index] = board[x][i];
 
-    score += calc_score_in_one_dimension(row, player);
+    threats[1] = calc_threat_in_one_dimension(row, player);
 
     int j;    
     // walk diagonally top to bottom (left to right)
-    memset(row, -1, row_size);
+    memset(row, -1, row_size * sizeof(int));
     for (i = x + 1, j = y + 1, index = SEARCH_RADIUS + 1; 
          i <= max_x && j <= max_y; i++, j++, index++)                     row[index] = board[i][j];
     for (i = x - 1, j = y - 1, index = SEARCH_RADIUS - 1; 
          i >= min_x && j >= min_y; i--, j--, index--)                     row[index] = board[i][j];
     
-    score += calc_score_in_one_dimension(row, player);
+    threats[2] = calc_threat_in_one_dimension(row, player);
 
-    
     // walk diagonally bottom to top (left to right)
-    memset(row, -1, row_size);
+    memset(row, -1, row_size * sizeof(int));
     for (i = x, j = y, index = SEARCH_RADIUS; 
          i <= max_x && j >= min_y; i++, j--, index++)                     row[index] = board[i][j];
     for (i = x, j = y, index = SEARCH_RADIUS; 
          i >= min_x && j <= max_y; i--, j++, index--)                     row[index] = board[i][j];
     
-    score += calc_score_in_one_dimension(row, player);
+    threats[3] = calc_threat_in_one_dimension(row, player);
+
+    int m_cost;
+    for (i = 0; i < NUM_DIRECTIONS; i++) {
+        m_cost = 0;
+        for (j = i + 1; j < NUM_DIRECTIONS; j++) {
+            m_cost += calc_combination_threat(threats[i], threats[j]);
+        }
+        if (m_cost > 0) {
+#ifdef PRINT_DEBUG
+            printf("found combination %d at cell %d.%d\n", m_cost, x, y);
+#endif            
+        } else {
+            m_cost = threat_cost[threats[i]];
+        }
+        score += m_cost;
+    }
+    
     return score;
 }
 
@@ -120,13 +163,13 @@ int calc_score_at(int **board,
 // calculates a total score for a configuration within a single-dimensional array
 // where the cell of interest (being evaluated) is exactly in the middle (and assumed 
 // to belong to player, and the array is (SEARCH_RADIUS * 2 + 1) in size.
-int calc_score_in_one_dimension(int *row, int player) {
-    
+int calc_threat_in_one_dimension(int *row, int player) {
     int player_square_count = 1; // total squares found for this player in the strip
     int player_contiguous_square_count = 1; // total contiguous squares found for this player
     int right_hole_count = 0, left_hole_count = 0;   // holes found (we don't go past double-holes)
     int last_square;
     int i;
+
 
 #ifdef PRINT_DEBUG
     for (i = 0; i < SEARCH_RADIUS * 2 + 1; i++) {
@@ -149,28 +192,27 @@ int calc_score_in_one_dimension(int *row, int player) {
     
     int holes = left_hole_count + right_hole_count;
     int total = holes + player_square_count;
-    int cost = COST_NOTHING;
+    int threat = THREAT_NOTHING;
 
     if (player_contiguous_square_count >= NEED_TO_WIN) {
-        cost = COST_FIVE;
+        threat = THREAT_FIVE;
     } else if (player_contiguous_square_count == 4 && right_hole_count > 0 && left_hole_count > 0) {
-        cost = COST_STRAIGHT_FOUR;
+        threat = THREAT_STRAIGHT_FOUR;
     } else if (player_contiguous_square_count == 4 && (right_hole_count > 0 || left_hole_count > 0)) {
-        cost = COST_FOUR;
+        threat = THREAT_FOUR;
     } else if (player_contiguous_square_count == 3 && (right_hole_count > 0 && left_hole_count > 0)) {
-        cost = COST_THREE;
+        threat = THREAT_THREE;
+    } else if (player_square_count >= 4 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 5) {
+        threat = THREAT_FOUR_BROKEN;
     } else if (player_square_count >= 3 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 5) {
-        cost =  COST_THREE_BROKEN;
+        threat = THREAT_THREE_BROKEN;
     } else if (player_contiguous_square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 4) { 
-        cost =  COST_TWO;
-    } else if (player_square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0)) { 
-        cost =  COST_TWO - 1;
+        threat = THREAT_TWO;
     }
-
 #ifdef PRINT_DEBUG
-    printf("\ngot cost %d\n", cost);
+    printf("\ngot threat %d\n", threat);
 #endif
-    return cost;
+    return threat;
 }
 
 
@@ -198,6 +240,27 @@ int count_squares(int value,
     return RT_CONTINUE;
 }
 
+int calc_combination_threat(int one, int two) {    
+    
+    if (
+        ((one == THREAT_THREE || two == THREAT_THREE_BROKEN) && two == THREAT_FOUR) || 
+        ((two == THREAT_THREE || two == THREAT_THREE_BROKEN) && one == THREAT_FOUR)
+        ) {
+        return threat_cost[THREAT_THREE_AND_FOUR];
+
+    } else if (
+        (one == THREAT_THREE && (two == THREAT_FOUR_BROKEN || two == THREAT_THREE_BROKEN)) ||
+        (two == THREAT_THREE && (one == THREAT_FOUR_BROKEN || two == THREAT_THREE_BROKEN))
+        ) {        
+        return threat_cost[THREAT_THREE_AND_THREE_BROKEN];
+    } else if (one == THREAT_THREE && two == THREAT_THREE){
+        return threat_cost[THREAT_THREE_AND_THREE];
+    }
+    return 0;
+}
+
+
+
 // Choose random move
 int pick_next_random_move(int **board, 
                           int size, 
@@ -221,6 +284,28 @@ int pick_next_random_move(int **board,
     }
     return RT_FAILURE;
     
+}
+
+void populate_threat_matrix() {
+    if (threat_cost[THREAT_FIVE] > 0) {
+        return;
+    }
+    
+    srand(time(NULL));
+    
+    threat_cost[THREAT_NOTHING] = 0;
+    threat_cost[THREAT_FIVE] = 3000;
+    threat_cost[THREAT_STRAIGHT_FOUR] = 1000;
+    threat_cost[THREAT_THREE] = 300;
+    threat_cost[THREAT_FOUR] = 300;
+    threat_cost[THREAT_FOUR_BROKEN] = 150;
+    threat_cost[THREAT_THREE_BROKEN] = 50;
+    threat_cost[THREAT_TWO] = 10;
+    
+    // combinations
+    threat_cost[THREAT_THREE_AND_FOUR] = 700;
+    threat_cost[THREAT_THREE_AND_THREE] = 600;
+    threat_cost[THREAT_THREE_AND_THREE_BROKEN] = 300;    
 }
 
 

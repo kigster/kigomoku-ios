@@ -13,7 +13,8 @@
 -(void) fillBoard:(int **)board 
            ofSize:(int) size 
     fromCharArray:(char *) array
-        findMoves:(NSMutableArray *)moves;
+        goodMoves:(NSMutableArray *)goodMoves 
+         badMoves:(NSMutableArray *)badMoves  ;
 
 - (void) verifyCorrectMove:(int **) board
                     ofSize:(int) size

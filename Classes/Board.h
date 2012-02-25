@@ -35,5 +35,5 @@ typedef int (^MatrixDirection)(int,int, BOOL*);
 - (BOOL) isMoveValid:(Move *) move;
 - (BOOL) isGameOver;
 - (BOOL) walkTheBoard: (MatrixDirection) block;
-
+- (void)deallocMatrix;
 @end

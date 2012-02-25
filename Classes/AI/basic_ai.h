@@ -41,36 +41,41 @@ int pick_next_move(int **board,
 #define RT_BREAK 1
 #define RT_CONTINUE 2
 
+#define THREAT_NOTHING 0
+
 //===============================================================================
 // REF: Go-Moku and Threat-Space Search, L.V. Allis, H.J. van den Herik (c) 1994
 //
 // winning position, straight five
-#define COST_FIVE 3000
+#define THREAT_FIVE 1
 
 // the straight four is a a line of six squares, of which the attacker has 
 // occupied the four center squares, while the two outer squares are empty; 
-#define COST_STRAIGHT_FOUR 1000  
+#define THREAT_STRAIGHT_FOUR 2
 
 // the three is either a line of seven squares of which the three center 
 // squares are occupied by the attacker, and the remaining four squares are 
 // empty, or a line of six squares, with three consecutive squares of the four
 // center squares occupied by the attacker, and the remaining three squares empty;
-#define COST_THREE 200
+#define THREAT_THREE 3
 
 // the four is defined as a line of five squares, of which the
 // attacker has occupied any four, with the fifth square empty;
-#define COST_FOUR 100
+#define THREAT_FOUR 4
 
 // the broken three is a line of six squares of which the attacker has occupied 
 // three non-consecutive squares of the four center squares, while the other 
 // three squares are empty.
-#define COST_THREE_BROKEN 50
+#define THREAT_FOUR_BROKEN 5
+
+#define THREAT_THREE_BROKEN 6
 
 // just two squares together...
-#define COST_TWO 10
+#define THREAT_TWO 7
 
-// useless piece of shit.
-#define COST_NOTHING 0
+#define THREAT_THREE_AND_FOUR  8
+#define THREAT_THREE_AND_THREE  9
+#define THREAT_THREE_AND_THREE_BROKEN 10
 
 //===============================================================================
 
@@ -104,7 +109,12 @@ int pick_next_random_move(int **board,
                           int *move_x, 
                           int *move_y);
 
-int calc_score_in_one_dimension(int *row, 
+int calc_threat_in_one_dimension(int *row, 
                                 int player);
+
+int calc_combination_threat(int one, int two);
+
+void populate_threat_matrix();
+
 
 #endif
