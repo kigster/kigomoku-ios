@@ -106,8 +106,13 @@
 
 - (void)undoRedoMove:(id)sender {
     if (sender == undoButton) {
-        NSLog(@"undo UNDO pressed");
-        for (int i = 0; i <= 1; i++) {
+        int moves_to_undo = 2;
+        if ([self game].gameStarted == NO && [self game].currentPlayerIndex == 1
+            ) {
+            moves_to_undo = 1;
+        }
+        NSLog(@"undo UNDO pressed, undoing %d moves", moves_to_undo);
+        for (int i = 0; i < moves_to_undo; i++) {
             [[self game] undoLastMove];
         }
 
@@ -149,7 +154,7 @@
 
 
 - (void) gameOverWithWinner:(int) playerIndex {
-    NSString *winner = [self.game otherPlayerColor] == 0 ? @"X" : @"O";
+    NSString *winner = playerIndex == 0 ? @"X" : @"O";
     NSString *status = [NSString stringWithFormat:@"Player '%@' Won Yo!", winner];
     [self.gameStatus setText:status];
     NSLog(@"GAME OVER, player %d won!", playerIndex); 

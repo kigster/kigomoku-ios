@@ -103,7 +103,7 @@
         [delegate moveMade:move byPlayer:playerJustMoved];
 
         if ([board isGameOver]) {
-            [delegate gameOverWithWinner:currentPlayerIndex];
+            [delegate gameOverWithWinner:playerJustMoved];
             self.gameStarted = NO;
         }
 

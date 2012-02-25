@@ -17,7 +17,7 @@
 	GomokuViewController *mainController = [[GomokuViewController alloc] initWithNibName:@"GomokuViewController" bundle:nil];
 	GameBoardViewController *gameBoardController = [[GameBoardViewController alloc] initWithNibName:@"GameBoardViewController" bundle:nil];
 
-    mainController.title = @"Back to Settings";
+    mainController.title = @"New Game";
 	mainController.gameBoardController = gameBoardController;
 	gameBoardController.mainController = mainController;
 
