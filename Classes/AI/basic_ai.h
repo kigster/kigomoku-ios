@@ -31,6 +31,13 @@ int pick_next_move(int **board,
                    int *move_x, 
                    int *move_y);
 
+int pick_next_move_with_score(int **board, 
+                              int size, 
+                              int next_player, 
+                              int *move_x, 
+                              int *move_y,
+                              double *move_score);
+
 //==============================================================================================
 // private
 //==============================================================================================

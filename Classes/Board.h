@@ -21,19 +21,27 @@
 	// two dimensional int array filled with values above.
 	int **matrix;
     int moveCount;
+    int lastPlayer;
+    Move *lastMove;
 }
 
 @property(nonatomic) int size;
+@property(nonatomic) int lastPlayer;
 @property(nonatomic) int moveCount;
 @property(nonatomic) int** matrix;
+@property(strong, nonatomic) Move* lastMove;
 
 typedef int (^MatrixDirection)(int,int, BOOL*);
 
 - (Board *)initWithSize: (int)size;
+- (Board *)initWithSize: (int)size AndBoard:(int **)matrix;
 - (void) makeMove:(int) color At:(Move *) move;
 - (void) undoMove:(int) color At:(Move *) move;
 - (BOOL) isMoveValid:(Move *) move;
 - (BOOL) isGameOver;
 - (BOOL) walkTheBoard: (MatrixDirection) block;
-- (void)deallocMatrix;
+- (void) deallocMatrix;
+- (int) otherPlayer: (int)player;
+- (int) nextPlayer;
+- (void) updateLastPlayer;
 @end

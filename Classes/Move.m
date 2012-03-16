@@ -13,18 +13,20 @@
 
 @synthesize x;
 @synthesize y;
+@synthesize score;
 
 - (Move *) initWithX: (int) xCoordinate AndY: (int) yCoordinate {
 	self = [super init];
 	if (self) {
 		[self setX:xCoordinate];
 		[self setY:yCoordinate];
+        self.score = 0;
 	}
 	return self;
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"Move(x:%d y:%d)", self.x, self.y];
+	return [NSString stringWithFormat:@"Move(x:%d y:%d, score:%.2f)", self.x, self.y, self.score];
 }
 
 - (BOOL)isEqual:(id)other {

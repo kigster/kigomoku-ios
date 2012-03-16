@@ -14,7 +14,6 @@
 #include "basic_ai.h"
 
 #define NUM_DIRECTIONS 4
-//#define PRINT_DEBUG
 
 static int threat_cost[20]; 
 static int threats[NUM_DIRECTIONS];
@@ -23,15 +22,13 @@ static int possible_moves[1024];
 //===============================================================================
 // implementation
 
-// 
-// Return 0 for success, -1 for error
-//
-int pick_next_move(int **board, 
+int pick_next_move_with_score(int **board, 
                    int size, 
                    int next_player, 
                    int *move_x, 
-                   int *move_y) {
-    
+                   int *move_y,
+                   double *move_score) {
+
     // return pick_next_random_move(board, size, next_player, move_x, move_y);
     int i, j;
     int **work_board = board; // copy_board(board, size);
@@ -74,12 +71,25 @@ int pick_next_move(int **board,
 #endif
         *move_x = possible_moves[a_move_index * 2];
         *move_y = possible_moves[a_move_index * 2 + 1];
+        *move_score = max_score;
         return RT_SUCCESS;
     }
     printf("bad score %.2f\n", max_score);
     return RT_FAILURE;
 }
                               
+// 
+// Return 0 for success, -1 for error
+//
+int pick_next_move(int **board, 
+                   int size, 
+                   int next_player, 
+                   int *move_x, 
+                   int *move_y) {
+
+    double score = 0;
+    return pick_next_move_with_score(board, size, next_player, move_x, move_y, &score);
+}
 
 int other_player(int player) {
     return (player == 1) ? 2 : 1;
@@ -91,7 +101,7 @@ int calc_score_at(int **board,
                   int x, 
                   int y) {
 #ifdef PRINT_DEBUG
-    //printf("evaluating cell at x=%d, y=%d\n", x, y);
+    printf("evaluating cell at x=%d, y=%d\n", x, y);
 #endif
     
     int min_x = max(x - SEARCH_RADIUS, 0);
@@ -140,6 +150,7 @@ int calc_score_at(int **board,
     
     threats[3] = calc_threat_in_one_dimension(row, player);
 
+  
     int m_cost;
     for (i = 0; i < NUM_DIRECTIONS; i++) {
         m_cost = 0;
@@ -171,7 +182,7 @@ int calc_threat_in_one_dimension(int *row, int player) {
     int i;
 
 
-#ifdef PRINT_DEBUG
+#ifdef false
     for (i = 0; i < SEARCH_RADIUS * 2 + 1; i++) {
         printf("%s", row[i] == -1 ? "B" : (row[i] == 0 ? "." : (row[i] == 1 ? "X" : "O")));
     }

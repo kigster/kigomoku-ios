@@ -10,12 +10,15 @@
 
 @implementation Board
 @synthesize size;
+@synthesize lastPlayer;
 @synthesize matrix;
 @synthesize moveCount;
+@synthesize lastMove;
 
 -(Board *)initWithSize: (int)thisSize {
 	if (self = [super init]) { 
 		self.size = thisSize;
+        self.lastPlayer = CELL_EMPTY;
 		self.matrix = malloc(self.size * sizeof(int *));
 		// TODO: check for NULL?
 		for(int i = 0; i < self.size; i++) {
@@ -31,9 +34,29 @@
 	return self; 
 }	
 
+- (Board *)initWithSize: (int)thisSize AndBoard:(int **) thatMatrix {
+    if (self = [self initWithSize:thisSize]) {
+        for (int i = 0; i < self.size; i++) {
+            for (int j = 0; j < self.size; j++) {
+                self.matrix[i][j] = thatMatrix[i][j];
+                if (self.matrix[i][j] != CELL_EMPTY) {
+                    moveCount++;
+                    [self updateLastPlayer];
+                }
+            }
+        }
+    }
+    return self;
+}
+
+-(void) updateLastPlayer {
+    self.lastPlayer = (self.moveCount == 0) ? CELL_EMPTY : [self otherPlayer:self.lastPlayer];
+}
+
 -(void) undoMove:(int) color At:(Move *) move {
     self.matrix[move.x][move.y] = CELL_EMPTY;
     self.moveCount --;
+    [self updateLastPlayer];
 }
 
 -(void) makeMove:(int) color At:(Move *) move {
@@ -46,6 +69,8 @@
 	// else all is good.
 	self.matrix[move.x][move.y] = color;
     self.moveCount ++;
+    [self updateLastPlayer];
+    self.lastMove = move;
 }
 
 - (BOOL) isMoveValid:(Move *) move {
@@ -53,6 +78,14 @@
         return NO;
     }
     return (self.matrix[move.x][move.y] == CELL_EMPTY);
+}
+
+- (int) otherPlayer:(int) player {
+    return (player == CELL_BLACK) ? CELL_WHITE : CELL_BLACK;
+}
+
+- (int) nextPlayer {
+    return [self otherPlayer:self.lastPlayer];
 }
 
 

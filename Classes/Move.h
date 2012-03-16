@@ -12,10 +12,12 @@
 @interface Move : NSObject {
 	int x;
 	int y;
+    double score;
 }
 
 @property (nonatomic) int x;
 @property (nonatomic) int y;
+@property (nonatomic) double score;
 
 - (Move *) initWithX: (int) xCoordinate AndY: (int) yCoordinate;
 - (BOOL)isEqualToMove:(Move *)aMove;

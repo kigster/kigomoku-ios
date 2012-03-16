@@ -20,4 +20,7 @@
                     ofSize:(int) size
              fromCharArray:(char *) array
                description:(NSString *)desc;
+
+- (void)compareBoards:(int **)boardLeft
+            withBoard:(int **)boardRight;
 @end
