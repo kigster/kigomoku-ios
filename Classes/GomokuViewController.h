@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "GameBoardViewController.h"
 #import "Game.h"
-#import "Move.h"
+#import "MoveByPlayer.h"
 
 @interface GomokuViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>{
 	GameBoardViewController* gameBoardController;
@@ -27,7 +27,7 @@
 - (IBAction) startSinglePlayerGame:(id) sender;
 - (IBAction) startTwoPlayerGame:(id) sender;
 - (void) startGameWithPlayers: (int) playerCount;
-- (void) makeMove: (Move *) move;
+- (void) makeMove: (MoveByPlayer *) move;
 
 @end
 

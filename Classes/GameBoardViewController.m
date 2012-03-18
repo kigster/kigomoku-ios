@@ -8,7 +8,18 @@
 #import "GameBoardViewController.h"
 #import "GomokuViewController.h"
 #import "Game.h"
-#import "Move.h"
+#import "MoveByPlayer.h"
+
+@interface GameBoardViewController(hidden)
+
+- (UIImage *) loadImageFromFile:(NSString *) fileName;
+- (void) updateCellImageForMove:(MoveByPlayer *) move
+                    highlighted:(BOOL) highlighted
+                          empty:(BOOL) empty;
+- (void) updateGameStatus;
+- (NSString *) currentPlayerMarker;
+
+@end
 
 
 @implementation GameBoardViewController
@@ -22,6 +33,7 @@
 @synthesize game;
 @synthesize undoButton;
 @synthesize redoButton;
+
 
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -48,13 +60,14 @@
         // lets load board cells of all 3 states
         self.cellImages = [[NSMutableArray alloc] initWithCapacity:(GOMOKU_PLAYERS + 1)];
         NSString *fileName;
-        NSString *cellImageFilePath;
-        UIImage *cellImage;
-        for (int i = 0; i < (GOMOKU_PLAYERS + 1); i++) {
+        int i;
+        for (i = 0; i <= GOMOKU_PLAYERS; i++) {
             fileName = [NSString stringWithFormat:@"BoardSquare_%d", i];
-            cellImageFilePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"png"];
-            cellImage = [[UIImage alloc] initWithContentsOfFile:cellImageFilePath];
-            [self.cellImages addObject:cellImage];
+            [self.cellImages addObject:[self loadImageFromFile:fileName]];
+        }
+        for (i = 1; i <= GOMOKU_PLAYERS; i++) {
+            fileName = [NSString stringWithFormat:@"BoardSquare_%d_glow", i];
+            [self.cellImages addObject:[self loadImageFromFile:fileName]];
         }
     }
 	
@@ -81,6 +94,9 @@
     int viewSize = boardSize * MAX_CELL_WIDTH;
     
 	self.boardScrollView.zoomScale = screenWidth / viewSize;
+	self.boardScrollView.minimumZoomScale = self.boardScrollView.zoomScale;
+	self.boardScrollView.maximumZoomScale = 2 * self.boardScrollView.zoomScale;
+    
 	self.boardScrollView.contentSize = CGSizeMake(viewSize, viewSize);
     
     // create Back button
@@ -98,6 +114,10 @@
 	self.navigationItem.rightBarButtonItems = buttons;
 }
 
+- (UIImage *) loadImageFromFile:(NSString *) fileName {
+    NSString *cellImageFilePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"png"];
+    return [[UIImage alloc] initWithContentsOfFile:cellImageFilePath];
+}
 
 - (void)viewDidUnload {
     NSLog(@"board view unloading");
@@ -121,43 +141,74 @@
     }
 }
 
+- (void) updateCellImageForMove:(MoveByPlayer *) move
+                    highlighted:(BOOL) highlighted
+                          empty:(BOOL) empty{
+    if (move == nil) return;
+    //NSLog(@"redrawing cell for move %@, highlight? %s", move, highlighted ? "YES" : "NO");
+    BoardCell *cell = [self.cells objectAtIndex:(move.x * self.game.config.boardSize + move.y)];
+    if (empty)
+        cell.image = [self.cellImages objectAtIndex: 0];
+    else
+        cell.image = [self.cellImages objectAtIndex:(1 + move.playerIndex + (highlighted ? GOMOKU_PLAYERS : 0))];
+}
+
+- (void) updateGameStatus {
+    NSString *status = [NSString stringWithFormat:@"Next move: Player %@", [self currentPlayerMarker]];
+    [self.gameStatus setText:status];    
+}
+
+- (NSString *) currentPlayerMarker {
+    return self.game.currentPlayerIndex == 0 ? @"X" : @"O";
+}
 
 #pragma mark BoardCellDelegate methods
 
 - (void) selectedBoardCell:(BoardCell *)theCell {
 	int index = [self.cells indexOfObject: theCell];
 	// calculate the move coordinates
-	Move *move = [[Move alloc] initWithX: index / self.game.config.boardSize 
-									 AndY: index % self.game.config.boardSize ];
+	MoveByPlayer *move = [[MoveByPlayer alloc] initWithX: index / self.game.config.boardSize 
+                                                    andY: index % self.game.config.boardSize              
+                                          andPlayerIndex: self.game.currentPlayerIndex];
+    // NSLog(@"UI player clicked on %@", move);
 	// pass to the main controller for processing.
     [self.mainController makeMove:move];
 }
 
 #pragma mark GameDelegate methods
 
-- (void) moveMade:(Move *) move byPlayer:(int) playerIndex {
-    NSLog(@"redrawing cell for playerIndex %d at %@", playerIndex, move);
-    BoardCell *cell = [self.cells objectAtIndex:(move.x * self.game.config.boardSize + move.y)];
-    cell.image = [self.cellImages objectAtIndex:(playerIndex + 1)];
-    NSString *nextPlayer = self.game.currentPlayerIndex == 0 ? @"X" : @"O";
-    NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];
-    [self.gameStatus setText:status];
+- (void) aboutToMakeMove {
+    [self updateCellImageForMove:[game lastMove] highlighted:NO empty:NO];
 }
 
-- (void) undoMove:(Move *) move byPlayer:(int) player {
-    BoardCell *cell = [self.cells objectAtIndex:(move.x * self.game.config.boardSize + move.y)];
-    cell.image = [self.cellImages objectAtIndex:0];
-    NSString *nextPlayer = self.game.currentPlayerIndex == 0 ? @"X" : @"O";
-    NSString *status = [NSString stringWithFormat:@"Next move: Player %@", nextPlayer];
-    [self.gameStatus setText:status];    
+- (void) didMakeMove {
+    [self updateCellImageForMove:[game lastMove] highlighted:YES empty:NO];
 }
 
+- (void) undoLastMove {
+    if (!self.game.gameStarted) {
+        // unhighlight the winning 5
+        for (MoveByPlayer *move in [game moveHistory]) {
+            [self updateCellImageForMove:move highlighted:NO empty:NO];
+        }
+    }
+    [self updateCellImageForMove:[game lastMove] highlighted:NO empty:YES];
+}
 
-- (void) gameOverWithWinner:(int) playerIndex {
-    NSString *winner = playerIndex == 0 ? @"X" : @"O";
+- (void) gameOver {
+    NSString *winner = [self currentPlayerMarker];
     NSString *status = [NSString stringWithFormat:@"Player '%@' Won Yo!", winner];
     [self.gameStatus setText:status];
-    NSLog(@"GAME OVER, player %d won!", playerIndex); 
+    
+    NSArray *winningMoves = self.game.board.winningMoves;
+    NSLog(@"got winning moves: %@", winningMoves);
+    if (winningMoves != nil) {
+        for (MoveByPlayer *m in winningMoves) {
+            [self updateCellImageForMove:m highlighted:YES empty:NO];
+        }
+    }
+    
+    NSLog(@"GAME OVER, player %d won!", game.currentPlayerIndex); 
 }
 
 #pragma mark UIScrollViewDelegate methods

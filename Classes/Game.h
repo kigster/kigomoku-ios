@@ -10,12 +10,14 @@
 #import "Player.h"
 #import "Board.h"
 #import "Config.h"
+#import "MoveByPlayer.h"
 
 
 @protocol GameDelegate
-- (void) moveMade:(Move *) move byPlayer:(int) playerIndex;
-- (void) undoMove:(Move *) move byPlayer:(int) playerIndex;
-- (void) gameOverWithWinner:(int) playerIndex;
+- (void) aboutToMakeMove;
+- (void) didMakeMove;
+- (void) undoLastMove;
+- (void) gameOver;
 @end
 
 
@@ -23,7 +25,7 @@
 	NSMutableArray *players;
 	NSMutableArray *moves;
     NSMutableArray *redoMoves;
-	int currentPlayerIndex;
+	int currentPlayerIndex;         // first player: 0, second player 1, etc.
 	Board *board;
     Config *config;
 @private
@@ -43,12 +45,12 @@
 - (void) addPlayer:(id <Player>) player;
 - (id<Player>) player:(int) index;
 - (void) makeMove: (Move *) move;
-- (Move *) lastMove;
+- (MoveByPlayer *) lastMove;
+- (NSMutableArray *) moveHistory;
 - (void) undoLastMove;
 - (BOOL) isMoveValid: (Move *) move;
 - (void) startGame;
 - (void) stopGame;
-- (int) currentPlayerColor;
-- (int) otherPlayerColor;
-- (void) moveToNextPlayer ;
+- (int) otherPlayerIndex;
+- (void) advanceToNextPlayer ;
 @end

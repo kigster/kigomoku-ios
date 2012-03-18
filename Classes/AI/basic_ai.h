@@ -12,7 +12,9 @@
 #define RT_SUCCESS 0
 #define RT_FAILURE -1
 
-#define EMPTY 0
+#define AI_CELL_EMPTY 0
+#define AI_CELL_BLACK 1
+#define AI_CELL_WHITE -1
 
 /**
  * For a board of a given size, assume that it is filled with int 0 (empty), 1 (X) or 2 (0).
@@ -84,6 +86,8 @@ int pick_next_move_with_score(int **board,
 #define THREAT_THREE_AND_THREE  9
 #define THREAT_THREE_AND_THREE_BROKEN 10
 
+#define THREAT_NEAR_ENEMY 11
+
 //===============================================================================
 
 #define max(a,b) \
@@ -108,7 +112,8 @@ int other_player(int player);
 
 int count_squares(int value, int player, int *last_square, 
                   int *hole_count, int *square_count, 
-                  int *contiguous_square_count);
+                  int *contiguous_square_count,
+                  int *enemy_count);
 
 int pick_next_random_move(int **board, 
                           int size, 

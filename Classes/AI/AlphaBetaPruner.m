@@ -21,6 +21,9 @@
 }
 
 
+/*
+ * Starting call that begins with alpha/beta at infinity.
+ */
 -(MyBest *)chooseMoveFor:(int) player 
                withDepth:(int) depth {
     

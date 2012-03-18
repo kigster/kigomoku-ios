@@ -10,7 +10,6 @@
 #import "Move.h"
 #import "Board.h"
 #import "basic_ai.h"
-#import "MiniMax.h"
 
 void free_board(int **board, int size);
 int **make_board(int size);
@@ -27,7 +26,7 @@ int **make_board(int size) {
     for(int i = 0; i < size; i++) {
         board[i] = malloc(size * sizeof(int));
         for (int j = 0; j < size; j++) {
-            board[i][j] = EMPTY; 
+            board[i][j] = CELL_EMPTY; 
         }
     }
     return board;
@@ -51,25 +50,27 @@ int size = 7;
             char value = array[y * size + x];
             switch(value) {
                 case 'X': {
-                    board[x][y] = 1;
+                    board[x][y] = CELL_BLACK_OR_X;
                     break;
                 }
                 case 'O': {
-                    board[x][y] = 2;
+                    board[x][y] = CELL_WHITE_OR_O;
                     break;
                 }
                 case '*': {
-                    Move *move = [[Move alloc] initWithX:x AndY:y];
+                    Move *move = [[Move alloc] initWithX:x andY:y];
                     [goodMoves addObject:move];
+                    board[x][y] = CELL_EMPTY;
                     break;
                 }
                 case '#': {
-                    Move *move = [[Move alloc] initWithX:x AndY:y];
+                    Move *move = [[Move alloc] initWithX:x andY:y];
                     [badMoves addObject:move];
+                    board[x][y] = CELL_EMPTY;
                     break;
                 }
                 default: {
-                    board[x][y] = EMPTY;
+                    board[x][y] = CELL_EMPTY;
                     break;
                 }
             }
@@ -94,18 +95,13 @@ int size = 7;
 
     int result = pick_next_move(board, 
                                 size,
-                                1, 
+                                CELL_BLACK_OR_X,  // next move is by X
                                 &moveX, 
                                 &moveY);
     STAssertTrue((result == RT_SUCCESS), 
                  @"expecting successful pick of the next move");
-//    MiniMax *minimax = [[MiniMax alloc] initWithDepth:3 andBoard:[[Board alloc] initWithSize:size AndBoard:board]];
-//    Move* best = [minimax bestMove];
-//    STAssertNotNil(best, @"best move is nil");
-//    moveX = best.x;
-//    moveY = best.y;
     
-    Move *theirMove = [[Move alloc] initWithX:moveX AndY:moveY];
+    Move *theirMove = [[Move alloc] initWithX:moveX andY:moveY];
 
     BOOL containsGoodMove = [goodMoves containsObject:theirMove] ;
     BOOL containsBadMove = [badMoves containsObject:theirMove] ;
@@ -115,7 +111,7 @@ int size = 7;
         NSLog(@"test expected move: %@", move);
     }
     if (goodMoves.count > 0) {
-        STAssertTrue(containsGoodMove, @"move %@ is not correct for %@, not one of expected moves", theirMove, description);
+        STAssertTrue(containsGoodMove, @"move %@ is not correct, not one of expected moves [%@]", theirMove, description);
     } 
     if (badMoves.count > 0) {
         for (Move *move in badMoves) {
@@ -254,6 +250,25 @@ int size = 7;
                 description:@"closed four not useful"];
 }
 
+- (void)testThreeAndThreeVsOpenThree{
+    // make sure AI chooses to close the enemy's open three
+    // instead of advancing it's own 3x3
+    char *boardWithFour = 
+    //   0123456
+        "......." // 0
+        "......." // 1
+        ".....*." // 2
+        "...*.O." // 3
+        "..XX.O." // 4
+        ".X.X.O." // 5
+        ".....*." // 6
+    ;
+    
+    [self verifyCorrectMove:board ofSize:size fromCharArray:boardWithFour
+                description:@"three vs three against four"];
+}
+
+
 - (void)testBoardDetectsWin{
     char *boardWithWin = 
     "......."
@@ -291,42 +306,42 @@ int size = 7;
 }
 
 - (void)testStraightFourClosed {
-    // this is equivalent to XX.XX...
-    int row[11] = { -1, -1, -1, -1, -1, 0, 1, 1, 1, 2, 0 };
+    // this is equivalent to 0.XXX0...
+    int row[11] = { -1, -1, -1, -1, -1, 0, 1, 1, 1, -1, 0 };
     int cost = calc_threat_in_one_dimension(row, 1);
-    STAssertTrue( (cost == THREAT_NOTHING), @"worthless combo got cost %d", cost);
+    STAssertTrue( (cost == THREAT_NEAR_ENEMY), @"worthless combo got cost %d", cost);
 }
 
-- (void)testBoardInitWithBoard {
-    char *thisBoard = 
-    "......."
-    ".X....."
-    ".OOO..."
-    " OXXXX."
-    ".O....."
-    "......."
-    "......."
-    ;
-    
-    [self fillBoard:board 
-             ofSize:size 
-      fromCharArray:thisBoard
-          goodMoves:nil 
-           badMoves:nil];
-    
-    Board *b = [[Board alloc] initWithSize:7 AndBoard:board];
-    b.lastPlayer = CELL_WHITE;
-    [self compareBoards:board withBoard:b.matrix];
-    STAssertTrue([b lastPlayer] == CELL_WHITE, 
-                 @"last player is not black, [%d]", [b lastPlayer]);
-
-    populate_threat_matrix();
-    
-    MiniMax *minimax = [[MiniMax alloc] initWithDepth:3 andBoard:b];
-    NSArray *moves = [minimax getValidMovesForBoard:b];
-    NSLog(@"moves: %@", moves);
-    STAssertTrue([moves count] > 0, @"valid moves is empty");
-}
+//- (void)testBoardInitWithBoard {
+//    char *thisBoard = 
+//    "......."
+//    ".X....."
+//    ".OOO..."
+//    " OXXXX."
+//    ".O....."
+//    "......."
+//    "......."
+//    ;
+//    
+//    [self fillBoard:board 
+//             ofSize:size 
+//      fromCharArray:thisBoard
+//          goodMoves:nil 
+//           badMoves:nil];
+//    
+//    Board *b = [[Board alloc] initWithSize:7 AndBoard:board];
+//    b.lastPlayer = CELL_WHITE;
+//    [self compareBoards:board withBoard:b.matrix];
+//    STAssertTrue([b lastPlayer] == CELL_WHITE, 
+//                 @"last player is not black, [%d]", [b lastPlayer]);
+//
+//    populate_threat_matrix();
+//    
+//    MiniMax *minimax = [[MiniMax alloc] initWithDepth:3 andBoard:b];
+//    NSArray *moves = [minimax getValidMovesForBoard:b];
+//    NSLog(@"moves: %@", moves);
+//    STAssertTrue([moves count] > 0, @"valid moves is empty");
+//}
 
 @end
 

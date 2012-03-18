@@ -43,19 +43,21 @@
     [gameBoardController initBoardWithGame:game];
 }
 
-- (void) makeMove: (Move *) move {
+- (void) makeMove: (MoveByPlayer *) move {
     if ([self.game isMoveValid:move]) {
         [self.game makeMove:move];
         
         if (self.game.currentPlayerIndex == 1 && self.game.gameStarted) {
-            int moveX, moveY = 0;
-            NSLog(@"making AI move");
-            int result = pick_next_move(self.game.board.matrix, self.game.config.boardSize,
-                                        self.game.currentPlayerIndex + 1, 
-                                        &moveX, &moveY) ;
+            int moveX = 0, moveY = 0;
+            int result = pick_next_move(self.game.board.matrix, 
+                                        self.game.config.boardSize,
+                                        [self.game.board playerValueByIndex:self.game.currentPlayerIndex ], 
+                                        &moveX, &moveY);
             NSLog(@"made AI move with result %d, x=%d, y=%d", result, moveX, moveY);
             if (result == 0) {
-                [self makeMove:[[Move alloc] initWithX:moveX AndY:moveY]];
+                [self makeMove:[[MoveByPlayer alloc] initWithX:moveX 
+                                                          andY:moveY 
+                                                andPlayerIndex:game.currentPlayerIndex]];
             }
         }
     } else {

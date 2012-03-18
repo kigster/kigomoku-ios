@@ -14,10 +14,13 @@
 #include "basic_ai.h"
 
 #define NUM_DIRECTIONS 4
+#define OUT_OF_BOUNDS 10
 
 static int threat_cost[20]; 
 static int threats[NUM_DIRECTIONS];
 static int possible_moves[1024];
+
+void populate_threat_matrix();
 
 //===============================================================================
 // implementation
@@ -41,7 +44,7 @@ int pick_next_move_with_score(int **board,
 
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
-            if (work_board[i][j] == EMPTY) {
+            if (work_board[i][j] == AI_CELL_EMPTY) {
                 our_score   = 1.5 * calc_score_at(work_board, size, next_player, i, j);
                 enemy_score = 1.0 * calc_score_at(work_board, size, other_player(next_player), i, j);
                 score = our_score + enemy_score;
@@ -50,6 +53,11 @@ int pick_next_move_with_score(int **board,
                     if (score == max_score) {
                         possible_moves[possible_move_index++] = i;
                         possible_moves[possible_move_index++] = j;
+#ifdef PRINT_DEBUG
+                        if (score > 0) {
+                            printf("existing max at x:%d y:%d, ours => %.2f, enemy => %.2f, total => %.2f\n", i, j, our_score, enemy_score, score);
+                        }
+#endif                        
                     } else if (score > max_score) {
                         printf("new max at x:%d y:%d, ours => %.2f, enemy => %.2f, total => %.2f\n", i, j, our_score, enemy_score, score);
                         memset(possible_moves, 0, sizeof(possible_moves));
@@ -64,17 +72,18 @@ int pick_next_move_with_score(int **board,
     }
     
 
-    if (max_score >= 0) {
+    if (max_score >= 0 && possible_move_index > 0) {
         int a_move_index = rand() % (possible_move_index / 2);
-#ifdef PRINT_DEBUG
-        printf("choosing random move from %d options, chose %d\n", (possible_move_index / 2), a_move_index);
-#endif
         *move_x = possible_moves[a_move_index * 2];
         *move_y = possible_moves[a_move_index * 2 + 1];
-        *move_score = max_score;
+        *move_score = (double) max_score;
+#ifdef PRINT_DEBUG
+        printf("choosing random move from %d options, chose %d, x = %d, y = %d, score = %.2f\n", (possible_move_index / 2), a_move_index,
+               *move_x, *move_y, *move_score);
+#endif
         return RT_SUCCESS;
     }
-    printf("bad score %.2f\n", max_score);
+    printf("ERROR: AI is unable to find a good move");
     return RT_FAILURE;
 }
                               
@@ -92,7 +101,7 @@ int pick_next_move(int **board,
 }
 
 int other_player(int player) {
-    return (player == 1) ? 2 : 1;
+    return -player;
 }
 
 int calc_score_at(int **board, 
@@ -118,14 +127,14 @@ int calc_score_at(int **board,
 
 
     // walk horizontally
-    memset(row, -1, row_size * sizeof(int));
+    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
     for (i = x + 1, index = SEARCH_RADIUS + 1; i <= max_x; i++, index++)  row[index] = board[i][y];
     for (i = x - 1, index = SEARCH_RADIUS - 1; i >= min_x; i--, index--)  row[index] = board[i][y];
 
     threats[0] = calc_threat_in_one_dimension(row, player);
     
     // walk vertically
-    memset(row, -1, row_size * sizeof(int));
+    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
     for (i = y + 1, index = SEARCH_RADIUS + 1; i <= max_y; i++, index++)  row[index] = board[x][i];
     for (i = y - 1, index = SEARCH_RADIUS - 1; i >= min_y; i--, index--)  row[index] = board[x][i];
 
@@ -133,7 +142,7 @@ int calc_score_at(int **board,
 
     int j;    
     // walk diagonally top to bottom (left to right)
-    memset(row, -1, row_size * sizeof(int));
+    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
     for (i = x + 1, j = y + 1, index = SEARCH_RADIUS + 1; 
          i <= max_x && j <= max_y; i++, j++, index++)                     row[index] = board[i][j];
     for (i = x - 1, j = y - 1, index = SEARCH_RADIUS - 1; 
@@ -142,7 +151,7 @@ int calc_score_at(int **board,
     threats[2] = calc_threat_in_one_dimension(row, player);
 
     // walk diagonally bottom to top (left to right)
-    memset(row, -1, row_size * sizeof(int));
+    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
     for (i = x, j = y, index = SEARCH_RADIUS; 
          i <= max_x && j >= min_y; i++, j--, index++)                     row[index] = board[i][j];
     for (i = x, j = y, index = SEARCH_RADIUS; 
@@ -177,6 +186,7 @@ int calc_score_at(int **board,
 int calc_threat_in_one_dimension(int *row, int player) {
     int player_square_count = 1; // total squares found for this player in the strip
     int player_contiguous_square_count = 1; // total contiguous squares found for this player
+    int enemy_count = 0;
     int right_hole_count = 0, left_hole_count = 0;   // holes found (we don't go past double-holes)
     int last_square;
     int i;
@@ -184,20 +194,20 @@ int calc_threat_in_one_dimension(int *row, int player) {
 
 #ifdef false
     for (i = 0; i < SEARCH_RADIUS * 2 + 1; i++) {
-        printf("%s", row[i] == -1 ? "B" : (row[i] == 0 ? "." : (row[i] == 1 ? "X" : "O")));
+        printf("%s", row[i] == OUT_OF_BOUNDS ? "B" : (row[i] == 0 ? "." : (row[i] == 1 ? "X" : "O")));
     }
 #endif
     
-    // walk from the middle till the end
-    for (i = SEARCH_RADIUS + 1, last_square = player; i <= SEARCH_RADIUS*2 && row[i] >= 0; i++) {
+    // walk from the middle forward till the end
+    for (i = SEARCH_RADIUS + 1, last_square = player; i <= SEARCH_RADIUS*2 && row[i] != OUT_OF_BOUNDS; i++) {
         if (count_squares(row[i], player, &last_square, &right_hole_count, 
-                          &player_square_count, &player_contiguous_square_count) == RT_BREAK) 
+                          &player_square_count, &player_contiguous_square_count, &enemy_count) == RT_BREAK) 
             break;
     }
     // walk from the middle back to the beginning
-    for (i = SEARCH_RADIUS - 1, last_square = player; i >= 0 && row[i] >= 0; i--) {
+    for (i = SEARCH_RADIUS - 1, last_square = player; i >= 0 && row[i] != OUT_OF_BOUNDS; i--) {
         if (count_squares(row[i], player, &last_square, &left_hole_count, 
-                          &player_square_count, &player_contiguous_square_count) == RT_BREAK) 
+                          &player_square_count, &player_contiguous_square_count, &enemy_count) == RT_BREAK) 
             break;
     }
     
@@ -219,6 +229,8 @@ int calc_threat_in_one_dimension(int *row, int player) {
         threat = THREAT_THREE_BROKEN;
     } else if (player_contiguous_square_count >= 2 &&  (right_hole_count > 0 || left_hole_count > 0) && total >= 4) { 
         threat = THREAT_TWO;
+    } else if (player_contiguous_square_count >= 1 && (right_hole_count == 0 || left_hole_count == 0) && enemy_count > 0) { 
+        threat = THREAT_NEAR_ENEMY;
     }
 #ifdef PRINT_DEBUG
     printf("\ngot threat %d\n", threat);
@@ -232,18 +244,21 @@ int count_squares(int value,
                   int *last_square, 
                   int *hole_count, 
                   int *square_count, 
-                  int *contiguous_square_count) {
+                  int *contiguous_square_count,
+                  int *enemy_count) {
  
     if (value == player) {
         (*square_count)++;
         if (*hole_count == 0) { (*contiguous_square_count)++; }
         
-    } else if (value == EMPTY) {
-        if (*last_square == EMPTY) 
+    } else if (value == AI_CELL_EMPTY) {
+        if (*last_square == AI_CELL_EMPTY) 
             return RT_BREAK;
         (*hole_count)++;
         
-    } else {
+    } else if (value == -player) {
+        // enemy 
+        (*enemy_count) ++;
         return RT_BREAK;
     }
     // remember this value
@@ -286,9 +301,9 @@ int pick_next_random_move(int **board,
         y = (int)(rand() % size);
         tries++;
         
-    } while (board[x][y] != EMPTY && tries < 10000);
+    } while (board[x][y] != AI_CELL_EMPTY && tries < 10000);
     
-    if (board[x][y] == EMPTY) {
+    if (board[x][y] == AI_CELL_EMPTY) {
         *move_x = x;
         *move_y = y;
         return RT_SUCCESS;
@@ -310,8 +325,9 @@ void populate_threat_matrix() {
     threat_cost[THREAT_THREE] = 300;
     threat_cost[THREAT_FOUR] = 300;
     threat_cost[THREAT_FOUR_BROKEN] = 150;
-    threat_cost[THREAT_THREE_BROKEN] = 50;
-    threat_cost[THREAT_TWO] = 10;
+    threat_cost[THREAT_THREE_BROKEN] = 30;
+    threat_cost[THREAT_TWO] = 20;
+    threat_cost[THREAT_NEAR_ENEMY] = 5;
     
     // combinations
     threat_cost[THREAT_THREE_AND_FOUR] = 700;

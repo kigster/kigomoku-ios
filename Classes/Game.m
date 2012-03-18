@@ -63,23 +63,41 @@
 		return nil;
 }
 
-- (Move *) lastMove {
-    Move *undoMove = [[self.moves objectAtIndex:[self otherPlayerColor]] lastObject];
-    return undoMove;
+- (MoveByPlayer *) lastMove {
+    return [[self.moves objectAtIndex:[self otherPlayerIndex]] lastObject];
+}
+
+- (NSMutableArray *) moveHistory {
+    NSMutableArray *moveHistory = [NSMutableArray arrayWithCapacity:50];
+    for (int moveIndex = [[self.moves objectAtIndex:currentPlayerIndex] count]; moveIndex >= 0; moveIndex --) {
+        for (int i = 0; i <= 1; i++) {
+            int playerIndex = (currentPlayerIndex + i) % GOMOKU_PLAYERS;
+            if ([[self.moves objectAtIndex:playerIndex] count] > moveIndex) {
+                [moveHistory addObject:[[self.moves objectAtIndex:playerIndex] objectAtIndex: moveIndex]];
+            }
+        }
+    }
+    return moveHistory;
 }
 
 - (void) undoLastMove {
     if (self.board.moveCount > 0) {
-        [self moveToNextPlayer];
+        // remove from the UI
+        [delegate undoLastMove];
+
+        [self advanceToNextPlayer];
         
         Move *undoMove = [[self.moves objectAtIndex:currentPlayerIndex] lastObject];
         [[self.moves objectAtIndex:currentPlayerIndex] removeObject:undoMove];
 
-        [board undoMove:currentPlayerIndex At:undoMove];
-        [delegate undoMove:undoMove byPlayer:currentPlayerIndex];
+        [board undoMove:undoMove];
+        
         if (self.gameStarted == NO) {
             self.gameStarted = YES;
         }
+        
+        // refresh UI with the current move
+        [delegate didMakeMove];
     }
 }
 
@@ -88,37 +106,44 @@
         NSLog(@"game is not started, can't make this move %@", move);
         return;
     }
+    
     if ([self isMoveValid:move] == YES) {
-        // add move to the history
-        [[self.moves objectAtIndex:currentPlayerIndex] addObject:move];
-
-        // save the move
-        [board makeMove:[self currentPlayerColor] At:move]; 
-
-        int playerJustMoved = self.currentPlayerIndex;
-        // change current player    
-        [self moveToNextPlayer];
+        [delegate aboutToMakeMove];
+        MoveByPlayer *playerMove;
+        if (![move isKindOfClass:[MoveByPlayer class]]) {
+            playerMove = [[MoveByPlayer alloc] initWithMove:move andPlayerIndex:currentPlayerIndex];
+        } else {
+            playerMove = (MoveByPlayer *) move;
+            playerMove.playerIndex = currentPlayerIndex;
+        }
         
+        // add move to the history
+        [[moves objectAtIndex:currentPlayerIndex] addObject:playerMove];
+
+        // update the game board state
+        [board makeMove:playerMove]; 
+
+        // change current player    
+        [self advanceToNextPlayer];
+
         // update the UI
-        [delegate moveMade:move byPlayer:playerJustMoved];
+        [delegate didMakeMove];
 
         if ([board isGameOver]) {
-            [delegate gameOverWithWinner:playerJustMoved];
+            [delegate gameOver];
             self.gameStarted = NO;
         }
-
-
     } else {
         NSLog(@"move %@ is NOT valid, ignored", move);
     }
 	return;
 }
 
-- (void) moveToNextPlayer {
-    self.currentPlayerIndex = [self otherPlayerColor];
+- (void) advanceToNextPlayer {
+    self.currentPlayerIndex = [self otherPlayerIndex];
 }
 
-- (int) otherPlayerColor {
+- (int) otherPlayerIndex {
     return (self.currentPlayerIndex + 1) % GOMOKU_PLAYERS;
 }
 
@@ -129,10 +154,6 @@
 - (void) stopGame {
 	gameStarted = NO;
 	NSLog(@"stopping %@", self);
-}
-
-- (int) currentPlayerColor {
-    return self.currentPlayerIndex + 1;
 }
 
 - (NSString *)description {

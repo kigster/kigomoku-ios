@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Move.h"
+#import "MoveByPlayer.h"
 
-#define CELL_EMPTY 0 // nothing in the cell
-#define CELL_BLACK 1 // first player 
-#define CELL_WHITE 2 // second player
+#define CELL_EMPTY       0 // nothing in the cell
+#define CELL_BLACK_OR_X  1 // first player 
+#define CELL_WHITE_OR_O -1 // second player
 
 #define GOMOKU_PLAYERS 2
 #define GOMOKU_REQUIRED_TO_WIN 5
@@ -21,27 +21,30 @@
 	// two dimensional int array filled with values above.
 	int **matrix;
     int moveCount;
-    int lastPlayer;
+    int lastPlayerValue;
     Move *lastMove;
+    NSMutableArray *winningMoves;
 }
 
 @property(nonatomic) int size;
-@property(nonatomic) int lastPlayer;
+@property(nonatomic) int lastPlayerValue;
 @property(nonatomic) int moveCount;
 @property(nonatomic) int** matrix;
 @property(strong, nonatomic) Move* lastMove;
+@property(strong, nonatomic) NSMutableArray* winningMoves;
 
-typedef int (^MatrixDirection)(int,int, BOOL*);
+typedef int (^MatrixDirection)(int,int, BOOL*, MoveByPlayer *);
 
 - (Board *)initWithSize: (int)size;
 - (Board *)initWithSize: (int)size AndBoard:(int **)matrix;
-- (void) makeMove:(int) color At:(Move *) move;
-- (void) undoMove:(int) color At:(Move *) move;
+- (void) makeMove:(MoveByPlayer *) move;
+- (void) undoMove:(Move *) move;
 - (BOOL) isMoveValid:(Move *) move;
 - (BOOL) isGameOver;
-- (BOOL) walkTheBoard: (MatrixDirection) block;
+- (int) playerValueByIndex:(int) playerIndex;
+
+// this is for the tests
 - (void) deallocMatrix;
-- (int) otherPlayer: (int)player;
-- (int) nextPlayer;
-- (void) updateLastPlayer;
+
+
 @end
