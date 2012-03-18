@@ -52,8 +52,13 @@
         self.boardView = nil;
     }
     
+    // remove subviews if any
+    for(UIView *subview in [self.boardScrollView subviews]) {
+        [subview removeFromSuperview];
+    }
+    
     self.boardView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, boardSize * MAX_CELL_WIDTH, 
-                                                               boardSize * MAX_CELL_WIDTH)];
+                                                                    boardSize * MAX_CELL_WIDTH)];
     
     [self.gameStatus setText:@"Game Starting!"];
     if (self.cellImages == NULL) {
@@ -72,7 +77,6 @@
     }
 	
 	self.cells = [NSMutableArray array];
-	
 	//setup squares of the board
 	for (int x = 0; x < boardSize; x++) {
 		for (int y = 0; y < boardSize; y++) {
@@ -86,18 +90,16 @@
 			[self.boardView addSubview:currentCell];
 		}
 	}
-	
-	[self.boardScrollView addSubview:self.boardView];
-	
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    int viewSize = boardSize * MAX_CELL_WIDTH;
-    
-	self.boardScrollView.zoomScale = screenWidth / viewSize;
-	self.boardScrollView.minimumZoomScale = self.boardScrollView.zoomScale;
-	self.boardScrollView.maximumZoomScale = 2 * self.boardScrollView.zoomScale;
-    
+		
+    CGFloat viewSize = boardSize * MAX_CELL_WIDTH;    
 	self.boardScrollView.contentSize = CGSizeMake(viewSize, viewSize);
+    CGFloat zoomScale = self.boardScrollView.frame.size.width / viewSize;
+    NSLog(@"resetting view zoom scale to %.2f frame size %.2f", zoomScale, self.boardScrollView.frame.size.width);
+	[self.boardScrollView setMinimumZoomScale:zoomScale];
+	[self.boardScrollView setMaximumZoomScale:zoomScale * 2];
+    [self.boardScrollView setZoomScale:zoomScale animated:NO];
+	[self.boardScrollView addSubview:self.boardView];
+    
     
     // create Back button
     undoButton = [[UIBarButtonItem alloc] initWithTitle:@"Undo" 
@@ -183,6 +185,7 @@
 
 - (void) didMakeMove {
     [self updateCellImageForMove:[game lastMove] highlighted:YES empty:NO];
+    [self updateGameStatus];
 }
 
 - (void) undoLastMove {
@@ -193,11 +196,14 @@
         }
     }
     [self updateCellImageForMove:[game lastMove] highlighted:NO empty:YES];
+    [self updateGameStatus];
 }
 
 - (void) gameOver {
-    NSString *winner = [self currentPlayerMarker];
-    NSString *status = [NSString stringWithFormat:@"Player '%@' Won Yo!", winner];
+    int winner = game.currentPlayerIndex;
+    NSString *status = (winner == 0) ? 
+                        @"Doh! You lost :("  :
+                        @"Great job! You won :)";
     [self.gameStatus setText:status];
     
     NSArray *winningMoves = self.game.board.winningMoves;

@@ -64,9 +64,8 @@
 					<object class="IBUIButton" id="995173306">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{177, 359}, {117, 40}}</string>
+						<string key="NSFrame">{{193, 359}, {117, 40}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -134,7 +133,7 @@
 					<object class="IBUIPickerView" id="178958117">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{177, 105}, {117, 216}}</string>
+						<string key="NSFrame">{{193, 112}, {117, 216}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSNextKeyView" ref="305490809"/>
 						<string key="NSReuseIdentifierKey">_NS:650</string>
@@ -145,7 +144,7 @@
 					<object class="IBUILabel" id="479842847">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{95, -5}, {280, 76}}</string>
+						<string key="NSFrame">{{90, 0}, {280, 76}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSNextKeyView" ref="103564192"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -153,9 +152,9 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">gomoku</string>
-						<object class="NSColor" key="IBUITextColor">
+						<object class="NSColor" key="IBUITextColor" id="743946178">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAwLjM3NDI4MjMxNjcgMAA</bytes>
+							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<object class="NSColor" key="IBUIShadowColor" id="327572318">
@@ -181,7 +180,7 @@
 					<object class="IBUILabel" id="103564192">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{168, 46}, {147, 36}}</string>
+						<string key="NSFrame">{{163, 59}, {147, 36}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSNextKeyView" ref="413359070"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -189,10 +188,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">kashikoi</string>
-						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAwLjM3NDI4MjMxNjcgMAA</bytes>
-						</object>
+						<reference key="IBUITextColor" ref="743946178"/>
 						<nil key="IBUIHighlightedColor"/>
 						<reference key="IBUIShadowColor" ref="327572318"/>
 						<string key="IBUIShadowOffset">{1, 1}</string>
@@ -214,7 +210,7 @@
 					<object class="IBUILabel" id="305490809">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{50, 407}, {220, 65}}</string>
+						<string key="NSFrame">{{90, 407}, {220, 65}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSNextKeyView" ref="995173306"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -222,16 +218,13 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">© 2012 Konstantin Gredeskoul</string>
-						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAwLjM3NDI4MjMxNjcgMAA</bytes>
-						</object>
+						<reference key="IBUITextColor" ref="743946178"/>
 						<nil key="IBUIHighlightedColor"/>
 						<reference key="IBUIShadowColor" ref="327572318"/>
 						<string key="IBUIShadowOffset">{1, 1}</string>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<int key="IBUINumberOfLines">2</int>
-						<int key="IBUITextAlignment">1</int>
+						<int key="IBUITextAlignment">2</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<string key="name">Noteworthy-Bold</string>
 							<string key="family">Noteworthy</string>
@@ -336,12 +329,12 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="413359070"/>
-							<reference ref="479842847"/>
-							<reference ref="103564192"/>
-							<reference ref="305490809"/>
-							<reference ref="995173306"/>
 							<reference ref="576230962"/>
+							<reference ref="103564192"/>
+							<reference ref="479842847"/>
 							<reference ref="178958117"/>
+							<reference ref="995173306"/>
+							<reference ref="305490809"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
