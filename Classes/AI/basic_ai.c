@@ -319,20 +319,20 @@ void populate_threat_matrix() {
     
     srand(time(NULL));
     
-    threat_cost[THREAT_NOTHING] = 0;
-    threat_cost[THREAT_FIVE] = 3000;
-    threat_cost[THREAT_STRAIGHT_FOUR] = 1000;
-    threat_cost[THREAT_THREE] = 300;
-    threat_cost[THREAT_FOUR] = 300;
-    threat_cost[THREAT_FOUR_BROKEN] = 150;
-    threat_cost[THREAT_THREE_BROKEN] = 30;
-    threat_cost[THREAT_TWO] = 20;
-    threat_cost[THREAT_NEAR_ENEMY] = 5;
+    threat_cost[THREAT_NOTHING]                 = 0;
+    threat_cost[THREAT_FIVE]                    = 3000;
+    threat_cost[THREAT_STRAIGHT_FOUR]           = 1000;
+    threat_cost[THREAT_THREE]                   = 300;
+    threat_cost[THREAT_FOUR]                    = 300;
+    threat_cost[THREAT_FOUR_BROKEN]             = 150;
+    threat_cost[THREAT_THREE_BROKEN]            = 30;
+    threat_cost[THREAT_TWO]                     = 20;
+    threat_cost[THREAT_NEAR_ENEMY]              = 5;
     
     // combinations
-    threat_cost[THREAT_THREE_AND_FOUR] = 700;
-    threat_cost[THREAT_THREE_AND_THREE] = 600;
-    threat_cost[THREAT_THREE_AND_THREE_BROKEN] = 300;    
+    threat_cost[THREAT_THREE_AND_FOUR]          = 700;
+    threat_cost[THREAT_THREE_AND_THREE]         = 600;
+    threat_cost[THREAT_THREE_AND_THREE_BROKEN]  = 300;    
 }
 
 
