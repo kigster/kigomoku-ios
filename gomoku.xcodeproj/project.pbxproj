@@ -33,6 +33,7 @@
 		1386E4E514DDA71000B1298D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1386E4E314DDA71000B1298D /* InfoPlist.strings */; };
 		1386E4E814DDA71000B1298D /* GomokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1386E4E714DDA71000B1298D /* GomokuTests.m */; };
 		13B409BA155667A200B6FBD6 /* BoardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B409B9155667A200B6FBD6 /* BoardTest.m */; };
+		13B409BD15568A5E00B6FBD6 /* AlphaBetaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B409BC15568A5E00B6FBD6 /* AlphaBetaTest.m */; };
 		13D945EB14DDB529006B585E /* basic_ai.c in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF514DC7CB200E7F0ED /* basic_ai.c */; };
 		13D945EC14DDB529006B585E /* basic_ai.h in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF914DC7CF200E7F0ED /* basic_ai.h */; };
 		13D945ED14DDB529006B585E /* Game.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B6118FAF1E0098C789 /* Game.h */; };
@@ -105,6 +106,8 @@
 		1386E4E914DDA71000B1298D /* GomokuTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GomokuTests-Prefix.pch"; sourceTree = "<group>"; };
 		13B409B8155667A200B6FBD6 /* BoardTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardTest.h; sourceTree = "<group>"; };
 		13B409B9155667A200B6FBD6 /* BoardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardTest.m; sourceTree = "<group>"; };
+		13B409BB15568A5E00B6FBD6 /* AlphaBetaTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlphaBetaTest.h; sourceTree = "<group>"; };
+		13B409BC15568A5E00B6FBD6 /* AlphaBetaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlphaBetaTest.m; sourceTree = "<group>"; };
 		13E52A4F15131A3400A2C138 /* AlphaBetaPruner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlphaBetaPruner.h; path = AI/AlphaBetaPruner.h; sourceTree = "<group>"; };
 		13E52A5015131A3400A2C138 /* AlphaBetaPruner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlphaBetaPruner.m; path = AI/AlphaBetaPruner.m; sourceTree = "<group>"; };
 		13E52A5215131B3900A2C138 /* MyBest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyBest.h; path = AI/MyBest.h; sourceTree = "<group>"; };
@@ -183,6 +186,8 @@
 				1386E4E114DDA71000B1298D /* Supporting Files */,
 				13B409B8155667A200B6FBD6 /* BoardTest.h */,
 				13B409B9155667A200B6FBD6 /* BoardTest.m */,
+				13B409BB15568A5E00B6FBD6 /* AlphaBetaTest.h */,
+				13B409BC15568A5E00B6FBD6 /* AlphaBetaTest.m */,
 			);
 			path = GomokuTests;
 			sourceTree = "<group>";
@@ -465,6 +470,7 @@
 				1386E4E814DDA71000B1298D /* GomokuTests.m in Sources */,
 				133AC0571515D3EB004F9913 /* MoveByPlayer.m in Sources */,
 				13B409BA155667A200B6FBD6 /* BoardTest.m in Sources */,
+				13B409BD15568A5E00B6FBD6 /* AlphaBetaTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

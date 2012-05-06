@@ -45,7 +45,6 @@
 - (void) makeMove: (MoveByPlayer *) move {
     if ([self.game isMoveValid:move]) {
         [self.game makeMove:move];
-        
         if (self.game.currentPlayerIndex == 1 && self.game.gameStarted) {
             AlphaBetaPruner *ai = [[AlphaBetaPruner alloc] initWithBoard:self.game.board];
             MyBest *myBest = [ai chooseMove]; 

@@ -22,6 +22,7 @@ static int threats[NUM_DIRECTIONS];
 static int possible_moves[1024];
 
 void populate_threat_matrix();
+void reset_row(int *row, int size);
 
 //===============================================================================
 // implementation
@@ -32,6 +33,17 @@ int pick_next_move_with_score(int **board,
                    int *move_x, 
                    int *move_y,
                    double *move_score) {
+    
+    return pick_next_move_with_score_and_opponent(board, size, next_player, move_x, move_y, move_score, 1);
+}
+
+int pick_next_move_with_score_and_opponent(int **board, 
+                                           int size, 
+                                           int next_player, 
+                                           int *move_x, 
+                                           int *move_y,
+                                           double *move_score,
+                                           int include_opponent) {
 
     // return pick_next_random_move(board, size, next_player, move_x, move_y);
     int i, j;
@@ -47,7 +59,10 @@ int pick_next_move_with_score(int **board,
         for (j = 0; j < size; j++) {
             if (work_board[i][j] == AI_CELL_EMPTY) {
                 our_score   = 1.5 * calc_score_at(work_board, size, next_player, i, j);
-                enemy_score = 1.0 * calc_score_at(work_board, size, other_player(next_player), i, j);
+                enemy_score = (include_opponent == 1) ? 
+                    1.0 * calc_score_at(work_board, size, other_player(next_player), i, j) :
+                    0;
+
                 score = our_score + enemy_score;
 
                 if (score > THREAT_NOTHING) {
@@ -60,7 +75,7 @@ int pick_next_move_with_score(int **board,
                         }
 #endif                        
                     } else if (score > max_score) {
-                        printf("new max at x:%d y:%d, ours => %.2f, enemy => %.2f, total => %.2f\n", i, j, our_score, enemy_score, score);
+                        //printf("new max at x:%d y:%d, ours => %.2f, enemy => %.2f, total => %.2f\n", i, j, our_score, enemy_score, score);
                         memset(possible_moves, 0, sizeof(possible_moves));
                         possible_move_index = 0;
                         possible_moves[possible_move_index++] = i;
@@ -82,6 +97,9 @@ int pick_next_move_with_score(int **board,
         printf("choosing random move from %d options, chose %d, x = %d, y = %d, score = %.2f\n", (possible_move_index / 2), a_move_index,
                *move_x, *move_y, *move_score);
 #endif
+        if (include_opponent == 0) {
+            *move_score *= next_player; // change sign of the score depending on who it is
+        }
         return RT_SUCCESS;
     }
     printf("ERROR: AI is unable to find a good move");
@@ -105,6 +123,12 @@ int other_player(int player) {
     return -player;
 }
 
+void reset_row(int *row, int size) {
+    for (int i = 0; i < size; i++) {
+        row[i] = OUT_OF_BOUNDS;
+    }
+}
+
 int calc_score_at(int **board, 
                   int size, 
                   int player, 
@@ -126,16 +150,15 @@ int calc_score_at(int **board,
     
     memset(threats, 0, NUM_DIRECTIONS * sizeof(int));
 
-
     // walk horizontally
-    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
+    reset_row(row, row_size);
     for (i = x + 1, index = SEARCH_RADIUS + 1; i <= max_x; i++, index++)  row[index] = board[i][y];
     for (i = x - 1, index = SEARCH_RADIUS - 1; i >= min_x; i--, index--)  row[index] = board[i][y];
 
     threats[0] = calc_threat_in_one_dimension(row, player);
     
     // walk vertically
-    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
+    reset_row(row, row_size);
     for (i = y + 1, index = SEARCH_RADIUS + 1; i <= max_y; i++, index++)  row[index] = board[x][i];
     for (i = y - 1, index = SEARCH_RADIUS - 1; i >= min_y; i--, index--)  row[index] = board[x][i];
 
@@ -143,7 +166,7 @@ int calc_score_at(int **board,
 
     int j;    
     // walk diagonally top to bottom (left to right)
-    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
+    reset_row(row, row_size);
     for (i = x + 1, j = y + 1, index = SEARCH_RADIUS + 1; 
          i <= max_x && j <= max_y; i++, j++, index++)                     row[index] = board[i][j];
     for (i = x - 1, j = y - 1, index = SEARCH_RADIUS - 1; 
@@ -152,7 +175,7 @@ int calc_score_at(int **board,
     threats[2] = calc_threat_in_one_dimension(row, player);
 
     // walk diagonally bottom to top (left to right)
-    memset(row, OUT_OF_BOUNDS, row_size * sizeof(int));
+    reset_row(row, row_size);
     for (i = x, j = y, index = SEARCH_RADIUS; 
          i <= max_x && j >= min_y; i++, j--, index++)                     row[index] = board[i][j];
     for (i = x, j = y, index = SEARCH_RADIUS; 
@@ -326,14 +349,14 @@ int pick_next_random_move(int **board,
 }
 
 void populate_threat_matrix() {
-    if (threat_cost[THREAT_FIVE] > 0) {
-        return;
-    }
+//    if (threat_cost[THREAT_FIVE] > 0) {
+//        return;
+//    }
     
     srand(time(NULL));
     
     threat_cost[THREAT_NOTHING]                 = 0;
-    threat_cost[THREAT_FIVE]                    = 3000;
+    threat_cost[THREAT_FIVE]                    = 30000;
     threat_cost[THREAT_STRAIGHT_FOUR]           = 1000;
     threat_cost[THREAT_THREE]                   = 300;
     threat_cost[THREAT_FOUR]                    = 300;

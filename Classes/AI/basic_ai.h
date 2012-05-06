@@ -40,6 +40,14 @@ int pick_next_move_with_score(int **board,
                               int *move_y,
                               double *move_score);
 
+int pick_next_move_with_score_and_opponent(int **board, 
+                              int size, 
+                              int next_player, 
+                              int *move_x, 
+                              int *move_y,
+                              double *move_score,
+                              int include_opponent);
+
 //==============================================================================================
 // private
 //==============================================================================================

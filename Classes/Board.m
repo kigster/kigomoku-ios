@@ -118,7 +118,7 @@
                         block(i,x, &continuous, move);
                         [self.winningMoves addObject:move];
                     }
-                    NSLog(@"found five in a row!");                    
+                    //NSLog(@"found five in a row!");                    
                     return YES;
                 }
             } else {
