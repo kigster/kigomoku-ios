@@ -19,4 +19,9 @@
     }
 	return self; 
 }
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"MyBest{%@, score = %.6f}", move, score];
+}
+
 @end

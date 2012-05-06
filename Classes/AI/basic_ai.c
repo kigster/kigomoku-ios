@@ -14,7 +14,8 @@
 #include "basic_ai.h"
 
 #define NUM_DIRECTIONS 4
-#define OUT_OF_BOUNDS 10
+#define OUT_OF_BOUNDS 32
+//#define PRINT_DEBUG
 
 static int threat_cost[20]; 
 static int threats[NUM_DIRECTIONS];
@@ -35,7 +36,7 @@ int pick_next_move_with_score(int **board,
     // return pick_next_random_move(board, size, next_player, move_x, move_y);
     int i, j;
     int **work_board = board; // copy_board(board, size);
-    float our_score, enemy_score, score, max_score = 0;
+    double our_score, enemy_score, score, max_score = 0;
 
     int possible_move_index = 0;
     memset(possible_moves, 0, sizeof(possible_moves));
@@ -192,10 +193,22 @@ int calc_threat_in_one_dimension(int *row, int player) {
     int i;
 
 
-#ifdef false
+#ifdef PRINT_DEBUG
+    char c;
     for (i = 0; i < SEARCH_RADIUS * 2 + 1; i++) {
-        printf("%s", row[i] == OUT_OF_BOUNDS ? "B" : (row[i] == 0 ? "." : (row[i] == 1 ? "X" : "O")));
+        if (row[i] == OUT_OF_BOUNDS) 
+            c = 'B';
+        else if (row[i] == AI_CELL_EMPTY) 
+            c = '.';
+        else if (row[i] == AI_CELL_BLACK) 
+            c = 'x';
+        else if (row[i] == AI_CELL_WHITE) 
+            c = 'o';
+        else 
+            c = i;
+        printf("%c", c);
     }
+    printf("\n");
 #endif
     
     // walk from the middle forward till the end
@@ -233,7 +246,7 @@ int calc_threat_in_one_dimension(int *row, int player) {
         threat = THREAT_NEAR_ENEMY;
     }
 #ifdef PRINT_DEBUG
-    printf("\ngot threat %d\n", threat);
+    printf("got threat %d\n", threat);
 #endif
     return threat;
 }

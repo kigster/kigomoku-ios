@@ -9,16 +9,16 @@
 #ifndef gomoku_basic_ai_h
 #define gomoku_basic_ai_h
 
-#define RT_SUCCESS 0
+#define RT_SUCCESS  0
 #define RT_FAILURE -1
 
-#define AI_CELL_EMPTY 0
-#define AI_CELL_BLACK 1
+#define AI_CELL_EMPTY  0
+#define AI_CELL_BLACK  1
 #define AI_CELL_WHITE -1
 
 /**
- * For a board of a given size, assume that it is filled with int 0 (empty), 1 (X) or 2 (0).
- * next_player is set to either 1 or 2.
+ * For a board of a given size, assume that it is filled with int 0 (empty), 1 (X) or -1 (O).
+ * next_player is set to either 1 or -1.
  *
  * AI calculates the next move, and saves it into &move_x, &move_y, and returns RT_SUCCESS;
  * or returns RT_FAILURE if no appropriate next move is found.

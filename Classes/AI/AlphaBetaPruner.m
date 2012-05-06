@@ -7,15 +7,23 @@
 //
 
 #import "AlphaBetaPruner.h"
-
+#import "basic_ai.h"
 
 @implementation AlphaBetaPruner
 @synthesize board;
-@synthesize count;
+@synthesize maxDepth;
+@synthesize player;
 
--(AlphaBetaPruner *)initWithBoard:(Board *) thisBoard {
+-(AlphaBetaPruner *)initWithBoard: (Board *) thisBoard {
+    return [self initWithBoard:thisBoard andSearchDepth:0];
+}
+
+-(AlphaBetaPruner *)initWithBoard: (Board *) thisBoard
+                   andSearchDepth: (int) depth {
     if (self = [super init]) {
         self.board = thisBoard;
+        self.player = [board nextPlayerValue];
+        self.maxDepth = depth;
     }
 	return self; 
 }
@@ -24,35 +32,51 @@
 /*
  * Starting call that begins with alpha/beta at infinity.
  */
--(MyBest *)chooseMoveFor:(int) player 
-               withDepth:(int) depth {
-    
-    return [self chooseMoveFor:player 
-                     withDepth:depth 
+-(MyBest *)chooseMove {
+    return [self chooseMoveFor: player 
+                     withDepth: 0
                       andAlpha: -(INFINITY - 1) 
                        andBeta:  (INFINITY - 1)];
 }
 
--(MyBest *)chooseMoveFor:(int) player 
+-(MyBest *)chooseMoveFor:(int) currentPlayer 
                withDepth:(int) depth 
                 andAlpha:(double) alpha 
                  andBeta:(double) beta {
     
-    //        if (the current grid is full ||
-    //            has a win ||
-    //            depth >= MAX_DEPTH) {
-    //            newBest.score = evaluate current state
-    //            // COMPUTER win: +INF
-    //            // HUMAN win: -INF
-    //            // DRAW: 0
-    //            return newBest;
-    //        }
+    if ([board isGameOver] ||
+        [board isFilled] ||
+        depth >= self.maxDepth) {
+        NSLog(@"reached end of search tree at depth %d, running evaluation function", depth);
+        MyBest *best = [[MyBest alloc] init];  // our best move
+        int x = 0, y = 0;
+        double evalScore = 0.0;
+        int **b = [self.board matrix];
+        int result = pick_next_move_with_score(
+                                   b, 
+                                   self.board.size,
+                                   currentPlayer,
+                                   &x,
+                                   &y,
+                                   &evalScore);
+        // COMPUTER win: +INF
+        // HUMAN win: -INF
+        // DRAW: 0
+
+        if (result == 0) {
+            best.move = [[Move alloc] initWithX:x andY:y];
+            best.score = evalScore;
+            return best;
+        }
+    } 
+
+    // MyBest *reply;                           // opponents best reply
+
+    
+    return nil;
     
     
-    MyBest *best = [[MyBest alloc] init];  // our best move
-    Move *reply;                           // opponents best reply
     
-    return best;
 }
 //  public Move chooseMove(boolean side, Double alpha, Double beta, int depth) {
 //        Move myBest = new Best(); // my best move

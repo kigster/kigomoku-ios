@@ -12,16 +12,19 @@
 
 @interface AlphaBetaPruner : NSObject {
     Board *board;
-    long count;
+    int maxDepth;
+    int player;
 }
 
 @property(strong, nonatomic) Board *board;
-@property(nonatomic) long count;
+@property(nonatomic) int maxDepth;
+@property(nonatomic) int player;
 
--(AlphaBetaPruner *)initWithBoard:(Board *) board;
+-(AlphaBetaPruner *)initWithBoard: (Board *) board;
+-(AlphaBetaPruner *)initWithBoard: (Board *) board 
+                   andSearchDepth: (int) depth;
 
--(MyBest *)chooseMoveFor:(int) player 
-             withDepth:(int) depth;
+-(MyBest *)chooseMove;
 
 -(MyBest *)chooseMoveFor:(int) player 
              withDepth:(int) depth 

@@ -58,7 +58,7 @@
 					<object class="IBUILabel" id="504897353">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 63}, {280, 39}}</string>
+						<string key="NSFrame">{{20, 38}, {280, 64}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="408326628"/>
@@ -81,13 +81,13 @@
 						<float key="IBUIMinimumFontSize">15</float>
 						<int key="IBUITextAlignment">1</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
-							<string key="name">Papyrus-Condensed</string>
-							<string key="family">Papyrus</string>
-							<int key="traits">0</int>
+							<string key="name">Noteworthy-Bold</string>
+							<string key="family">Noteworthy</string>
+							<int key="traits">2</int>
 							<double key="pointSize">30</double>
 						</object>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Papyrus-Condensed</string>
+							<string key="NSName">Noteworthy-Bold</string>
 							<double key="NSSize">30</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -102,6 +102,7 @@
 						<reference key="NSNextKeyView" ref="504897353"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
+						<float key="IBUIAlpha">0.5</float>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<string key="IBUIText">pinch zoom to scale, or move board with two fingers</string>

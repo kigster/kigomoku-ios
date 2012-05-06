@@ -29,5 +29,18 @@
          landmarkName = "@interface GomokuViewController"
          landmarkType = "2">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GomokuTests/BoardTest.h"
+         timestampString = "357984925.052678"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "19"
+         endingLineNumber = "19"
+         landmarkName = "@interface BoardTest"
+         landmarkType = "2">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

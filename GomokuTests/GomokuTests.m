@@ -120,6 +120,7 @@ int size = 7;
         STAssertFalse(containsBadMove, @"move %@ is not correct for %@, this is a bad move", theirMove, description);
     }
 }
+
                
 - (void)compareBoards:(int **)boardLeft
             withBoard:(int **)boardRight {

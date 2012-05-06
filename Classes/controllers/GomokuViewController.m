@@ -6,7 +6,7 @@
 #import "Player.h"
 #import "UIPlayer.h"
 #import "Game.h"
-#import "basic_ai.h"
+#import "AlphaBetaPruner.h"
 
 
 @implementation GomokuViewController
@@ -16,7 +16,6 @@
 @synthesize pickerView;
 @synthesize boardSizes;
 @synthesize config;
-
 
 - (IBAction) startSinglePlayerGame:(id) sender {
 	[self startGameWithPlayers:1];
@@ -48,17 +47,28 @@
         [self.game makeMove:move];
         
         if (self.game.currentPlayerIndex == 1 && self.game.gameStarted) {
-            int moveX = 0, moveY = 0;
-            int result = pick_next_move(self.game.board.matrix, 
-                                        self.game.config.boardSize,
-                                        [self.game.board playerValueByIndex:self.game.currentPlayerIndex ], 
-                                        &moveX, &moveY);
-            NSLog(@"made AI move with result %d, x=%d, y=%d", result, moveX, moveY);
-            if (result == 0) {
-                [self makeMove:[[MoveByPlayer alloc] initWithX:moveX 
-                                                          andY:moveY 
-                                                andPlayerIndex:game.currentPlayerIndex]];
+            AlphaBetaPruner *ai = [[AlphaBetaPruner alloc] initWithBoard:self.game.board];
+            MyBest *myBest = [ai chooseMove]; 
+            if (myBest != nil) {
+                NSLog(@"AI made move [%@]", myBest);
+                [self makeMove:[[MoveByPlayer alloc] initWithMove:myBest.move
+                                                   andPlayerIndex:game.currentPlayerIndex]];
+            } else {
+                NSLog(@"AI failed and returned a nil move");
             }
+            
+//            int moveX = 0, moveY = 0;
+//            int result = pick_next_move(self.game.board.matrix, 
+//                                        self.game.config.boardSize,
+//                                        [self.game.board playerValueByIndex:self.game.currentPlayerIndex ], 
+//                                        &moveX, &moveY);
+            
+//            NSLog(@"made AI move with result %d, x=%d, y=%d", result, moveX, moveY);
+//            if (result == 0) {
+//                [self makeMove:[[MoveByPlayer alloc] initWithX:moveX 
+//                                                          andY:moveY 
+//                                                andPlayerIndex:game.currentPlayerIndex]];
+//            }
         }
     } else {
         NSLog(@"move %@ is NOT valid, ignoring...", move);

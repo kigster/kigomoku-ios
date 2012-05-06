@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130904A1153ADCF8006FAFBB /* AlphaBetaPruner.h in Sources */ = {isa = PBXBuildFile; fileRef = 13E52A4F15131A3400A2C138 /* AlphaBetaPruner.h */; };
+		130904A2153ADCF8006FAFBB /* AlphaBetaPruner.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E52A5015131A3400A2C138 /* AlphaBetaPruner.m */; };
+		130904A3153ADCF8006FAFBB /* MyBest.h in Sources */ = {isa = PBXBuildFile; fileRef = 13E52A5215131B3900A2C138 /* MyBest.h */; };
+		130904A4153ADCF8006FAFBB /* MyBest.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E52A5315131B3900A2C138 /* MyBest.m */; };
+		130904A5153ADCF8006FAFBB /* MoveByPlayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 133AC0541515D3EB004F9913 /* MoveByPlayer.h */; };
 		133AC0561515D3EB004F9913 /* MoveByPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 133AC0551515D3EB004F9913 /* MoveByPlayer.m */; };
 		133AC0571515D3EB004F9913 /* MoveByPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 133AC0551515D3EB004F9913 /* MoveByPlayer.m */; };
 		133BD2FF14DB26740051B82C /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 133BD2FE14DB26740051B82C /* Config.m */; };
@@ -27,6 +32,7 @@
 		1386E4DF14DDA71000B1298D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1386E4E514DDA71000B1298D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1386E4E314DDA71000B1298D /* InfoPlist.strings */; };
 		1386E4E814DDA71000B1298D /* GomokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1386E4E714DDA71000B1298D /* GomokuTests.m */; };
+		13B409BA155667A200B6FBD6 /* BoardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B409B9155667A200B6FBD6 /* BoardTest.m */; };
 		13D945EB14DDB529006B585E /* basic_ai.c in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF514DC7CB200E7F0ED /* basic_ai.c */; };
 		13D945EC14DDB529006B585E /* basic_ai.h in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF914DC7CF200E7F0ED /* basic_ai.h */; };
 		13D945ED14DDB529006B585E /* Game.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B6118FAF1E0098C789 /* Game.h */; };
@@ -97,6 +103,8 @@
 		1386E4E614DDA71000B1298D /* GomokuTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GomokuTests.h; sourceTree = "<group>"; };
 		1386E4E714DDA71000B1298D /* GomokuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GomokuTests.m; sourceTree = "<group>"; };
 		1386E4E914DDA71000B1298D /* GomokuTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GomokuTests-Prefix.pch"; sourceTree = "<group>"; };
+		13B409B8155667A200B6FBD6 /* BoardTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardTest.h; sourceTree = "<group>"; };
+		13B409B9155667A200B6FBD6 /* BoardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardTest.m; sourceTree = "<group>"; };
 		13E52A4F15131A3400A2C138 /* AlphaBetaPruner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlphaBetaPruner.h; path = AI/AlphaBetaPruner.h; sourceTree = "<group>"; };
 		13E52A5015131A3400A2C138 /* AlphaBetaPruner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlphaBetaPruner.m; path = AI/AlphaBetaPruner.m; sourceTree = "<group>"; };
 		13E52A5215131B3900A2C138 /* MyBest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyBest.h; path = AI/MyBest.h; sourceTree = "<group>"; };
@@ -173,6 +181,8 @@
 				1386E4E614DDA71000B1298D /* GomokuTests.h */,
 				1386E4E714DDA71000B1298D /* GomokuTests.m */,
 				1386E4E114DDA71000B1298D /* Supporting Files */,
+				13B409B8155667A200B6FBD6 /* BoardTest.h */,
+				13B409B9155667A200B6FBD6 /* BoardTest.m */,
 			);
 			path = GomokuTests;
 			sourceTree = "<group>";
@@ -425,6 +435,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				130904A1153ADCF8006FAFBB /* AlphaBetaPruner.h in Sources */,
+				130904A2153ADCF8006FAFBB /* AlphaBetaPruner.m in Sources */,
+				130904A3153ADCF8006FAFBB /* MyBest.h in Sources */,
+				130904A4153ADCF8006FAFBB /* MyBest.m in Sources */,
+				130904A5153ADCF8006FAFBB /* MoveByPlayer.h in Sources */,
 				13D945EB14DDB529006B585E /* basic_ai.c in Sources */,
 				13D945EC14DDB529006B585E /* basic_ai.h in Sources */,
 				13D945ED14DDB529006B585E /* Game.h in Sources */,
@@ -449,6 +464,7 @@
 				13D9460014DDB529006B585E /* main.m in Sources */,
 				1386E4E814DDA71000B1298D /* GomokuTests.m in Sources */,
 				133AC0571515D3EB004F9913 /* MoveByPlayer.m in Sources */,
+				13B409BA155667A200B6FBD6 /* BoardTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
