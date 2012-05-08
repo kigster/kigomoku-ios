@@ -8,24 +8,21 @@
 
 #import "TestUtils.h"
 
-
-@interface TestUtils(hidden)
--(void) allocMatrix;
--(void) deallocMatrix;
-@end
-
-
 @implementation TestUtils
 
+@synthesize board;
 
-@synthesize size;
-@synthesize matrix;
-
-
-- (TestUtils *) initWithSize:(int) boardSize {
+- (TestUtils *) initWithSize:(int) size {
 	if (self = [super init]) {
-        self.size = boardSize;
-        [self allocMatrix];
+        self.board = [[Board alloc] initWithSize:size];
+	}
+	return self;
+}
+
+
+- (TestUtils *) initWithBoard: (Board *) thatBoard {
+	if (self = [super init]) {
+        self.board = thatBoard;
 	}
 	return self;
 }
@@ -37,15 +34,14 @@
     NSMutableArray *goodMoves = [[NSMutableArray alloc ]initWithCapacity:10];
     NSMutableArray *badMoves = [[NSMutableArray alloc ]initWithCapacity:10];
 
-    [self fillBoard:matrix 
-             ofSize:size 
+    [self fillBoard:board
       fromCharArray:array 
           goodMoves:goodMoves 
            badMoves:badMoves];
     
     int moveX = -1, moveY = -1;
-    int result = pick_next_move(matrix, 
-                                size,
+    int result = pick_next_move(board.matrix, 
+                                board.size,
                                 CELL_BLACK_OR_X,  // next move is by X
                                 &moveX, 
                                 &moveY);
@@ -69,7 +65,8 @@
 
 
 - (void)compareBoards:(int **)boardLeft
-            withBoard:(int **)boardRight {
+            withBoard:(int **)boardRight
+               ofSize:(int) size {
     for (int i = 0; i < size; i++ ) {
         for (int j = 0; j < size; j++ ) {
             STAssertTrue(boardLeft[i][j] == boardRight[i][j], 
@@ -80,63 +77,73 @@
     }
 }
 
--(void) fillBoard:(int **)board 
-           ofSize:(int) bSize 
+- (void) fillBoard:(Board *) thatBoard
+     fromCharArray:(char *) array {
+
+    [self fillBoard:thatBoard
+      fromCharArray:array
+          goodMoves:nil
+           badMoves:nil];
+}
+
+
+- (void) fillBoard:(Board *) thatBoard
     fromCharArray:(char *) array
         goodMoves:(NSMutableArray *)goodMoves
          badMoves:(NSMutableArray *)badMoves  {
-    
-    for (int y = 0; y < bSize; y++) {
-        for(int x = 0; x < bSize; x++) {
-            char value = array[y * bSize + x];
+
+    for (int y = 0; y < thatBoard.size; y++) {
+        for(int x = 0; x < thatBoard.size; x++) {
+            char value = array[y * thatBoard.size + x];
+            Move *move = [[Move alloc] initWithX:x andY:y];
+            thatBoard.matrix[x][y] = CELL_EMPTY;
             switch(value) {
                 case 'X': {
-                    board[x][y] = CELL_BLACK_OR_X;
+                    thatBoard.matrix[x][y] = CELL_BLACK_OR_X;
+                    [thatBoard doAdvanceToNextPlayer];
                     break;
                 }
                 case 'O': {
-                    board[x][y] = CELL_WHITE_OR_O;
+                    thatBoard.matrix[x][y] = CELL_WHITE_OR_O;
+                    [thatBoard doAdvanceToNextPlayer];
                     break;
                 }
                 case '*': {
-                    Move *move = [[Move alloc] initWithX:x andY:y];
                     [goodMoves addObject:move];
-                    board[x][y] = CELL_EMPTY;
                     break;
                 }
                 case '#': {
-                    Move *move = [[Move alloc] initWithX:x andY:y];
                     [badMoves addObject:move];
-                    board[x][y] = CELL_EMPTY;
-                    break;
-                }
-                default: {
-                    board[x][y] = CELL_EMPTY;
-                    break;
                 }
             }
         }
     }    
+    // NSLog(@"board filled %@", thatBoard);
 }
 
--(void) allocMatrix {
-    if (matrix != NULL) [self deallocMatrix];
-    
-    matrix = malloc(size * sizeof(int *));
-    for(int i = 0; i < size; i++) {
-        matrix[i] = calloc(size, sizeof(int));
+- (void) logCurrentBoard {
+    [self logBoard:board];
+}
+
+-(void) logBoard:(Board *) thatBoard {
+    for (int y = 0; y < thatBoard.size; y++) {
+        NSString *row = @"";
+        for (int x = 0; x < thatBoard.size; x++ ) {
+            NSString *cell;
+            if (thatBoard.matrix[x][y] == CELL_EMPTY) {
+                cell = @".";
+            } else if (thatBoard.matrix[x][y] == CELL_BLACK_OR_X) {
+                cell = @"x";
+            } else if (thatBoard.matrix[x][y] == CELL_WHITE_OR_O) {
+                cell = @"o";
+            } else {
+                cell = @"#";
+            } 
+            row = [row stringByAppendingString:cell];
+        }
+        NSLog(@"%@", row);
     }
 }
 
--(void) deallocMatrix {
-    if (matrix == NULL) return;
-    for(int i = 0; i < size; i++) free(matrix[i]); 
-    free(matrix);
-    matrix = NULL;
-}
-
--(void)dealloc {
-    [self deallocMatrix];
-}
 
 @end

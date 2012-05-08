@@ -15,26 +15,31 @@
 
 @interface TestUtils : SenTestCase {
 @private    
-    int size;   
-    int **matrix;
+    Board *board;
 }
 
-@property(nonatomic) int size;
-@property(nonatomic) int ** matrix;
+@property (strong, nonatomic) Board *board;
 
--(TestUtils *) initWithSize:(int) boardSize;
+-(TestUtils *) initWithSize:(int) size;
+-(TestUtils *) initWithBoard:(Board *)board;
 
--(void) verifyExpectation:(char *) array
+- (void)verifyExpectation:(char *) array
               description:(NSString *)desc;
 
 - (void)compareBoards:(int **)boardLeft
-            withBoard:(int **)boardRight;
+            withBoard:(int **)boardRight
+               ofSize:(int) size;
 
--(void) fillBoard:(int **) board 
-           ofSize:(int) bSize 
+- (void) fillBoard:(Board *) thatBoard
+     fromCharArray:(char *) array;
+
+- (void)fillBoard:(Board *) thatBoard
     fromCharArray:(char *) array
         goodMoves:(NSMutableArray *)goodMoves 
          badMoves:(NSMutableArray *)badMoves ;
 
+- (void) logBoard:(Board *) thatBoard;
+
+- (void) logCurrentBoard;
 
 @end

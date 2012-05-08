@@ -12,13 +12,15 @@
 
 @synthesize board;
 @synthesize pruner;
+@synthesize testUtils;
 
-#define BOARD_SIZE 10
+#define BOARD_SIZE 7
 
 - (void)setUp {
     [super setUp];
     self.board = [[Board alloc] initWithSize:BOARD_SIZE];
     self.pruner = [[AlphaBetaPruner alloc] initWithBoard:board];
+    self.testUtils = [[TestUtils alloc] initWithBoard:board];
 }
 
 - (void)tearDown {
@@ -27,11 +29,34 @@
 }
 
 - (void)testEvaluateBoard {
-    Move *first = [[Move alloc] initWithX:3 andY:3];
-    [board makeMove:first];
+    [board makeMove:[[Move alloc] initWithX:3 andY:3]];
     [board makeMove:[[Move alloc] initWithX:2 andY:3]];
+    
     double score = [pruner evaluateBoard:[board nextPlayerValue]];
     STAssertTrue(score < 0, @"score should be > 0, score = %.5f", score);
 }
+
+- (void)testEvaluate {
+    
+    char *gameSetup1 = 
+        "......."
+        "......."
+        "......."
+        "...XX.."
+        "....O.."
+        "......."
+        ".......";
+
+    [testUtils fillBoard:board 
+           fromCharArray:gameSetup1];
+    
+    [testUtils logCurrentBoard];
+    double score = [pruner evaluateBoard:[board nextPlayerValue]];
+    NSLog(@"board %@ score=[%.3f] for player %d", board, score, [board nextPlayerValue]);
+    STAssertTrue(score < 0, @"score should be > 0, score = %.5f", score);
+
+}
+
+
 
 @end

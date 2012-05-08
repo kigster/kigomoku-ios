@@ -3,21 +3,23 @@
 //  GomokuTests
 //
 //  Created by Konstantin Gredeskoul on 2/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012. All rights reserved.
 //
 
 #import "GomokuTests.h"
 #import "Move.h"
 #import "Board.h"
+
 #import "basic_ai.h"
 
+#define LOCAL_BOARD_SIZE 7
 
 @implementation GomokuTests
 @synthesize testUtils;
 
 - (void)setUp {
     [super setUp];
-    testUtils = [[TestUtils alloc] init];
+    testUtils = [[TestUtils alloc] initWithSize:LOCAL_BOARD_SIZE];
 }
 
 - (void)tearDown {
@@ -156,10 +158,9 @@
     "..XXX.."
     ;
     
-    Board *b = [[Board alloc] initWithSize:7];
+    Board *b = [[Board alloc] initWithSize:LOCAL_BOARD_SIZE];
 
-    [testUtils fillBoard:b.matrix
-                  ofSize:b.size
+    [testUtils fillBoard:b
            fromCharArray:boardWithWin
                goodMoves:nil 
                 badMoves:nil];

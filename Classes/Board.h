@@ -36,7 +36,8 @@
 typedef int (^MatrixDirection)(int,int, BOOL*, MoveByPlayer *);
 
 - (Board *)initWithSize: (int)size;
-- (Board *)initWithSize: (int)size AndBoard:(int **)matrix;
+- (Board *)initWithSize: (int)size AndMatrix:(int **)matrix;
+- (void) reinitialize;
 - (void) makeMove:(Move *) move;
 - (void) undoMove:(Move *) move;
 - (BOOL) isMoveValid:(Move *) move;
@@ -44,10 +45,7 @@ typedef int (^MatrixDirection)(int,int, BOOL*, MoveByPlayer *);
 - (BOOL) isFilled;
 - (int) playerValueByIndex:(int) playerIndex;
 - (int) nextPlayerValue;
-- (void) advanceNextPlayer;
-
-// this is for the tests
-- (void) deallocMatrix;
+- (void) doAdvanceToNextPlayer;
 
 
 @end

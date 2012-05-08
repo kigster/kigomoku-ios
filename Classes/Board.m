@@ -12,9 +12,11 @@
 - (BOOL) walkTheBoard: (MatrixDirection) block;
 - (void) logMatrix;
 - (int) playerIndexByValue:(int) playerValue;
+- (void) deallocMatrix;
 @end
 
 @implementation Board
+
 @synthesize size;
 @synthesize lastPlayerValue;
 @synthesize matrix;
@@ -24,25 +26,52 @@
 
 -(Board *)initWithSize: (int)thisSize {
 	if (self = [super init]) { 
-		self.size = thisSize;
-        self.lastPlayerValue = CELL_EMPTY;
-        self.lastMove = nil;
-        self.winningMoves = nil;
-		self.matrix = malloc(self.size * sizeof(int *));
-		// TODO: check for NULL?
-		for(int i = 0; i < self.size; i++) {
-			self.matrix[i] = malloc(self.size * sizeof(int));
-			// TODO: check for NULL
-			for (int j = 0; j < self.size; j++) {
-				self.matrix[i][j] = CELL_EMPTY;
-			}
-		}
-        self.moveCount = 0;
+        self.size = thisSize;
+        [self reinitialize];
 	} 
 	NSLog(@"initialized %@", self);
 	return self; 
 }	
 
+// reinit
+-(void) reinitialize {
+    self.lastPlayerValue = CELL_EMPTY;
+    self.lastMove = nil;
+    self.winningMoves = nil;
+    [self deallocMatrix];
+    [self allocMatrix];
+    self.moveCount = 0;
+}
+
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"size[%d] moveCount[%d] lastPlayer[%d] lastMove[%@]", 
+            self.size,
+            self.moveCount,
+            self.lastPlayerValue,
+            self.lastMove];
+}
+
+// 
+// Initialize the Board from a pre-existing integer matrix
+//
+// Sets up the internal state (such as next player) based on move counts
+// by each opponent.
+//
+- (Board *)initWithSize: (int)thisSize AndMatrix:(int **) thatMatrix {
+    if (self = [self initWithSize:thisSize]) {
+        for (int i = 0; i < self.size; i++) {
+            for (int j = 0; j < self.size; j++) {
+                self.matrix[i][j] = thatMatrix[i][j];
+                if (self.matrix[i][j] != CELL_EMPTY) {
+                    moveCount++;
+                    [self doAdvanceToNextPlayer];
+                }
+            }
+        }
+    }
+    return self;
+}
 
 - (int) playerValueByIndex:(int) playerIndex {
     if (playerIndex == 0) return CELL_BLACK_OR_X;
@@ -60,7 +89,7 @@
     return (self.moveCount % 2 == 0) ? CELL_BLACK_OR_X : CELL_WHITE_OR_O;
 }
 
-- (void) advanceNextPlayer {
+- (void) doAdvanceToNextPlayer {
     self.lastPlayerValue = [self nextPlayerValue];
 }
 
@@ -70,24 +99,14 @@
     self.moveCount --;
     self.winningMoves = nil;
 
-    [self advanceNextPlayer];
+    [self doAdvanceToNextPlayer];
 }
 
 -(void) makeMove:(Move *) move {
-	// update the board at move.x, move.y
-	if (move.x < 0 || move.x >= self.size || move.y < 0 || move.y >= self.size) {
-		NSLog(@"invalid move parameters %@ by player index %d", move, [self nextPlayerValue]);
-		return;
-	}
-	// else all is good.
 	self.matrix[move.x][move.y] = [self nextPlayerValue];
     self.moveCount ++;
     self.lastMove = move;
-
-    [self advanceNextPlayer];
-#ifdef PRINT_DEBUG    
-    [self logMatrix];
-#endif
+    [self doAdvanceToNextPlayer];
 }
 
 - (BOOL) isMoveValid:(Move *) move {
@@ -182,16 +201,21 @@
 }
 
 
-- (NSString *)description {
-	// TODO: provide toString that dumps the full board using space, O and X characters
-	return [NSString stringWithFormat:@"Board of Size %d", self.size];
+-(void) allocMatrix {
+    if (matrix != NULL) [self deallocMatrix];
+    matrix = malloc(self.size * sizeof(int *));
+    for (int i = 0; i < self.size; i++) {
+        matrix[i] = calloc(self.size, sizeof(int)); // Assumes CELL_EMPTY == 0
+    }
 }
 
-
 -(void) deallocMatrix {
-	for(int i = 0; i < self.size; i++)
-		free(self.matrix[i]);
-	free(self.matrix);
+    if (matrix != NULL) {
+        for(int i = 0; i < self.size; i++)
+            free(self.matrix[i]);
+        free(self.matrix);
+    }
+
 	self.matrix = NULL;
 }
 
@@ -199,42 +223,6 @@
     [self deallocMatrix];
 }
 
-// used in tests
--(void) logMatrix {
-    for (int y = 0; y < size; y++) {
-        NSString *row = @"";
-        for (int x = 0; x < size; x++ ) {
-            NSString *cell;
-            if (self.matrix[x][y] == CELL_EMPTY) {
-                cell = @".";
-            } else if (self.matrix[x][y] == CELL_BLACK_OR_X) {
-                cell = @"x";
-            } else if (self.matrix[x][y] == CELL_WHITE_OR_O) {
-                cell = @"o";
-            } else {
-                cell = @"#";
-            }
-            row = [row stringByAppendingString:cell];
-        }
-        NSLog(@"%@", row);
-    }
-}
-
-
-- (Board *)initWithSize: (int)thisSize AndBoard:(int **) thatMatrix {
-    if (self = [self initWithSize:thisSize]) {
-        for (int i = 0; i < self.size; i++) {
-            for (int j = 0; j < self.size; j++) {
-                self.matrix[i][j] = thatMatrix[i][j];
-                if (self.matrix[i][j] != CELL_EMPTY) {
-                    moveCount++;
-                    [self advanceNextPlayer];
-                }
-            }
-        }
-    }
-    return self;
-}
 
 
 @end

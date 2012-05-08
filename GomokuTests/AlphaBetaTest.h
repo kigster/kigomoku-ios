@@ -9,13 +9,16 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "Board.h"
 #import "AlphaBetaPruner.h"
+#import "TestUtils.h"
 
 @interface AlphaBetaTest : SenTestCase {
     Board *board;
     AlphaBetaPruner *pruner;
+    TestUtils *testUtils;
 }
 
 @property (strong, nonatomic) Board *board;
 @property (strong, nonatomic) AlphaBetaPruner *pruner;
+@property (strong, nonatomic) TestUtils *testUtils;
 
 @end
