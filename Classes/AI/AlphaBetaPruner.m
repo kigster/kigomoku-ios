@@ -68,14 +68,9 @@
             if (b[i][j] == playerValue) {
                 total_score += coefficient * calc_score_at(b, size, playerValue, i, j);
             } 
-//            else if (b[i][j] == -playerValue) {
-//                total_score -= coefficient * calc_score_at(b, size, -playerValue, i, j);
-//            }
         }
     }
-//    if (total_score > 0) {
-//        //NSLog(@"got total score for player %d %.3f", playerValue, total_score);   
-//    }
+
     return total_score;
 }
 
@@ -107,10 +102,11 @@
             int i,j;
             i = (x + board.size / 2) % board.size;
             j = (y + board.size / 2) % board.size;
+
             
-            if (board.matrix[i][j] == CELL_EMPTY && 
-                (calc_score_at(board.matrix, board.size, -player, i, j) > 0 ||
-                 calc_score_at(board.matrix, board.size,  player, i, j) > 0 ) ) {
+            if ((board.matrix[i][j] == CELL_EMPTY) &&
+                ((calc_score_at(board.matrix, board.size, -player, i, j) > 0 ||
+                  calc_score_at(board.matrix, board.size,  player, i, j) > 0 ))) {
                     
                 Move *move = [[Move alloc] initWithX:i andY:j];
                 [board makeMove:move]; // modifies this grid

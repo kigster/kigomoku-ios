@@ -26,9 +26,10 @@
     self.board = nil;
 }
 
-- (void)testEvaluateBoard{
+- (void)testEvaluateBoard {
     Move *first = [[Move alloc] initWithX:3 andY:3];
     [board makeMove:first];
+    [board makeMove:[[Move alloc] initWithX:2 andY:3]];
     double score = [pruner evaluateBoard:[board nextPlayerValue]];
     STAssertTrue(score < 0, @"score should be > 0, score = %.5f", score);
 }

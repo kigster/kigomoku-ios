@@ -7,20 +7,12 @@
 //
 #import <Foundation/Foundation.h>
 #import <SenTestingKit/SenTestingKit.h>
+#import "TestUtils.h"
 
-@interface GomokuTests : SenTestCase
+@interface GomokuTests : SenTestCase {
+    TestUtils *testUtils;
+}
 
--(void) fillBoard:(int **)board 
-           ofSize:(int) size 
-    fromCharArray:(char *) array
-        goodMoves:(NSMutableArray *)goodMoves 
-         badMoves:(NSMutableArray *)badMoves  ;
+@property(nonatomic) TestUtils *testUtils;
 
-- (void) verifyCorrectMove:(int **) board
-                    ofSize:(int) size
-             fromCharArray:(char *) array
-               description:(NSString *)desc;
-
-- (void)compareBoards:(int **)boardLeft
-            withBoard:(int **)boardRight;
 @end

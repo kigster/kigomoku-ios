@@ -34,8 +34,6 @@
     STAssertTrue([board isMoveValid:move], @"move should be valid");
     [board makeMove:move];
     STAssertTrue([board nextPlayerValue] == CELL_WHITE_OR_O,  @"second player should be O, %d", [board nextPlayerValue]);
-    
-    
 }
 
 
