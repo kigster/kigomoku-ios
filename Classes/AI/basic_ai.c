@@ -18,7 +18,9 @@
 //#define PRINT_DEBUG
 
 static int threat_cost[20]; 
+static int threat_initialized = 0;
 static int threats[NUM_DIRECTIONS];
+
 static int possible_moves[1024];
 
 void populate_threat_matrix();
@@ -60,8 +62,7 @@ int pick_next_move_with_score_and_opponent(int **board,
             if (work_board[i][j] == AI_CELL_EMPTY) {
                 our_score   = 1.5 * calc_score_at(work_board, size, next_player, i, j);
                 enemy_score = (include_opponent == 1) ? 
-                    1.0 * calc_score_at(work_board, size, other_player(next_player), i, j) :
-                    0;
+                    1.0 * calc_score_at(work_board, size, other_player(next_player), i, j) :  0;
 
                 score = our_score + enemy_score;
 
@@ -184,22 +185,12 @@ int calc_score_at(int **board,
     threats[3] = calc_threat_in_one_dimension(row, player);
 
   
-    int m_cost;
     for (i = 0; i < NUM_DIRECTIONS; i++) {
-        m_cost = 0;
+        score += threat_cost[threats[i]];
         for (j = i + 1; j < NUM_DIRECTIONS; j++) {
-            m_cost += calc_combination_threat(threats[i], threats[j]);
+            score += calc_combination_threat(threats[i], threats[j]);
         }
-        if (m_cost > 0) {
-#ifdef PRINT_DEBUG
-            printf("found combination %d at cell %d.%d\n", m_cost, x, y);
-#endif            
-        } else {
-            m_cost = threat_cost[threats[i]];
-        }
-        score += m_cost;
     }
-    
     return score;
 }
 
@@ -305,16 +296,10 @@ int count_squares(int value,
 int calc_combination_threat(int one, int two) {    
     
     if (
-        ((one == THREAT_THREE || two == THREAT_THREE_BROKEN) && two == THREAT_FOUR) || 
-        ((two == THREAT_THREE || two == THREAT_THREE_BROKEN) && one == THREAT_FOUR)
+        ((one == THREAT_THREE) && (two == THREAT_FOUR || two == THREAT_FOUR_BROKEN)) || 
+        ((two == THREAT_THREE) && (one == THREAT_FOUR || one == THREAT_FOUR_BROKEN))
         ) {
         return threat_cost[THREAT_THREE_AND_FOUR];
-
-    } else if (
-        (one == THREAT_THREE && (two == THREAT_FOUR_BROKEN || two == THREAT_THREE_BROKEN)) ||
-        (two == THREAT_THREE && (one == THREAT_FOUR_BROKEN || two == THREAT_THREE_BROKEN))
-        ) {        
-        return threat_cost[THREAT_THREE_AND_THREE_BROKEN];
     } else if (one == THREAT_THREE && two == THREAT_THREE){
         return threat_cost[THREAT_THREE_AND_THREE];
     }
@@ -349,16 +334,17 @@ int pick_next_random_move(int **board,
 }
 
 void populate_threat_matrix() {
-//    if (threat_cost[THREAT_FIVE] > 0) {
-//        return;
-//    }
-    
+    if (threat_initialized > 0) {
+        return;
+    }
+
+    threat_initialized = 1;
     srand(time(NULL));
     
     threat_cost[THREAT_NOTHING]                 = 0;
-    threat_cost[THREAT_FIVE]                    = 30000;
-    threat_cost[THREAT_STRAIGHT_FOUR]           = 1000;
-    threat_cost[THREAT_THREE]                   = 300;
+    threat_cost[THREAT_FIVE]                    = 100000;
+    threat_cost[THREAT_STRAIGHT_FOUR]           = 50000;
+    threat_cost[THREAT_THREE]                   = 1000;
     threat_cost[THREAT_FOUR]                    = 300;
     threat_cost[THREAT_FOUR_BROKEN]             = 150;
     threat_cost[THREAT_THREE_BROKEN]            = 30;
@@ -366,8 +352,8 @@ void populate_threat_matrix() {
     threat_cost[THREAT_NEAR_ENEMY]              = 5;
     
     // combinations
-    threat_cost[THREAT_THREE_AND_FOUR]          = 700;
-    threat_cost[THREAT_THREE_AND_THREE]         = 600;
+    threat_cost[THREAT_THREE_AND_FOUR]          = 5000;
+    threat_cost[THREAT_THREE_AND_THREE]         = 5000;
     threat_cost[THREAT_THREE_AND_THREE_BROKEN]  = 300;    
 }
 

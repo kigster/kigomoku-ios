@@ -17,6 +17,7 @@
 @synthesize boardSizes;
 @synthesize config;
 
+
 - (IBAction) startSinglePlayerGame:(id) sender {
 	[self startGameWithPlayers:1];
 }
@@ -45,29 +46,22 @@
 - (void) makeMove: (MoveByPlayer *) move {
     if ([self.game isMoveValid:move]) {
         [self.game makeMove:move];
+        [self.view setNeedsDisplay];
+        
         if (self.game.currentPlayerIndex == 1 && self.game.gameStarted) {
-            AlphaBetaPruner *ai = [[AlphaBetaPruner alloc] initWithBoard:self.game.board];
-            MyBest *myBest = [ai chooseMove]; 
-            if (myBest != nil) {
-                NSLog(@"AI made move [%@]", myBest);
-                [self makeMove:[[MoveByPlayer alloc] initWithMove:myBest.move
-                                                   andPlayerIndex:game.currentPlayerIndex]];
-            } else {
-                NSLog(@"AI failed and returned a nil move");
-            }
-            
-//            int moveX = 0, moveY = 0;
-//            int result = pick_next_move(self.game.board.matrix, 
-//                                        self.game.config.boardSize,
-//                                        [self.game.board playerValueByIndex:self.game.currentPlayerIndex ], 
-//                                        &moveX, &moveY);
-            
-//            NSLog(@"made AI move with result %d, x=%d, y=%d", result, moveX, moveY);
-//            if (result == 0) {
-//                [self makeMove:[[MoveByPlayer alloc] initWithX:moveX 
-//                                                          andY:moveY 
-//                                                andPlayerIndex:game.currentPlayerIndex]];
-//            }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                AlphaBetaPruner *ai = [[AlphaBetaPruner alloc] initWithBoard:self.game.board];
+                MyBest *myBest = [ai chooseMove]; 
+                if (myBest != nil) {
+                    NSLog(@"AI made move [%@]", myBest);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self makeMove:[[MoveByPlayer alloc] initWithMove:myBest.move
+                                                           andPlayerIndex:game.currentPlayerIndex]];
+                    });
+                } else {
+                    NSLog(@"AI failed and returned a nil move");
+                }
+            });
         }
     } else {
         NSLog(@"move %@ is NOT valid, ignoring...", move);

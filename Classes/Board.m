@@ -13,6 +13,8 @@
 - (void) logMatrix;
 - (int) playerIndexByValue:(int) playerValue;
 - (void) deallocMatrix;
+-(void) resetRange;
+-(void) updateRangeForMove: (Move *) move;
 @end
 
 @implementation Board
@@ -23,6 +25,7 @@
 @synthesize moveCount;
 @synthesize winningMoves;
 @synthesize lastMove;
+@synthesize range;
 
 -(Board *)initWithSize: (int)thisSize {
 	if (self = [super init]) { 
@@ -38,11 +41,35 @@
     self.lastPlayerValue = CELL_EMPTY;
     self.lastMove = nil;
     self.winningMoves = nil;
+    [self resetRange];
     [self deallocMatrix];
     [self allocMatrix];
     self.moveCount = 0;
 }
 
+-(void) resetRange {
+    range.maxX = range.maxY = 0;
+    range.minX = range.minY = self.size - 1;
+}
+
+-(void) updateRangeForMove: (Move *) move {
+    range.minX = MIN(range.minX, move.x);
+    range.maxX = MAX(range.maxX, move.x);
+    range.minY = MIN(range.minY, move.y);
+    range.maxY = MAX(range.maxY, move.y);
+}
+
+-(void) updateRange {
+    [self resetRange];
+    int i,j;
+    Move *move = [[Move alloc] initWithX:0 andY:0];
+    for (i = 0; i < self.size; i++) {
+        for (j = 0; j < self.size; j++) {
+            move.x = i; move.y = j;
+            [self updateRangeForMove:move];
+        }
+    }
+}
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"size[%d] moveCount[%d] lastPlayer[%d] lastMove[%@]", 
@@ -98,16 +125,20 @@
     self.matrix[move.x][move.y] = CELL_EMPTY;
     self.moveCount --;
     self.winningMoves = nil;
-
+    [self updateRange];
     [self doAdvanceToNextPlayer];
 }
+
 
 -(void) makeMove:(Move *) move {
 	self.matrix[move.x][move.y] = [self nextPlayerValue];
+    [self updateRangeForMove:move];
     self.moveCount ++;
     self.lastMove = move;
-    [self doAdvanceToNextPlayer];
+    self.winningMoves = nil;
+   [self doAdvanceToNextPlayer];
 }
+
 
 - (BOOL) isMoveValid:(Move *) move {
     if (move.x < 0 || move.x >= size || move.y < 0 || move.y >= size) {
@@ -115,6 +146,7 @@
     }
     return (self.matrix[move.x][move.y] == CELL_EMPTY);
 }
+
 
 
 - (BOOL) walkTheBoard: (MatrixDirection) block {
@@ -146,11 +178,18 @@
             }
         }
     }
+    self.winningMoves = nil;
     return NO;
 }
 
 - (BOOL) isFilled {
     return (moveCount == size * size);
+}
+
+- (int) winnerPlayer {
+    if (self.winningMoves != nil) 
+        return [self playerValueByIndex:[[self.winningMoves objectAtIndex:0] playerIndex]];
+    return CELL_EMPTY;
 }
 
 - (BOOL) isGameOver {

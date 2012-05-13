@@ -118,6 +118,8 @@
             }
         }
     }    
+    
+    [thatBoard updateRange];
     // NSLog(@"board filled %@", thatBoard);
 }
 

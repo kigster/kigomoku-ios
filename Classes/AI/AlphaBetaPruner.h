@@ -9,8 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "Board.h"
 #import "MyBest.h"
+#import "float.h"
 
+#define MAX_WIN_SCORE   (FLT_MAX - 1)
+#define MIN_WIN_SCORE  -(FLT_MAX - 1)
 
+// how many cells away from the existing moves are we going to search
+#define LOOKUP_RANGE 2
 
 @interface AlphaBetaPruner : NSObject {
     Board *board;

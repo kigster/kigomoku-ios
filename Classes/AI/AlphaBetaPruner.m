@@ -14,11 +14,12 @@
 @synthesize maxDepth;
 @synthesize computerPlayer;
 
+#define DEPTH 2
 
 -(AlphaBetaPruner *)initWithBoard: (Board *) thisBoard {
     populate_threat_matrix();
     return [self initWithBoard:thisBoard 
-                andSearchDepth:3
+                andSearchDepth:DEPTH
              andComputerPlayer:CELL_WHITE_OR_O];
 }
 
@@ -50,8 +51,9 @@
         return best;
     }
 
-    double alpha = -(INFINITY - 1);
-    double beta  =  (INFINITY - 1);
+    double alpha = MIN_WIN_SCORE;
+    double beta  = MAX_WIN_SCORE;
+    
     return [self chooseMoveFor: computerPlayer 
                      withDepth: 0
                       andAlpha: alpha 
@@ -63,10 +65,18 @@
     double total_score = 0;
     int **b = board.matrix;
     int coefficient = (self.computerPlayer == playerValue ? 1 : -1);
-    for (i = 0; i < size; i++) {
-        for (j = 0; j < size; j++) {
-            if (b[i][j] == playerValue) {
-                total_score += coefficient * calc_score_at(b, size, playerValue, i, j);
+    for (i = MAX(0, board.range.minX - LOOKUP_RANGE); 
+         i < MIN(size, board.range.maxX + LOOKUP_RANGE); 
+         i++) {
+
+        for (j = MAX(0, board.range.minY); 
+             j < MIN(size, board.range.maxY + LOOKUP_RANGE); 
+             j++) {
+
+            if (b[i][j] == CELL_EMPTY) {
+                // give more value to current player score in this move
+                total_score += 1.5 * coefficient * calc_score_at(b, size, playerValue, i, j);
+                total_score -= coefficient * calc_score_at(b, size, -playerValue, i, j);
             } 
         }
     }
@@ -80,11 +90,19 @@
                  andBeta:(double) beta {
     
     MyBest *best = [[MyBest alloc] init];  // our best move
-    int x = 0, y = 0;
-    if ([board isGameOver] ||
-        [board isFilled] ||
-        depth >= self.maxDepth) {
-        
+    BOOL gameOver = [board isGameOver];
+    if (gameOver) {
+        int winner = [board winnerPlayer];
+        if (winner == self.computerPlayer) {
+            best.score = MAX_WIN_SCORE;
+        } else {
+            best.score = MIN_WIN_SCORE;
+        }
+        return best;
+    } else if ([board isFilled]) {
+        best.score = 0;
+        return best;
+    } else if (depth >= self.maxDepth) {
         best.score = [self evaluateBoard:player];
         return best;
     }
@@ -97,48 +115,55 @@
 
     MyBest *reply;  // opponents best reply
 
-    for (x = 0; x < board.size; x++) {
-        for (y = 0; y < board.size; y++) {
-            int i,j;
-            i = (x + board.size / 2) % board.size;
-            j = (y + board.size / 2) % board.size;
-
+    int i, j;
+    for (i = MAX(0, board.range.minX - LOOKUP_RANGE); 
+         i < MIN(board.size, board.range.maxX + LOOKUP_RANGE); 
+         i++) {
+        
+        for (j = MAX(0, board.range.minY); 
+             j < MIN(board.size, board.range.maxY + LOOKUP_RANGE); 
+             j++) {
             
-            if ((board.matrix[i][j] == CELL_EMPTY) &&
-                ((calc_score_at(board.matrix, board.size, -player, i, j) > 0 ||
-                  calc_score_at(board.matrix, board.size,  player, i, j) > 0 ))) {
+            if (board.matrix[i][j] == CELL_EMPTY &&
+                (calc_score_at(board.matrix, board.size, player, i, j) > 0 ||
+                 calc_score_at(board.matrix, board.size, -player, i, j) > 0)) {
                     
                 Move *move = [[Move alloc] initWithX:i andY:j];
                 [board makeMove:move]; // modifies this grid
-                reply = [self chooseMoveFor:-player
-                                  withDepth: depth + 1 
-                                   andAlpha: alpha 
-                                    andBeta: beta];
-                
-               
-                [board undoMove:move]; // restores the grid
             
                 if (player == computerPlayer) {
+                    // max node
+                    reply = [self chooseMoveFor:-player
+                                      withDepth: depth + 1 
+                                       andAlpha: best.score
+                                        andBeta: beta];
                     if (reply.score > best.score) {
                         best.move = move;
                         best.score = reply.score;
                         alpha = reply.score;
-                        if (depth == 0) {
-                            NSLog(@"found our best: player %d depth %d score %.3f, alpha %.3f, beta %.3f move %@", 
-                                  player, depth, reply.score, alpha, beta, move);
-                        }
+//                        if (depth == 0) {
+//                            NSLog(@"found our best: player %d depth %d score %.3f, alpha %.3f, beta %.3f move %@", 
+//                                  player, depth, reply.score, alpha, beta, move);
+//                        }
                     }
-                } else if (player != computerPlayer) {
+                } else {
+                    // min node
+                    reply = [self chooseMoveFor:-player
+                                      withDepth: depth + 1 
+                                       andAlpha: alpha
+                                        andBeta: best.score];
                     if (reply.score < best.score) {
                         best.move = move;
                         best.score = reply.score;
                         beta = reply.score;
-                        if (depth == 0) {
-                            NSLog(@"found oppenent's best: player %d depth %d score %.3f, alpha %.3f, beta %.3f move %@", 
-                                  player, depth, reply.score, alpha, beta, move);
-                        }
+//                        if (depth == 0) {
+//                            NSLog(@"found oppenent's best: player %d depth %d score %.3f, alpha %.3f, beta %.3f move %@", 
+//                                  player, depth, reply.score, alpha, beta, move);
+//                        }
                     }
                 }
+                [board undoMove:move]; // restores the grid
+
                 if (alpha >= beta) { return best; } // pruning
             }
         }   
