@@ -4,7 +4,7 @@
 
 #import "GomokuViewController.h"
 #import "Player.h"
-#import "UIPlayer.h"
+#import "HumanPlayer.h"
 #import "Game.h"
 #import "AlphaBetaPruner.h"
 
@@ -18,10 +18,6 @@
 @synthesize config;
 
 
-- (IBAction) startSinglePlayerGame:(id) sender {
-	[self startGameWithPlayers:1];
-}
-
 - (IBAction) startTwoPlayerGame:(id) sender {
 	[self startGameWithPlayers:2];
 }
@@ -34,8 +30,8 @@
 	game = [[Game alloc] initGameWithConfig:config];
     game.delegate = gameBoardController;
 	
-	[game addPlayer:[[UIPlayer alloc] initWithGame:game]];
-	[game addPlayer:[[UIPlayer alloc] initWithGame:game]];
+	[game addPlayer:[[HumanPlayer alloc] initWithGame:game]];
+	[game addPlayer:[[AIPlayer alloc] initWithGame:game]];
 	[game startGame];
     
 	NSLog(@"created game with players: %@", self.game);
@@ -43,29 +39,15 @@
     [gameBoardController initBoardWithGame:game];
 }
 
-- (void) makeMove: (MoveByPlayer *) move {
-    if ([self.game isMoveValid:move]) {
-        [self.game makeMove:move];
-        [self.view setNeedsDisplay];
-        
-        if (self.game.currentPlayerIndex == 1 && self.game.gameStarted) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                AlphaBetaPruner *ai = [[AlphaBetaPruner alloc] initWithBoard:self.game.board];
-                MyBest *myBest = [ai chooseMove]; 
-                if (myBest != nil) {
-                    NSLog(@"AI made move [%@]", myBest);
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self makeMove:[[MoveByPlayer alloc] initWithMove:myBest.move
-                                                           andPlayerIndex:game.currentPlayerIndex]];
-                    });
-                } else {
-                    NSLog(@"AI failed and returned a nil move");
-                }
-            });
-        }
-    } else {
-        NSLog(@"move %@ is NOT valid, ignoring...", move);
+- (void) makeMove: (Move *) move {
+    id<Player> player = [self.game currentPlayer];
+    if (![player isKindOfClass:[HumanPlayer class]]) {
+        NSLog(@"not making a move, current player is not a Human Player, class %@", [player class]);
+        return;
     }
+
+    [self.game makeMove:move];
+    [self.view setNeedsDisplay];
 }
 
 -(void)viewDidLoad {

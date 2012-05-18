@@ -25,7 +25,7 @@
 	NSMutableArray *players;
 	NSMutableArray *moves;
     NSMutableArray *redoMoves;
-	int currentPlayerIndex;         // first player: 0, second player 1, etc.
+	int currentPlayerIndex;         // first player: 0,             second player 1, etc.
 	Board *board;
     Config *config;
 @private
@@ -43,13 +43,13 @@
 
 - (Game *) initGameWithConfig: (Config *)config;
 - (void) addPlayer:(id <Player>) player;
-- (id<Player>) player:(int) index;
+- (id<Player>) currentPlayer;
 - (void) makeMove: (Move *) move;
 - (MoveByPlayer *) lastMove;
 - (NSMutableArray *) moveHistory;
 - (void) undoLastMove;
 - (BOOL) isMoveValid: (Move *) move;
-- (void) startGame;
+- (BOOL) startGame;
 - (void) stopGame;
 - (int) otherPlayerIndex;
 - (void) advanceToNextPlayer ;

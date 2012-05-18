@@ -14,7 +14,7 @@
 @synthesize maxDepth;
 @synthesize computerPlayer;
 
-#define DEPTH 2
+#define DEPTH 3
 
 -(AlphaBetaPruner *)initWithBoard: (Board *) thisBoard {
     populate_threat_matrix();
@@ -40,13 +40,18 @@
  */
 -(MyBest *)chooseMove {
     if (board.moveCount < 4) {
+        MyBest *best = [MyBest alloc];
+        if (board.moveCount == 0) {
+            best.move = [[Move alloc] initWithX:(board.size / 2) andY:(board.size / 2)];
+            return best;
+        }
+
         int x, y;
         pick_next_move(board.matrix, 
                 board.size,
                 computerPlayer,  // next move is by X
                 &x, 
                 &y);
-        MyBest *best = [MyBest alloc];
         best.move = [[Move alloc] initWithX:x andY:y];
         return best;
     }

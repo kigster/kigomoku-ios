@@ -10,11 +10,11 @@
 #import "Player.h"
 #import "Game.h"
 
-@interface UIPlayer : NSObject <Player> {
+@interface HumanPlayer : NSObject <Player> {
 	Game *game;
 }
 
--(UIPlayer *)initWithGame:(Game *)thisGame; 
+-(HumanPlayer *)initWithGame:(Game *)thisGame; 
 
 @property(nonatomic, strong) Game *game;
 

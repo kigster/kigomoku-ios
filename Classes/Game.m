@@ -6,7 +6,7 @@
 //
 
 #import "Game.h"
-#import "UIPlayer.h"
+#import "Player.h"
 #import "basic_ai.h"
 
 
@@ -41,26 +41,23 @@
 - (void) addPlayer:(id <Player>) player{
 	if ([self.players count] < GOMOKU_PLAYERS) {
         [self.players addObject:player];
-    } else {
-        NSLog(@"already have enough players!");
-    }
+    } 
 }
 
-- (void) startGame {
+- (BOOL) startGame {
     if ([self.players count] != GOMOKU_PLAYERS) {
         NSLog(@"not enough players added!");
-        return;
+        return NO;
     }
 	self.gameStarted = YES;
 	NSLog(@"starting %@", self);
-	// call first player
+    id<Player> p = [self.players objectAtIndex:self.currentPlayerIndex];
+    [p beginTurn];
+    return YES;
 }
 
-- (id<Player>) player:(int) index {
-	if (index < [self.players count])
-		return [self.players objectAtIndex:index];
-	else
-		return nil;
+- (id<Player>) currentPlayer {
+    return [self.players objectAtIndex:currentPlayerIndex];
 }
 
 - (MoveByPlayer *) lastMove {
@@ -102,40 +99,36 @@
 }
 
 - (void) makeMove: (Move *) move {
-    if (self.gameStarted != YES) {
-        NSLog(@"game is not started, can't make this move %@", move);
+    if (gameStarted == NO) {
+        NSLog(@"game not started yo");
         return;
     }
     
-    if ([self isMoveValid:move] == YES) {
-        [delegate aboutToMakeMove];
-        MoveByPlayer *playerMove;
-        if (![move isKindOfClass:[MoveByPlayer class]]) {
-            playerMove = [[MoveByPlayer alloc] initWithMove:move andPlayerIndex:currentPlayerIndex];
-        } else {
-            playerMove = (MoveByPlayer *) move;
-            playerMove.playerIndex = currentPlayerIndex;
-        }
-        
-        // add move to the history
-        [[moves objectAtIndex:currentPlayerIndex] addObject:playerMove];
-
-        // update the game board state
-        [board makeMove:playerMove]; 
-
-        // change current player    
-        [self advanceToNextPlayer];
-
-        // update the UI
-        [delegate didMakeMove];
-
-        if ([board isGameOver]) {
-            [delegate gameOver];
-            self.gameStarted = NO;
-        }
-    } else {
-        NSLog(@"move %@ is NOT valid, ignored", move);
+    if ([self isMoveValid:move] == NO) {
+        NSLog(@"move %@ is NOT valid, ignoring...", move);
+        return;
     }
+
+    [delegate aboutToMakeMove];
+    
+    MoveByPlayer *playerMove = [[MoveByPlayer alloc] initWithMove:move andPlayerIndex:currentPlayerIndex];
+    // add move to the history
+    [[moves objectAtIndex:currentPlayerIndex] addObject:playerMove];
+    // update the game board state
+    [board makeMove:playerMove]; 
+    // change current player    
+    [self advanceToNextPlayer];
+    // update the UI
+    [delegate didMakeMove];
+
+    if ([board isGameOver]) {
+        [delegate gameOver];
+        self.gameStarted = NO;
+        return;
+    }
+    
+    [[self currentPlayer] beginTurn];
+    
 	return;
 }
 
@@ -158,8 +151,8 @@
 
 - (NSString *)description {
 	return [NSString stringWithFormat:@"game: player1:%@, player2:%@, board:%@", 
-			[self player:0], 
-			[self player:1], 
+			[self.players objectAtIndex:0], 
+			[self.players objectAtIndex:1], 
 			 self.board];
 }
 

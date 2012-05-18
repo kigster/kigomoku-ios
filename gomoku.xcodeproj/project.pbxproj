@@ -23,7 +23,7 @@
 		135C99DE14DA0DD90004D158 /* icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = 135C99DD14DA0DD90004D158 /* icon-57.png */; };
 		1368A74414DB86D700D85810 /* WoodBoard_960x640.png in Resources */ = {isa = PBXBuildFile; fileRef = 1368A74314DB86D700D85810 /* WoodBoard_960x640.png */; };
 		136FD0B9118FAF1E0098C789 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B7118FAF1E0098C789 /* Game.m */; };
-		136FD0D7118FB3CA0098C789 /* UIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* UIPlayer.m */; };
+		136FD0D7118FB3CA0098C789 /* HumanPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* HumanPlayer.m */; };
 		136FD104118FB48C0098C789 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD102118FB48C0098C789 /* Move.m */; };
 		136FD1AE118FD2790098C789 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD1AD118FD2790098C789 /* Board.m */; };
 		1374DBF614DC7CB200E7F0ED /* basic_ai.c in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF514DC7CB200E7F0ED /* basic_ai.c */; };
@@ -34,14 +34,16 @@
 		1386E4E814DDA71000B1298D /* GomokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1386E4E714DDA71000B1298D /* GomokuTests.m */; };
 		13B409BA155667A200B6FBD6 /* BoardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B409B9155667A200B6FBD6 /* BoardTest.m */; };
 		13B409BD15568A5E00B6FBD6 /* AlphaBetaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B409BC15568A5E00B6FBD6 /* AlphaBetaTest.m */; };
+		13CA351A156629AE00448D70 /* AIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 13CA3519156629AE00448D70 /* AIPlayer.m */; };
+		13CA351B156629AE00448D70 /* AIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 13CA3519156629AE00448D70 /* AIPlayer.m */; };
 		13CC40EC1558E86300640D2C /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 13CC40EB1558E86300640D2C /* TestUtils.m */; };
 		13D945EB14DDB529006B585E /* basic_ai.c in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF514DC7CB200E7F0ED /* basic_ai.c */; };
 		13D945EC14DDB529006B585E /* basic_ai.h in Sources */ = {isa = PBXBuildFile; fileRef = 1374DBF914DC7CF200E7F0ED /* basic_ai.h */; };
 		13D945ED14DDB529006B585E /* Game.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B6118FAF1E0098C789 /* Game.h */; };
 		13D945EE14DDB529006B585E /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0B7118FAF1E0098C789 /* Game.m */; };
 		13D945EF14DDB529006B585E /* Player.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BC118FAF350098C789 /* Player.h */; };
-		13D945F014DDB529006B585E /* UIPlayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BE118FAFAB0098C789 /* UIPlayer.h */; };
-		13D945F114DDB529006B585E /* UIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* UIPlayer.m */; };
+		13D945F014DDB529006B585E /* HumanPlayer.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BE118FAFAB0098C789 /* HumanPlayer.h */; };
+		13D945F114DDB529006B585E /* HumanPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD0BF118FAFAB0098C789 /* HumanPlayer.m */; };
 		13D945F214DDB529006B585E /* Move.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD101118FB48C0098C789 /* Move.h */; };
 		13D945F314DDB529006B585E /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 136FD102118FB48C0098C789 /* Move.m */; };
 		13D945F414DDB529006B585E /* Board.h in Sources */ = {isa = PBXBuildFile; fileRef = 136FD1AC118FD2790098C789 /* Board.h */; };
@@ -90,8 +92,8 @@
 		136FD0B6118FAF1E0098C789 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Game.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		136FD0B7118FAF1E0098C789 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		136FD0BC118FAF350098C789 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Player.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		136FD0BE118FAFAB0098C789 /* UIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = UIPlayer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		136FD0BF118FAFAB0098C789 /* UIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = UIPlayer.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		136FD0BE118FAFAB0098C789 /* HumanPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HumanPlayer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		136FD0BF118FAFAB0098C789 /* HumanPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HumanPlayer.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		136FD101118FB48C0098C789 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Move.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		136FD102118FB48C0098C789 /* Move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Move.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		136FD1AC118FD2790098C789 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Board.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -109,6 +111,8 @@
 		13B409B9155667A200B6FBD6 /* BoardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardTest.m; sourceTree = "<group>"; };
 		13B409BB15568A5E00B6FBD6 /* AlphaBetaTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlphaBetaTest.h; sourceTree = "<group>"; };
 		13B409BC15568A5E00B6FBD6 /* AlphaBetaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlphaBetaTest.m; sourceTree = "<group>"; };
+		13CA3519156629AE00448D70 /* AIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIPlayer.m; sourceTree = "<group>"; };
+		13CA351C156629DB00448D70 /* AIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIPlayer.h; sourceTree = "<group>"; };
 		13CC40EA1558E86300640D2C /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		13CC40EB1558E86300640D2C /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		13E52A4F15131A3400A2C138 /* AlphaBetaPruner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlphaBetaPruner.h; path = AI/AlphaBetaPruner.h; sourceTree = "<group>"; };
@@ -207,6 +211,29 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		13CA351D15662A0900448D70 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				136FD0BC118FAF350098C789 /* Player.h */,
+				136FD0BE118FAFAB0098C789 /* HumanPlayer.h */,
+				13CA351C156629DB00448D70 /* AIPlayer.h */,
+				136FD0BF118FAFAB0098C789 /* HumanPlayer.m */,
+				13CA3519156629AE00448D70 /* AIPlayer.m */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		13CA351E15662A1C00448D70 /* Move */ = {
+			isa = PBXGroup;
+			children = (
+				136FD101118FB48C0098C789 /* Move.h */,
+				136FD102118FB48C0098C789 /* Move.m */,
+				133AC0541515D3EB004F9913 /* MoveByPlayer.h */,
+				133AC0551515D3EB004F9913 /* MoveByPlayer.m */,
+			);
+			name = Move;
+			sourceTree = "<group>";
+		};
 		13E52A4E151319F600A2C138 /* AlphaBeta */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,19 +318,14 @@
 		8C36CD29117BA91300041B0C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				13CA351E15662A1C00448D70 /* Move */,
+				13CA351D15662A0900448D70 /* Player */,
 				136FD0B6118FAF1E0098C789 /* Game.h */,
 				136FD0B7118FAF1E0098C789 /* Game.m */,
-				136FD0BC118FAF350098C789 /* Player.h */,
-				136FD0BE118FAFAB0098C789 /* UIPlayer.h */,
-				136FD0BF118FAFAB0098C789 /* UIPlayer.m */,
-				136FD101118FB48C0098C789 /* Move.h */,
-				136FD102118FB48C0098C789 /* Move.m */,
 				136FD1AC118FD2790098C789 /* Board.h */,
 				136FD1AD118FD2790098C789 /* Board.m */,
 				133BD2FD14DB26740051B82C /* Config.h */,
 				133BD2FE14DB26740051B82C /* Config.m */,
-				133AC0541515D3EB004F9913 /* MoveByPlayer.h */,
-				133AC0551515D3EB004F9913 /* MoveByPlayer.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -455,8 +477,8 @@
 				13D945ED14DDB529006B585E /* Game.h in Sources */,
 				13D945EE14DDB529006B585E /* Game.m in Sources */,
 				13D945EF14DDB529006B585E /* Player.h in Sources */,
-				13D945F014DDB529006B585E /* UIPlayer.h in Sources */,
-				13D945F114DDB529006B585E /* UIPlayer.m in Sources */,
+				13D945F014DDB529006B585E /* HumanPlayer.h in Sources */,
+				13D945F114DDB529006B585E /* HumanPlayer.m in Sources */,
 				13D945F214DDB529006B585E /* Move.h in Sources */,
 				13D945F314DDB529006B585E /* Move.m in Sources */,
 				13D945F414DDB529006B585E /* Board.h in Sources */,
@@ -477,6 +499,7 @@
 				13B409BA155667A200B6FBD6 /* BoardTest.m in Sources */,
 				13B409BD15568A5E00B6FBD6 /* AlphaBetaTest.m in Sources */,
 				13CC40EC1558E86300640D2C /* TestUtils.m in Sources */,
+				13CA351B156629AE00448D70 /* AIPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,7 +513,7 @@
 				8C62058F118E2FD700641403 /* GameBoardViewController.m in Sources */,
 				8C62061C118E3FA800641403 /* BoardCell.m in Sources */,
 				136FD0B9118FAF1E0098C789 /* Game.m in Sources */,
-				136FD0D7118FB3CA0098C789 /* UIPlayer.m in Sources */,
+				136FD0D7118FB3CA0098C789 /* HumanPlayer.m in Sources */,
 				136FD104118FB48C0098C789 /* Move.m in Sources */,
 				136FD1AE118FD2790098C789 /* Board.m in Sources */,
 				133BD2FF14DB26740051B82C /* Config.m in Sources */,
@@ -498,6 +521,7 @@
 				13E52A5115131A3400A2C138 /* AlphaBetaPruner.m in Sources */,
 				13E52A5415131B3900A2C138 /* MyBest.m in Sources */,
 				133AC0561515D3EB004F9913 /* MoveByPlayer.m in Sources */,
+				13CA351A156629AE00448D70 /* AIPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

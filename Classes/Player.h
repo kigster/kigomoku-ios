@@ -10,11 +10,8 @@
 #import "Move.h"
 
 
-@protocol Player
+@protocol Player <NSObject>
 
-- (void) startThinking;
-- (void) stopThinking;
-- (void) makeMove: (Move *) move;
-- (void) game;
+- (void) beginTurn;
 
 @end
